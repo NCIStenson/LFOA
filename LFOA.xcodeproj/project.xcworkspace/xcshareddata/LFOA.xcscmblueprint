@@ -1,0 +1,24 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "3ec57b13-a229-be4d-9bdf-7c0979152c68++5831" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3ec57b13-a229-be4d-9bdf-7c0979152c68++5831" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F293E396-86D5-4DE2-8AB1-7233C52A9A28",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3ec57b13-a229-be4d-9bdf-7c0979152c68++5831" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LFOA",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LFOA.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/122.226.81.198:3690\/svn\/gis%E7%A7%BB%E5%8A%A8%E4%B8%80%E5%BC%A0%E5%9B%BE",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3ec57b13-a229-be4d-9bdf-7c0979152c68++5831"
+    }
+  ]
+}

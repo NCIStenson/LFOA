@@ -1,0 +1,38 @@
+//
+//  PrefixHeader.pch
+//  LFOA
+//
+//  Created by  abcxdx@sina.com on 2017/7/28.
+//  Copyright © 2017年  abcxdx@sina.com. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#define CCITY_DEBUG NO
+
+#define CCITY_LOG_SUCCESS_NOTIFIC_KEY @"CCITY_LOG_SUCCESS_NOTIFIC_KEY"
+#define CCITY_SET_TOKEN_KEY           @"CCITY_SET_TOKEN_KEY"
+
+#import <Masonry.h>
+#import <SVProgressHUD.h>
+
+#import "CCityJSONNetWorkManager.h"
+#import "CCitySingleton.h"
+#import "CCityAlterManager.h"
+#import "CCErrorNoManager.h"
+#import "CCitySystemVersionManager.h"
+
+#import "CCityNoDataCell.h"
+#import "CCityNoDataSection.h"
+
+#import "CCityColors.h"
+#import "CCitySize.h"
+#import "CCityUrls.h"
+#import "CCityEnmu.h"
+
+#import "CCUtil.h"
+#import "CCMarcoConstant.h"
+#import <YYKit.h>
+#import "NSDictionary+CCLog.h"
+#endif /* PrefixHeader_pch */
