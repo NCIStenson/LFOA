@@ -27,7 +27,7 @@
 
 -(void)layout {
     
-    _huarryImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_ji_20x20_"]];
+    _huarryImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cc_emergencyNotice_icon"]];
     _huarryImageView.backgroundColor = CC_BG_COLOR;
     _fromLabel = [UILabel new];
     _fromLabel.backgroundColor = CC_BG_COLOR;
@@ -45,16 +45,15 @@
     [self.contentView addSubview:_isReadLabel];
     
     [_huarryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(self.contentView).with.offset(8.f);
-        make.left.equalTo(self.contentView).with.offset(CCITY_PADDING);
-        make.size.mas_equalTo(CGSizeMake(25, 25));
+        make.top.equalTo(self.contentView).with.offset(30.f);
+        make.left.equalTo(self.contentView).with.offset(18.f);
+        make.size.mas_equalTo(CGSizeMake(30.f, 30.f));
     }];
-    
+
     [_fromLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.contentView).with.offset(10.f);
-        make.left.equalTo(_huarryImageView.mas_right).with.offset(CCITY_SPACING);
+        make.left.equalTo(_huarryImageView.mas_right).with.offset(CCITY_SPACING * 2);
         make.right.equalTo(_timeLabel.mas_left).with.offset(-CCITY_SPACING);
         make.bottom.equalTo(_nameLabel.mas_top).with.offset(-CCITY_SPACING);
     }];
@@ -95,8 +94,7 @@
     _model = model;
     
     if (model.isHeightLevel == NO) {
-        
-        _huarryImageView.hidden = YES;
+        _huarryImageView.image = [UIImage imageNamed:@"cc_emergencyNotice_icon" color:MAIN_BLUE_COLOR];
     }
     
     _fromLabel.text = model.notficFromName;

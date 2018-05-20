@@ -24,9 +24,6 @@
     if (isOpen) {
         
         _arrowImageView.transform = CGAffineTransformMakeRotation(M_PI);
-        
-        UILabel* dateLabel = [self detailsLabel];
-        dateLabel.text = [NSString stringWithFormat:@"发行日期：%@", _model.time];
 
         _numLabel = [self detailsLabel];
         _numLabel.text = [NSString stringWithFormat:@"发行编号：%@", _model.number];
@@ -37,7 +34,6 @@
         
         [self.contentView addSubview:_numLabel];
         [self.contentView addSubview:_reMarkLabel];
-        [self.contentView addSubview:dateLabel];
         
         NSMutableArray* accessConViewArr;
         
@@ -84,17 +80,9 @@
             _accessoryConArr = [accessConViewArr mutableCopy];
         }
         
-        [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.top.equalTo(_fromLabel.mas_bottom);
-            make.right.equalTo(_fromLabel);
-            make.left.equalTo(_fromLabel);
-            make.height.mas_equalTo(20.f);
-        }];
-        
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(dateLabel.mas_bottom).with.offset(SPACING);
+            make.top.equalTo(_dateLabel.mas_bottom).with.offset(SPACING);
             make.left.equalTo(_titleLabel);
             make.bottom.equalTo(_reMarkLabel.mas_top).with.offset(-SPACING);
             make.right.equalTo(_titleLabel);
@@ -137,7 +125,7 @@
 -(void)setModel:(CCityMainDocsearchDetailModel *)model {
     _model = model;
     
-    UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_home_info_50x50_"]];
+    UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_home_info_50x50_" color:MAIN_BLUE_COLOR] ];
    
     _arrowImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_arrow_toBottom_30x30_"]];
     
@@ -148,15 +136,19 @@
     _fromLabel = [self detailsLabel];
     _fromLabel.text = [NSString stringWithFormat:@"发行机关：%@", model.from];
     
+    _dateLabel = [self detailsLabel];
+    _dateLabel.text = [NSString stringWithFormat:@"发行日期：%@", _model.time];
+    
     [self.contentView addSubview:imageView];
     [self.contentView addSubview:_titleLabel];
     [self.contentView addSubview:_fromLabel];
+    [self.contentView addSubview:_dateLabel];
     [self.contentView addSubview:_arrowImageView];
     
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(self.contentView).with.offset(15.f);
-        make.left.equalTo(self.contentView).with.offset(20.f);
+        make.top.equalTo(self.contentView).with.offset(20.f);
+        make.left.equalTo(self.contentView).with.offset(18.f);
         make.size.mas_equalTo(CGSizeMake(30.f, 30.f));
     }];
     
@@ -170,7 +162,7 @@
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.contentView).with.offset(2*SPACING);
-        make.left.equalTo(imageView.mas_right).with.offset(SPACING);
+        make.left.equalTo(imageView.mas_right).with.offset(SPACING * 2);
         make.right.equalTo(_arrowImageView.mas_left).with.offset(-SPACING);
         make.bottom.equalTo(_fromLabel.mas_top).with.offset(-SPACING);
     }];
@@ -180,6 +172,14 @@
         make.top.equalTo(_titleLabel.mas_bottom).with.offset(SPACING);
         make.left.equalTo(_titleLabel);
         make.right.equalTo(_titleLabel);
+        make.height.mas_equalTo(20.f);
+    }];
+    
+    [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(_fromLabel.mas_bottom);
+        make.right.equalTo(_fromLabel);
+        make.left.equalTo(_fromLabel);
         make.height.mas_equalTo(20.f);
     }];
 }
@@ -233,7 +233,7 @@
         cellHeight += detailLabel.bounds.size.height;
     } else {
         
-        cellHeight = 40.f;
+        cellHeight = 60.f;
         cellHeight += titlelabel.bounds.size.height;
 
     }

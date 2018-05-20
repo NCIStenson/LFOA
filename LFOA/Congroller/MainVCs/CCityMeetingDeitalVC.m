@@ -161,12 +161,10 @@
     UIView* contentView = [UIView new];
     
     UILabel* headerLabel = [self headerLabel];
-    
-    headerLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width - 20.f, MAXFLOAT);
-    [headerLabel sizeToFit];
+
+    headerLabel.frame = CGRectMake(10, 10, self.view.bounds.size.width - 20.f, 25);
     
     contentView.frame = CGRectMake(0, 0, self.view.bounds.size.width, headerLabel.frame.size.height + 15.f);
-    headerLabel.frame = CGRectMake(10, 10, self.view.bounds.size.width - 20.f, headerLabel.bounds.size.height);
     
     [contentView addSubview:headerLabel];
     
@@ -208,8 +206,9 @@
     
     UILabel* headerLabel = [UILabel new];
     headerLabel.textColor = CCITY_GRAY_TEXTCOLOR;
+    headerLabel.textColor = [UIColor blackColor];
     headerLabel.text = _model.meetingTitle;
-    headerLabel.font = [UIFont boldSystemFontOfSize:17.f];
+    headerLabel.font = [UIFont boldSystemFontOfSize:20.f];
     headerLabel.textAlignment = NSTextAlignmentCenter;
     return headerLabel;
 }

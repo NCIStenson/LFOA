@@ -22,4 +22,7 @@
 #define MAIN_LINE_COLOR [UIColor colorWithRed:239/255.0 green:239/255.0 blue:239/255.0 alpha:1]
 #define MAIN_DEEPLINE_COLOR [UIColor colorWithRed:217/255.0 green:217/255.0 blue:217/255.0 alpha:1]
 
+#define MAIN_BLUE_COLOR [UIColor colorWithRed:24/255.0 green:194/255.0 blue:255/255.0 alpha:1]
+
+
 #endif /* CCityColors_h */

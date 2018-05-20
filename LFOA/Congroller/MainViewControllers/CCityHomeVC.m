@@ -369,7 +369,6 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
                                  };
     
     [manager POST:@"service/search/GetNewsList.ashx" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         NSArray* results = responseObject[@"results"];
         NSInteger newsNum = results.count <= 5 ? results.count : 5;
         
@@ -440,11 +439,15 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
         // 通知通告
         NSInteger noficNum = [responseObject[@"unreadNoticeNum"] integerValue];
         [self refreshBadgeNumWithIndex:3 badgeNum:noficNum];
+        
+        // 会议
+        NSInteger meetingNum = [responseObject[@"meetingNum"] integerValue];
+        [self refreshBadgeNumWithIndex:5 badgeNum:meetingNum];
 
         bageNum += noficNum;
-        
+        bageNum += meetingNum;
+
         if (bageNum == -1) {   return;   }
-        
         if ( [UIApplication sharedApplication].applicationIconBadgeNumber != bageNum) {
             
             [UIApplication sharedApplication].applicationIconBadgeNumber = bageNum;

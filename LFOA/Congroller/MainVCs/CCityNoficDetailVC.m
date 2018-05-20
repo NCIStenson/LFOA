@@ -114,8 +114,8 @@
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.numberOfLines = 0;
     titleLabel.text = _model.notficTitle;
-    titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
-    titleLabel.textColor = CCITY_GRAY_TEXTCOLOR;
+    titleLabel.font = [UIFont boldSystemFontOfSize:20.f];
+    titleLabel.textColor = [UIColor blackColor];
     [titleLabel sizeToFit];
     titleLabel.frame = CGRectMake(20, 20, self.view.bounds.size.width-40, titleLabel.bounds.size.height);
     

@@ -49,6 +49,27 @@
     }
 }
 
++ (double)heightForString:(NSString *)str font:(UIFont *)font andWidth:(float)width
+{
+    double height = 0.0f;
+    if (IS_IOS7) {
+        CGRect rect = [str boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil];
+        height = ceil(rect.size.height);
+    }    
+    return height;
+}
+
++ (double)widthForString:(NSString *)str font:(UIFont *)font maxSize:(CGSize)maxSize
+{
+    double width = 0.0f;
+    if (IS_IOS7) {
+        CGRect rect = [str boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil];
+        width = rect.size.width;
+    }
+    return width;
+}
+
+
 + (NSString*)getmd5WithString:(NSString *)string
 {
     const char* original_str=[string UTF8String];

@@ -10,6 +10,7 @@
 
 @interface CCityMainMeetingListModel : CCityBaseModel
 
+@property(nonatomic, strong)NSString* annexitemId;
 @property(nonatomic, strong)NSString* meetingTitle;
 @property(nonatomic, strong)NSString* meetingNum;
 @property(nonatomic, strong)NSString* meetingTime;
@@ -23,6 +24,7 @@
 @property(nonatomic, strong)NSString* meetingChecker;
 @property(nonatomic, strong)NSString* compere;
 @property(nonatomic, strong)NSString* content;
+@property(nonatomic, assign)BOOL isRead;
 
 
 @property(nonatomic, strong)NSArray*  accessoryFiles;

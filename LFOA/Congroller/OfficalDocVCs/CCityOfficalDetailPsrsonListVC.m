@@ -423,8 +423,6 @@ static NSString* ccityOfficalDeitalPersonListCellReuseId = @"ccityOfficalDeitalP
     
     [checkBox setOn:cellModel.isSelected animated:NO];
     [checkBox reload];
-    NSLog(@"  %@  ===  %@",cellModel.pinyin,cellModel.firstLetter);
-    NSLog(@" _fkNode == %@",_fkNode );
     
     if (!_fkNode) {
         if (cellModel.isSelected) {
@@ -482,8 +480,6 @@ static NSString* ccityOfficalDeitalPersonListCellReuseId = @"ccityOfficalDeitalP
 //
 //    [cell.checkBox setOn:cellModel.isSelected animated:NO];
 //    [cell.checkBox reload];
-//
-//    NSLog(@"  %@  ===  %@",cellModel.pinyin,cellModel.firstLetter);
 //
 //    if (!_fkNode) {
 //        if (cellModel.isSelected) {

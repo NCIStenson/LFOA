@@ -31,6 +31,7 @@ static NSString* cellReuseId = @"cellReuseId";
     [super viewDidLoad];
    
     self.title = @"消息提示";
+    self.navigationItem.rightBarButtonItem = [self rightBarBtnItem];
     _noIncludeIds = [NSMutableArray array];
     _pageIndex = 1;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -49,6 +50,19 @@ static NSString* cellReuseId = @"cellReuseId";
     
     [self.tableView registerClass:[CCityMainMessageCell class] forCellReuseIdentifier:cellReuseId];
 }
+
+-(UIBarButtonItem*)rightBarBtnItem {
+    
+    UIBarButtonItem* rightBarBtnItem = [[UIBarButtonItem alloc]initWithTitle:@"全部已读"
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(allReadBtnClick)];
+    
+    rightBarBtnItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 5);
+    
+    return rightBarBtnItem;
+}
+
 
 #pragma mark- --- methods
 
@@ -241,12 +255,30 @@ static NSString* cellReuseId = @"cellReuseId";
     }];
 }
 
+-(void)allReadBtnClick
+{
+    AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
+    [SVProgressHUD show];
+    [manager GET:@"service/message/MarkAllMessagesHasRead.ashx" parameters:@{@"token":[CCitySingleton sharedInstance].token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [SVProgressHUD dismiss];
+        CCErrorNoManager* errorNoMananger = [CCErrorNoManager new];
+        if (![errorNoMananger requestSuccess:responseObject]) {
+            [errorNoMananger getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:nil];
+        }else{
+            [self.datasMuArr removeAllObjects];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"%@",error.description);
+    }];
+}
+
 -(void)readMesssageWithId:(NSString*)idStr {
     
     NSInteger badgeNum = [UIApplication sharedApplication].applicationIconBadgeNumber;
     
     if (badgeNum > 0) {
-        
         badgeNum--;
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badgeNum];
         [GeTuiSdk setBadge:badgeNum];

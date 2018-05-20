@@ -660,7 +660,9 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
                 model.content = _huiQianStr;
             }
         }
-        [self.tableView reloadRowsAtIndexPaths:@[_huiQianIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+        if ([CCUtil isNotNull:_huiQianIndexPath]) {
+            [self.tableView reloadRowsAtIndexPaths:@[_huiQianIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }
     }
 }
 
@@ -739,12 +741,12 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
                 if (btn) {
                     isFileListSaveSuccess = YES;
                     dispatch_group_leave(groupQueue);
+                    NSLog(@"=======================================");
                 }
             }
             
             if (CCITY_DEBUG) { NSLog(@"fileList:%@",responseObject); }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
             dispatch_group_leave(groupQueue);
             
             //            if (btn) {
@@ -800,12 +802,11 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     }
     
     dispatch_group_notify(groupQueue, dispatch_get_main_queue(), ^{
-        
+        NSLog(@"全部执行结束。。。。。。");
         [SVProgressHUD dismiss];
         
         NSString* tripStr = @"保存失败";
         if (isHuiQianSaveSuccess && isFileListSaveSuccess) {
-            
             tripStr = @"保存成功";
             [self updataHuiQianUIWithState:isHuiQianAdd];
         }
@@ -981,7 +982,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
    
     CCityOfficalDocDetailModel* model = self.dataArr[section];
-    
     return model.sectionHeight > 44.f ? model.sectionHeight : 44.f;
 }
 
@@ -995,13 +995,12 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     sectionView.model           = model;
     sectionView.addBtn.tag = 5000+section;
     [sectionView.addBtn addTarget:self action:@selector(addHuiQianOpinioAction:) forControlEvents:UIControlEventTouchUpInside];
-  [sectionView addTarget:self action:@selector(sectionViewClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [sectionView addTarget:self action:@selector(sectionViewClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     return sectionView;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return self.dataArr.count;
 }
 
@@ -1021,11 +1020,12 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     
     CCityOfficalDocDetailModel* model = self.dataArr[indexPath.section];
     
-    CCityOfficalDocDetailCell*  cell;
+    CCityOfficalDocDetailCell*  cell = nil;
     
     if (model.style == CCityOfficalDetailDataExcleStyle) {
         
         cell = [tableView dequeueReusableCellWithIdentifier:ccityOfficlaDataExcleReuseId];
+        
         cell.numLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
         CCHuiQianModel* huiqaianModel = model.huiQianMuArr[indexPath.row];
         cell.textLabel.attributedText = [self huiqianCellAttributedStr:huiqaianModel];
@@ -1061,7 +1061,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
             cell.removeBottomLine = NO;
         }
     } else {
-        
         cell = [tableView dequeueReusableCellWithIdentifier:ccityOfficlaMuLineReuseId];
     }
     
@@ -1121,16 +1120,20 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CCityOfficalDocDetailModel* model = self.dataArr[indexPath.section];
+
+    float height = [CCUtil heightForString:model.value font:[UIFont systemFontOfSize:[UIFont systemFontSize] - 1] andWidth:SCREEN_WIDTH - 20] + 10;
+
     if (model.style == CCityOfficalDetailDataExcleStyle) {
         return [self rowHeightWithIndexPath:indexPath];
     } else if (model.style == CCityOfficalDetailHuiQianStyle) {
         if (indexPath.row == model.huiQianMuArr.count) {
-            return 100;
+            
+            return height > 90 ? height + 10 : 100;
         } else {
             return [self rowHeightWithIndexPath:indexPath];
         }
     } else {
-         return 100;
+        return height > 90 ? height + 10 : 100;
     }
 }
 
@@ -1183,7 +1186,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     } else {
         //    得到编辑的 cell
         NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-        
+
         [self saveMethodWithIndex:indexPath.section andText:cell.textView.text];
     }
 }

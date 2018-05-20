@@ -14,7 +14,7 @@
     self = [super initWithDic:dic];
     
     if (self) {
-        
+        _annexitemId     = dic[@"annexitemId"];
         _meetingTitle    = dic[@"hymc"];
         _meetingNum      = dic[@"hybh"];
         _meetingPlace    = dic[@"hydd"];
@@ -28,6 +28,7 @@
         _compere         = dic[@"hyzcr"];
         _content         = dic[@"hynr"];
         _accessoryFiles  = dic[@"children"];
+        _isRead          = [dic[@"isRead"] boolValue];
         _meetingTime     = [self formateTimeWithStr:dic[@"hysj"]];
         
         _hasFile         = _accessoryFiles.count;

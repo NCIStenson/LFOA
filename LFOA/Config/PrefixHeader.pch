@@ -35,4 +35,5 @@
 #import "CCMarcoConstant.h"
 #import <YYKit.h>
 #import "NSDictionary+CCLog.h"
+#import "UIImage+ZEImage.h"
 #endif /* PrefixHeader_pch */

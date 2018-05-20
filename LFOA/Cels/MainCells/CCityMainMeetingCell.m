@@ -30,7 +30,11 @@
     _numLabel = [self detailLabel];
     _timeLabel = [self detailLabel];
     _timeLabel.textAlignment = NSTextAlignmentRight;
+    _isReadLabel = [self detailLabel];
     
+    UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cc_meeting_icon" color:MAIN_BLUE_COLOR] ];
+    [self.contentView addSubview:imageView];
+
     _placeLabel = [self detailLabel];
 
     _accessoryImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_accessonary_30x30_"]];
@@ -40,18 +44,23 @@
     [self.contentView addSubview:_numLabel];
     [self.contentView addSubview:_timeLabel];
     [self.contentView addSubview:_accessoryImageView];
+    [self.contentView addSubview:_isReadLabel];
     [self.contentView addSubview:_placeLabel];
+
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).with.offset(20.f);
+        make.left.equalTo(self.contentView).with.offset(18.f);
+        make.size.mas_equalTo(CGSizeMake(30.f, 30.f));
+    }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.top.equalTo(self.contentView).with.offset(CCITY_MEETING_CELL_PADDING);
-        make.left.equalTo(self.contentView).with.offset(2*CCITY_MEETING_CELL_PADDING);
+        make.left.equalTo(imageView.mas_right).with.offset(CCITY_MEETING_CELL_PADDING * 2);
         make.bottom.equalTo(_numLabel.mas_top).with.offset(-5.f);
-        make.right.equalTo(self.contentView).with.offset(-CCITY_MEETING_CELL_PADDING);
+        make.right.equalTo(self.contentView).with.offset(-CCITY_MEETING_CELL_PADDING * 2 - 80.0f);
     }];
     
     [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.top.equalTo(_titleLabel.mas_bottom).with.offset(CCITY_MEETING_CELL_PADDING);
         make.left.equalTo(_titleLabel);
         make.right.equalTo(_timeLabel.mas_left).with.offset(-CCITY_MEETING_CELL_PADDING);
@@ -59,24 +68,30 @@
     }];
     
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(_numLabel);
+        make.top.equalTo(_titleLabel);
         make.left.equalTo(_numLabel.mas_right).with.offset(CCITY_MEETING_CELL_PADDING);
-        make.bottom.equalTo(_numLabel);
-        make.right.equalTo(_accessoryImageView.mas_left).with.offset(-CCITY_MEETING_CELL_PADDING);
-        make.width.mas_equalTo(120.f);
+        make.bottom.equalTo(_titleLabel);
+        make.right.equalTo(self.contentView).with.offset(-CCITY_MEETING_CELL_PADDING * 3);
     }];
     
     [_accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(_titleLabel.mas_bottom);
-        make.right.equalTo(_titleLabel);
-        make.bottom.equalTo(_timeLabel);
+        make.top.equalTo(_timeLabel.mas_bottom);
+        make.right.equalTo(self.contentView).with.offset(-CCITY_MEETING_CELL_PADDING);
+        make.bottom.equalTo(self.contentView).with.offset(-CCITY_MEETING_CELL_PADDING);
         make.width.equalTo(_accessoryImageView.mas_height);
+        make.width.equalTo(@38.0f);
+    }];
+    
+    [_isReadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_accessoryImageView);
+        make.left.equalTo(_numLabel.mas_right).with.offset(CCITY_MEETING_CELL_PADDING);
+        make.bottom.equalTo(_accessoryImageView);
+        make.right.equalTo(_accessoryImageView.mas_left).with.offset(-CCITY_MEETING_CELL_PADDING);
+        make.width.mas_equalTo(40.f);
     }];
     
     [_placeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.top.equalTo(_numLabel.mas_bottom).with.offset(CCITY_MEETING_CELL_PADDING);
         make.left.equalTo(_titleLabel);
         make.bottom.equalTo(self.contentView).with.offset(-CCITY_MEETING_CELL_PADDING);
@@ -91,8 +106,18 @@
     
     _numLabel.text = model.meetingNum;
     
-
-    _timeLabel.text = model.meetingTime;
+    if (model.isRead) {
+        _isReadLabel.text = @"[已阅]";
+    }else{
+        _isReadLabel.text = @"[未阅]";
+        _isReadLabel.textColor = MAIN_BLUE_COLOR;
+    }
+    NSArray * arr = [model.meetingTime componentsSeparatedByString:@" "];
+    if (arr.count > 1) {
+        _timeLabel.text = arr[1];
+    }else{
+        _timeLabel.text = model.meetingTime;
+    }
     
     _placeLabel.text = model.meetingPlace;
     

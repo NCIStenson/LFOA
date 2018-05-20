@@ -78,12 +78,13 @@ static NSString* cellReuseId = @"cellReuseId";
     
     AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
     
+    [_parameters setObject:[CCitySingleton sharedInstance].token forKey:@"token"];
     [_parameters setObject:@(_pageIndex) forKey:@"pageIndex"];
-    
+//    [_parameters setObject:@"20" forKey:@"pageSize"];
+
     [manager POST:@"service/search/GetMeetList.ashx" parameters:_parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         [SVProgressHUD dismiss];
-        
+        NSLog(@" ==  %@",responseObject);
         NSArray* resutls = responseObject[@"results"];
         NSMutableArray* resultsArr = [NSMutableArray arrayWithCapacity:resutls.count];
         
@@ -162,8 +163,32 @@ static NSString* cellReuseId = @"cellReuseId";
             _pageIndex--;
         }
     }];
-     
 }
+
+-(void)readMesssageWithId:(NSString*)idStr {
+    
+    AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+
+    [manager POST:@"service/meeting/MarkMeetingHasRead.ashx" parameters:@{@"token":[CCitySingleton sharedInstance].token, @"annexitemId":idStr} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        CCErrorNoManager* errorNoMananger = [CCErrorNoManager new];
+        if (![errorNoMananger requestSuccess:responseObject]) {
+            [errorNoMananger getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:nil];
+        }else{
+            NSInteger badgeNum = [UIApplication sharedApplication].applicationIconBadgeNumber;
+            if (badgeNum > 0) {
+                badgeNum--;
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badgeNum];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"%@",error.description);
+        
+    }];
+}
+
 
 #pragma mark- --- UITableViewDataSource
 
@@ -194,6 +219,14 @@ static NSString* cellReuseId = @"cellReuseId";
         return;
     }
     
+    CCityMainMeetingListModel * model = self.datasMuArr[indexPath.row];
+    
+    NSLog(@"%@",model.annexitemId);
+    
+    if (!model.isRead) {
+        [self readMesssageWithId:model.annexitemId];
+    }
+
     CCityMeetingDeitalVC* detailVC = [[CCityMeetingDeitalVC alloc]initWithModel:self.datasMuArr[indexPath.row]];
     
     [self.navigationController pushViewController:detailVC animated:YES];

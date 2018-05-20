@@ -416,7 +416,6 @@
     [manager POST:@"service/Login.ashx" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         [SVProgressHUD dismiss];
-        NSLog(@"%@",responseObject);
   
         if ([responseObject[@"status"] isEqualToString:@"success"]) {
             

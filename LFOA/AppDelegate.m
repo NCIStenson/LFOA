@@ -44,6 +44,9 @@
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [self setNavBar];
     
+    UIUserNotificationType types =UIUserNotificationTypeBadge |UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];[[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+
     if ([CCitySecurity isAutoLogin]) {
         
         if ([CCitySecurity getSession]) {   [self autoLogInWithNotfic:nil];   } else {

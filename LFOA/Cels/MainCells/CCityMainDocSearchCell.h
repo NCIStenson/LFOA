@@ -19,6 +19,7 @@
 @property(nonatomic, strong)NSArray* accessoryConArr;
 @property(nonatomic, strong)UILabel* titleLabel;
 @property(nonatomic, strong)UILabel* fromLabel;
+@property(nonatomic, strong)UILabel* dateLabel;
 
 -(CGFloat)getCellHeightWithModel:(CCityMainDocsearchDetailModel*)model;
 

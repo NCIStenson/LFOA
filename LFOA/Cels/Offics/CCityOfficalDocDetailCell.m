@@ -25,7 +25,6 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    
     if (self) {
         
         if ([reuseIdentifier isEqualToString:@"CCityOfficalDetailDataExcleStyle"]) {
@@ -77,7 +76,9 @@
 
 -(void)setModel:(CCityOfficalDocDetailModel *)model {
     _model = model;
-    
+//    [self layoutMySubViews];
+//    float height = [CCUtil heightForString:model.value font:[UIFont systemFontOfSize:[UIFont systemFontSize] - 1] andWidth:SCREEN_WIDTH - 20] + 100;
+
     if (_sectionStyle == CCityOfficalDetailDataExcleStyle) {
         
         CCHuiQianModel* huiqianModel = model.huiQianMuArr[0];
@@ -100,7 +101,6 @@
         }
         
         if (!(model.value == NULL)) {
-        
             _textView.text  = model.value;
         }
     }
