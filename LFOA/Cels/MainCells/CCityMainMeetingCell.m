@@ -108,6 +108,7 @@
     
     if (model.isRead) {
         _isReadLabel.text = @"[已阅]";
+        _isReadLabel.textColor = CCITY_GRAY_TEXTCOLOR;
     }else{
         _isReadLabel.text = @"[未阅]";
         _isReadLabel.textColor = MAIN_BLUE_COLOR;

@@ -84,7 +84,7 @@ static NSString* cellReuseId = @"cellReuseId";
 
     [manager POST:@"service/search/GetMeetList.ashx" parameters:_parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [SVProgressHUD dismiss];
-        NSLog(@" ==  %@",responseObject);
+
         NSArray* resutls = responseObject[@"results"];
         NSMutableArray* resultsArr = [NSMutableArray arrayWithCapacity:resutls.count];
         
@@ -203,7 +203,6 @@ static NSString* cellReuseId = @"cellReuseId";
     CCityMainMeetingCell* cell = [tableView dequeueReusableCellWithIdentifier:cellReuseId];
     
 //    while ([cell.contentView.subviews lastObject]) {
-//        
 //        [[cell.contentView.subviews lastObject] removeFromSuperview];
 //    }
     
@@ -221,10 +220,11 @@ static NSString* cellReuseId = @"cellReuseId";
     
     CCityMainMeetingListModel * model = self.datasMuArr[indexPath.row];
     
-    NSLog(@"%@",model.annexitemId);
-    
     if (!model.isRead) {
         [self readMesssageWithId:model.annexitemId];
+        model.isRead = YES;
+//        [self.datasMuArr replaceObjectAtIndex:indexPath.row withObject:model];
+        [tableView reloadRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 
     CCityMeetingDeitalVC* detailVC = [[CCityMeetingDeitalVC alloc]initWithModel:self.datasMuArr[indexPath.row]];

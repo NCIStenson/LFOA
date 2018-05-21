@@ -86,6 +86,7 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
     
     [self configBadgeNum];
     [self configNews];   // 快讯
+    [self configCheckUpdate];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -461,6 +462,39 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
         }
     }];
 }
+
+-(void)configCheckUpdate {
+    
+    AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
+    [manager GET:@"service/app/IosVersionInfo.ashx" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSString * version = responseObject[@"data"][@"version"];
+        NSString * downloadUrl = responseObject[@"data"][@"downloadUrl"];
+        NSString * updateInfo = responseObject[@"data"][@"updateInfo"];
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        // app版本
+        NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        if ([version floatValue] > [app_Version floatValue]) {
+            UIAlertController* alertNotificVC = [UIAlertController alertControllerWithTitle:@"版本更新" message:updateInfo preferredStyle:(UIAlertControllerStyleAlert)];
+            
+            UIAlertAction* settingAction = [UIAlertAction actionWithTitle:@"跳转更新" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:downloadUrl]];
+            }];
+            
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
+            
+            [alertNotificVC addAction:settingAction];
+            [alertNotificVC addAction:cancelAction];
+            
+            [self presentViewController:alertNotificVC animated:YES completion:nil];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (CCITY_DEBUG) {
+            NSLog(@"%@--检测更新获取失败--error:%@",[self class],error.localizedDescription);
+        }
+    }];
+}
+
 
 #pragma mark- --- methods
 
