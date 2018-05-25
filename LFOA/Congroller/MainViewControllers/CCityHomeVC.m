@@ -474,25 +474,55 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         // app版本
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-        if ([version floatValue] > [app_Version floatValue]) {
-            UIAlertController* alertNotificVC = [UIAlertController alertControllerWithTitle:@"版本更新" message:updateInfo preferredStyle:(UIAlertControllerStyleAlert)];
-            
-            UIAlertAction* settingAction = [UIAlertAction actionWithTitle:@"跳转更新" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:downloadUrl]];
-            }];
-            
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
-            
-            [alertNotificVC addAction:settingAction];
-            [alertNotificVC addAction:cancelAction];
-            
-            [self presentViewController:alertNotificVC animated:YES completion:nil];
+        
+        NSArray * serverVersionArr = [version componentsSeparatedByString:@"."];
+        NSArray * appVersionArr = [app_Version componentsSeparatedByString:@"."];
+
+        NSInteger bigServerVersion = 0;
+        NSInteger smallServerVersion = 0;
+        NSInteger bigAppVersison = 0;
+        NSInteger smallAppVersison = 0;
+
+        if (serverVersionArr.count > 0) {
+            bigServerVersion = [serverVersionArr[0] integerValue];
+        }
+        
+        if (appVersionArr.count > 0) {
+            bigAppVersison = [appVersionArr[0] integerValue];
+        }
+        
+        if(serverVersionArr.count > 1){
+            smallServerVersion = [serverVersionArr[1] integerValue];
+        }
+        
+        if (appVersionArr.count > 1) {
+            smallAppVersison = [appVersionArr[1] integerValue];
+        }
+        
+        if (bigServerVersion > bigAppVersison) {
+            [self showUpdateAlertView:downloadUrl withUpdateInfo:updateInfo];
+        }else if (bigServerVersion == bigAppVersison){
+            if (smallServerVersion > smallAppVersison) {
+                [self showUpdateAlertView:downloadUrl withUpdateInfo:updateInfo];
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (CCITY_DEBUG) {
             NSLog(@"%@--检测更新获取失败--error:%@",[self class],error.localizedDescription);
         }
     }];
+}
+
+-(void)showUpdateAlertView:(NSString *)downloadUrl withUpdateInfo:(NSString *)updateInfo{
+    UIAlertController* alertNotificVC = [UIAlertController alertControllerWithTitle:@"版本更新" message:updateInfo preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    UIAlertAction* settingAction = [UIAlertAction actionWithTitle:@"跳转更新" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:downloadUrl]];
+    }];
+    
+    [alertNotificVC addAction:settingAction];
+    
+    [self presentViewController:alertNotificVC animated:YES completion:nil];
 }
 
 

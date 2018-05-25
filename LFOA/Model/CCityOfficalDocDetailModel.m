@@ -85,9 +85,12 @@
         }
         
     } else if ([contentType isEqual:@"日期框"]) {
-        
-        if ([dateFormat isEqualToString:@"yyyy-MM-dd HH:mm:ss"]) {
-            _style            = CCityOfficalDetailDateTimeStyle;
+        if ([CCUtil isNotNull:dateFormat]) {
+            if ([dateFormat isEqualToString:@"yyyy-MM-dd HH:mm:ss"]) {
+                _style            = CCityOfficalDetailDateTimeStyle;
+            }else{
+                _style            = CCityOfficalDetailDateStyle;
+            }
         }else{
             _style            = CCityOfficalDetailDateStyle;
         }

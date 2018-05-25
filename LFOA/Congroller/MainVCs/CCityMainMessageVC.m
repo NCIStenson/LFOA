@@ -57,7 +57,8 @@ static NSString* cellReuseId = @"cellReuseId";
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(allReadBtnClick)];
-    
+    [rightBarBtnItem setTintColor:MAIN_BLUE_COLOR];
+
     rightBarBtnItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 5);
     
     return rightBarBtnItem;
