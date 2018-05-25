@@ -487,8 +487,7 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
             bigServerVersion = [serverVersionArr[0] integerValue];
         }
         NSLog(@" ==  %lu",bigAppVersison);
-        
-        
+        NSLog(@" == %lu",smallAppVersison);
         if (appVersionArr.count > 0) {
             bigAppVersison = [appVersionArr[0] integerValue];
         }
