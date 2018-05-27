@@ -9,7 +9,7 @@
 #import "CCityBaseTableViewCell.h"
 #import <BEMCheckBox.h>
 #import "CCityOffialSendPersonListModel.h"
-
+#import "CCityOfficalDocModel.h"
 @interface CCityOfficalDetailPersonListCell : CCityBaseTableViewCell
 
 @property(nonatomic, strong)BEMCheckBox* checkBox;
@@ -18,5 +18,7 @@
 
 @property(nonatomic, copy) NSString * firstLetter;
 @property(nonatomic, strong)NSArray * modelArr;
+
+@property(nonatomic, strong)CCityOfficalNewProjectModel * projectModel;
 
 @end

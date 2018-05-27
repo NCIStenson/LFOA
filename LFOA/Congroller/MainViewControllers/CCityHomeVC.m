@@ -484,9 +484,9 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
         NSInteger smallAppVersison = 0;
 
         if (serverVersionArr.count > 0) {
-            bigServerVersion = [serverVersionArr[0]  integerValue];
+            bigServerVersion = [serverVersionArr[0] integerValue];
         }
-        NSLog(@" == %lu",smallAppVersison);
+        
         if (appVersionArr.count > 0) {
             bigAppVersison = [appVersionArr[0] integerValue];
         }
@@ -494,7 +494,7 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
         if(serverVersionArr.count > 1){
             smallServerVersion = [serverVersionArr[1] integerValue];
         }
-        
+            
         if (appVersionArr.count > 1) {
             smallAppVersison = [appVersionArr[1] integerValue];
         }

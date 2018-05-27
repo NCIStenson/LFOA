@@ -103,3 +103,30 @@
 }
 
 @end
+
+
+@implementation CCityOfficalNewProjectModel
+
+- (instancetype)initWithDic:(NSDictionary*)dic
+{
+    self = [super init];
+    if (self) {
+        
+        [self configDataWithDic:dic];
+    }
+    return self;
+}
+
+-(void)configDataWithDic:(NSDictionary *)dic
+{
+    _proNum = [dic objectForKey:@"no"];
+    _proName = [dic objectForKey:@"proname"];
+    _proChecked = [[dic objectForKey:@"checked"] boolValue];
+//    _isSelected = NO;
+    
+    _isOpen = NO;
+    _projectName = [dic objectForKey:@"name"];
+    _detailDataArr = [dic objectForKey:@"yw"];
+}
+
+@end

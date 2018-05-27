@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/OfficalDocVCs/CCityOfficalDetailPsrsonListVC.m"
-            timestampString = "548326747.014834"
+            timestampString = "549024074.011975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "184"
@@ -26,27 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/OfficalDocVCs/CCityOfficalDocDetailVC.m"
-            timestampString = "548484258.603442"
+            timestampString = "549098325.869067"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "648"
-            endingLineNumber = "648"
-            landmarkName = "-updataHuiQianUIWithState:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LFOA/Congroller/OfficalDocVCs/CCityOfficalDocDetailVC.m"
-            timestampString = "548484258.603514"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "617"
-            endingLineNumber = "617"
+            startingLineNumber = "653"
+            endingLineNumber = "653"
             landmarkName = "-updataHuiQianUIWithState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/MainVCs/CCityMainMessageVC.m"
-            timestampString = "548587572.0986561"
+            timestampString = "549092490.57248"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
@@ -74,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/MainVCs/CCityMainMessageVC.m"
-            timestampString = "548587572.099179"
+            timestampString = "549092490.572584"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "199"
@@ -90,12 +74,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/MainVCs/CCityMainMessageVC.m"
-            timestampString = "548587572.099654"
+            timestampString = "549092490.572667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "280"
             endingLineNumber = "280"
             landmarkName = "-readMesssageWithId:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LFOA/Congroller/OfficalDocVCs/CCityOfficalDocDetailVC.m"
+            timestampString = "549098629.8652591"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "721"
+            endingLineNumber = "721"
+            landmarkName = "-saveAction:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -24,6 +24,7 @@
 #import "CCityOfficalBackLogCell.h"
 #import "CCityJSONNetWorkManager.h"
 #import "CCitySecurity.h"
+#import "CCityNewProjectVC.h"
 
 @interface CCityOfficalDocVC ()<UISearchBarDelegate,UITextFieldDelegate,UIScrollViewDelegate>
 
@@ -66,21 +67,40 @@ static NSString* officalBackLogCellReuseId = @"officalBackLogCellReuseId";
                            } mutableCopy];
     
     _subDataDic = [NSMutableDictionary dictionaryWithCapacity:3];
-    
-//    if (self.tableView) {   self.tableView = nil;   }
-    
-    UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchAction)];
-    
-    rightBarButtonItem.tintColor = [UIColor blackColor];
-    
+        
+    UIBarButtonItem* rightBarButtonItem ;
+    if (_mainStyle == CCityOfficalMainDocStyle) {
+        rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"新建公文" style:UIBarButtonItemStylePlain target:self action:@selector(goNewProject)];
+    }else{
+        rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"新建项目" style:UIBarButtonItemStylePlain target:self action:@selector(goNewProject)];
+    }
+    [rightBarButtonItem setTintColor:MAIN_BLUE_COLOR];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+    
+    
+    UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchAction)];
+    
+    leftBarButtonItem.tintColor = [UIColor blackColor];
+    
+    self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+
+    
     
     if (self.tableView) {   self.tableView = nil;   }
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+-(UIButton *)rightBarBtn:(NSString *)str{
+    UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitle:@"" forState:UIControlStateNormal];
+    [btn setTitleColor:MAIN_BLUE_COLOR forState:UIControlStateNormal];
+    btn.backgroundColor = MAIN_ARM_COLOR;
+    return  btn;
+}
 
+-(void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
+    self.navigationController.navigationBar.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
+    [super viewWillAppear:animated];
     if (!parameters) {
 
         if (![CCitySingleton sharedInstance].token) {
@@ -214,6 +234,13 @@ static NSString* officalBackLogCellReuseId = @"officalBackLogCellReuseId";
     }
     
     return pageIndex;
+}
+
+-(void)goNewProject{
+    CCityNewProjectVC * newProjectVC = [[CCityNewProjectVC alloc]init];
+    newProjectVC.hidesBottomBarWhenPushed  = YES;
+    newProjectVC.mainStyle = _mainStyle;
+    [self.navigationController pushViewController:newProjectVC animated:YES];
 }
 
 // search bar

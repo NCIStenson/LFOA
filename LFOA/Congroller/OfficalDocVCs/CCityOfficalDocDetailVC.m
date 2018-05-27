@@ -61,7 +61,13 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     
     _valuesDic = [NSMutableDictionary dictionary];
     
-    [self configDataWithId:_docId];
+    if(_isNewProject){
+        if ([CCUtil isNotNull:_resultDic]) {
+            [self showDocDetail:_resultDic];
+        }
+    }else{
+        [self configDataWithId:_docId];
+    }
     
     self.navigationItem.leftBarButtonItem  = [self leftBarBtnItem];
     self.navigationItem.rightBarButtonItem = [self rightBarBtnItem];
@@ -120,7 +126,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     [super viewWillAppear:animated];
     
     if (_mainStyle == CCityOfficalMainSPStyle) {
-        
         self.title = @"项目详情";
     } else if (_mainStyle == CCityOfficalMainDocStyle) {
         
@@ -828,66 +833,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     
     [manager GET:_url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@" ====  %@",responseObject);
-        
-        if (responseObject[@"isEnd"] != NULL) {
-            
-            self.isEnd = [responseObject[@"isEnd"] boolValue];
-        }
-
-        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            
-            CCErrorNoManager* errorManager = [CCErrorNoManager new];
-            if (![errorManager requestSuccess:responseObject]) {
-                
-                [errorManager getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:^{
-                   
-                    [self configDataWithId:_docId];
-                }];
-                return;
-            }
-            
-            if (!_docId[@"fk_flow"]) {  _docId[@"fk_flow"] = responseObject[@"fkFlow"]; }
-            
-            if (!_docId[@"workId"]) {   _docId[@"workId"] = responseObject[@"workId"];  }
-            
-            if (!_docId[@"fId"]) {  _docId[@"fId"] = responseObject[@"fid"];    }
-            
-            if (!_docId[@"fkNode"]) {   _docId[@"fkNode"] = responseObject[@"fkNode"];  }
-        }
-
-        NSArray* resultArr = responseObject[@"form"];
-        
-        if (!self.dataArr) {
-            
-            self.dataArr = [NSMutableArray arrayWithCapacity:resultArr.count];
-        }
-        
-        NSString* groupId = @"xxx";
-        NSDictionary* result;
-        
-        for (int i = 0 ; i < resultArr.count; i++) {
-            
-            result = resultArr[i];
-            
-            CCityOfficalDocDetailModel* model = [[CCityOfficalDocDetailModel alloc]initWithDic:result];
-            if (_conentMode != CCityOfficalDocBackLogMode) {
-                
-                if (model.canEdit) {    model.canEdit = NO; }
-            } else {
-                
-                // input opinio for self have no date & singature
-                if ((model.canEdit == YES) && [groupId isEqual:result[@"GroupId"]]) { continue; }
-                
-                if ([result[@"ControlType"] isEqual:@"分组框"]) {
-                    
-                    groupId = result[@"GroupId"];
-                }
-            }
-            
-            [self.dataArr addObject:model];
-        }
-        
-        [self.tableView reloadData];
+        [self showDocDetail:responseObject];
         [SVProgressHUD dismiss];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -896,6 +842,68 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         [SVProgressHUD showErrorWithStatus:error.localizedDescription];
         NSLog(@"%@",error);
     }];
+}
+
+
+-(void)showDocDetail:(NSDictionary *)responseObject{
+    if (responseObject[@"isEnd"] != NULL) {
+        self.isEnd = [responseObject[@"isEnd"] boolValue];
+    }
+    
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+        
+        CCErrorNoManager* errorManager = [CCErrorNoManager new];
+        if (![errorManager requestSuccess:responseObject]) {
+            
+            [errorManager getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:^{
+                
+                [self configDataWithId:_docId];
+            }];
+            return;
+        }
+        
+        if (!_docId[@"fk_flow"]) {  _docId[@"fk_flow"] = responseObject[@"fkFlow"]; }
+        
+        if (!_docId[@"workId"]) {   _docId[@"workId"] = responseObject[@"workId"];  }
+        
+        if (!_docId[@"fId"]) {  _docId[@"fId"] = responseObject[@"fid"];    }
+        
+        if (!_docId[@"fkNode"]) {   _docId[@"fkNode"] = responseObject[@"fkNode"];  }
+    }
+    
+    NSArray* resultArr = responseObject[@"form"];
+    
+    if (!self.dataArr) {
+        
+        self.dataArr = [NSMutableArray arrayWithCapacity:resultArr.count];
+    }
+    
+    NSString* groupId = @"xxx";
+    NSDictionary* result;
+    
+    for (int i = 0 ; i < resultArr.count; i++) {
+        
+        result = resultArr[i];
+        
+        CCityOfficalDocDetailModel* model = [[CCityOfficalDocDetailModel alloc]initWithDic:result];
+        if (_conentMode != CCityOfficalDocBackLogMode) {
+            
+            if (model.canEdit) {    model.canEdit = NO; }
+        } else {
+            
+            // input opinio for self have no date & singature
+            if ((model.canEdit == YES) && [groupId isEqual:result[@"GroupId"]]) { continue; }
+            
+            if ([result[@"ControlType"] isEqual:@"分组框"]) {
+                
+                groupId = result[@"GroupId"];
+            }
+        }
+        
+        [self.dataArr addObject:model];
+    }
+    
+    [self.tableView reloadData];
 }
 
 -(void)sendOpinio:(CustomIOSAlertView*)alertView {
