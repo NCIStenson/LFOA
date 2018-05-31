@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5409CCBF7E87CD57D2E4887D /* libPods-LFOA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A7DF90BFC902A8AD3BC301 /* libPods-LFOA.a */; };
-		90121F9B210F1EE8F8F98895 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3EA8E09DFDEA012EA839BC2 /* libPods-NotificationService.a */; };
 		9817409C20AF123A00714328 /* UIImage+ZEImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9817409B20AF123A00714328 /* UIImage+ZEImage.m */; };
+		981AC3E420BEA49800FA00A9 /* CCityUploadFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 981AC3E320BEA49800FA00A9 /* CCityUploadFileVC.m */; };
 		98C36CB220B9220000542761 /* CCityNewProjectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C36CB120B9220000542761 /* CCityNewProjectVC.m */; };
 		98EC019F20A56EF100AFE0C0 /* CCUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EC019E20A56EF100AFE0C0 /* CCUtil.m */; };
 		98EC01A320AAB54200AFE0C0 /* NSDictionary+CCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EC01A220AAB54200AFE0C0 /* NSDictionary+CCLog.m */; };
@@ -156,9 +156,10 @@
 /* Begin PBXFileReference section */
 		60A7DF90BFC902A8AD3BC301 /* libPods-LFOA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFOA.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74881A20AA0A8B0BDC97F14D /* Pods-LFOA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFOA.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFOA/Pods-LFOA.release.xcconfig"; sourceTree = "<group>"; };
-		8DEEADDD8DF557D6B4BE0C4E /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Pods/Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		9817409A20AF123A00714328 /* UIImage+ZEImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ZEImage.h"; sourceTree = "<group>"; };
 		9817409B20AF123A00714328 /* UIImage+ZEImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ZEImage.m"; sourceTree = "<group>"; };
+		981AC3E220BEA49800FA00A9 /* CCityUploadFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityUploadFileVC.h; sourceTree = "<group>"; };
+		981AC3E320BEA49800FA00A9 /* CCityUploadFileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityUploadFileVC.m; sourceTree = "<group>"; };
 		983DEC9C20AD6DCB00B80014 /* LFOA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LFOA.entitlements; sourceTree = "<group>"; };
 		98C36CB020B9220000542761 /* CCityNewProjectVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityNewProjectVC.h; sourceTree = "<group>"; };
 		98C36CB120B9220000542761 /* CCityNewProjectVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityNewProjectVC.m; sourceTree = "<group>"; };
@@ -167,7 +168,6 @@
 		98EC01A020A9787200AFE0C0 /* CCMarcoConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarcoConstant.h; sourceTree = "<group>"; };
 		98EC01A120AAB54200AFE0C0 /* NSDictionary+CCLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CCLog.h"; sourceTree = "<group>"; };
 		98EC01A220AAB54200AFE0C0 /* NSDictionary+CCLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CCLog.m"; sourceTree = "<group>"; };
-		A219BA9C17E512E01CE52B62 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		D3EA8E09DFDEA012EA839BC2 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1072A2D1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCityOfficalDocNavMenuBtn.h; sourceTree = "<group>"; };
 		F1072A2E1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCityOfficalDocNavMenuBtn.m; sourceTree = "<group>"; };
@@ -443,7 +443,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90121F9B210F1EE8F8F98895 /* libPods-NotificationService.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,8 +462,6 @@
 			children = (
 				FB4B1775394FEFD165E4231B /* Pods-LFOA.debug.xcconfig */,
 				74881A20AA0A8B0BDC97F14D /* Pods-LFOA.release.xcconfig */,
-				A219BA9C17E512E01CE52B62 /* Pods-NotificationService.debug.xcconfig */,
-				8DEEADDD8DF557D6B4BE0C4E /* Pods-NotificationService.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -522,6 +519,8 @@
 				F1752B711FE3C8D400402855 /* CCHuiqianDetailVC.m */,
 				98C36CB020B9220000542761 /* CCityNewProjectVC.h */,
 				98C36CB120B9220000542761 /* CCityNewProjectVC.m */,
+				981AC3E220BEA49800FA00A9 /* CCityUploadFileVC.h */,
+				981AC3E320BEA49800FA00A9 /* CCityUploadFileVC.m */,
 			);
 			path = OfficalDocVCs;
 			sourceTree = "<group>";
@@ -985,11 +984,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F13F58201F7DF368005CD5CA /* Build configuration list for PBXNativeTarget "NotificationService" */;
 			buildPhases = (
-				D620A6646966C2B207015436 /* [CP] Check Pods Manifest.lock */,
 				F13F58131F7DF367005CD5CA /* Sources */,
 				F13F58141F7DF367005CD5CA /* Frameworks */,
 				F13F58151F7DF367005CD5CA /* Resources */,
-				97945943145926E0062C1B91 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1163,6 +1160,9 @@
 				"${PODS_ROOT}/TSMessages/Pod/Assets/NotificationButtonBackground.png",
 				"${PODS_ROOT}/TSMessages/Pod/Assets/NotificationButtonBackground@2x.png",
 				"${PODS_ROOT}/TSMessages/Pod/Assets/TSMessagesDefaultDesign.json",
+				"${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoActionSheet.xib",
+				"${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowserCell.xib",
+				"${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -1185,39 +1185,6 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-LFOA-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		97945943145926E0062C1B91 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NotificationService/Pods-NotificationService-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D620A6646966C2B207015436 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NotificationService-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1257,6 +1224,7 @@
 				F1F670FB1FD532C7009B723B /* CCLeftBarBtnItem.m in Sources */,
 				F1072A2F1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m in Sources */,
 				F1C803ED1F2F3EB2007F43DC /* CCitySecurity.m in Sources */,
+				981AC3E420BEA49800FA00A9 /* CCityUploadFileVC.m in Sources */,
 				F1082E661F330CD20008511C /* CCityJSONNetWorkManager.m in Sources */,
 				F139DAD91F56A40100149012 /* CCityBaseModel.m in Sources */,
 				F11595861F2C6EDD00519E21 /* CCityMoreVC.m in Sources */,
@@ -1399,7 +1367,6 @@
 /* Begin XCBuildConfiguration section */
 		F13F58211F7DF368005CD5CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A219BA9C17E512E01CE52B62 /* Pods-NotificationService.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -1421,7 +1388,6 @@
 		};
 		F13F58221F7DF368005CD5CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8DEEADDD8DF557D6B4BE0C4E /* Pods-NotificationService.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;

@@ -24,6 +24,7 @@ pod 'JSBadgeView'
 pod 'MarqueeLabel'
 #pod 'YYText'
 pod 'YYKit', '~> 1.0.7'
+pod 'ZLPhotoBrowser', '~> 2.4.9'
 
 #pod 'UITableView+FDTemplateLayoutCell'
 pod 'FDFullscreenPopGesture'
@@ -33,8 +34,9 @@ pod 'TTTAttributedLabel'
 
 end
 
-target 'NotificationService' do
-    
-    platform :ios, "10.0"
-    pod 'GTExtensionSDK'
-end
+#target 'NotificationService' do
+#    
+#    platform :ios, "10.0"
+#    pod 'GTExtensionSDK'
+#end
+

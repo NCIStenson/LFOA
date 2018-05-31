@@ -104,6 +104,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/TSMessages/Pod/Assets/NotificationButtonBackground.png"
   install_resource "${PODS_ROOT}/TSMessages/Pod/Assets/NotificationButtonBackground@2x.png"
   install_resource "${PODS_ROOT}/TSMessages/Pod/Assets/TSMessagesDefaultDesign.json"
+  install_resource "${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoActionSheet.xib"
+  install_resource "${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowserCell.xib"
+  install_resource "${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/JSBadgeView/JSBadgeView.bundle"
@@ -126,6 +129,9 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/TSMessages/Pod/Assets/NotificationButtonBackground.png"
   install_resource "${PODS_ROOT}/TSMessages/Pod/Assets/NotificationButtonBackground@2x.png"
   install_resource "${PODS_ROOT}/TSMessages/Pod/Assets/TSMessagesDefaultDesign.json"
+  install_resource "${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoActionSheet.xib"
+  install_resource "${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowserCell.xib"
+  install_resource "${PODS_ROOT}/ZLPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

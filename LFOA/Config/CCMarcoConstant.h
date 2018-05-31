@@ -25,6 +25,8 @@
 #define IS_IOS10 [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0
 #define IS_IOS11 [[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0
 
+#define NAV_HEIGHT (IPHONEX ? 88.0f : 64.0f)
+
 #define SCREEN_HEIGHT   [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH     [[UIScreen mainScreen] bounds].size.width
 #define kCURRENTASPECT SCREEN_WIDTH / 375.0f

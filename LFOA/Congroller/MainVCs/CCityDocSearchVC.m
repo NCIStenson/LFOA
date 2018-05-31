@@ -277,10 +277,8 @@ static NSString* cellReuseId = @"cellReuseId";
     UIImageView* imageView;
     
     if (model.isOpen) {
-        
         imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_folder_40x40"]];
     } else {
-        
          imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_folder_40x40"]];
     }
     

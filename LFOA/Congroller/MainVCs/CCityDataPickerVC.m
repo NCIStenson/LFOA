@@ -42,11 +42,13 @@
     
     UIPickerView* pickerView = [self dataPickerView];
     
-    UIButton* okBtn = [self bottomBtnWithTitle:@"确认"];
-    okBtn.tag = 40001;
-    
     UIButton* cancelBtn = [self bottomBtnWithTitle:@"取消"];
-    
+    cancelBtn.frame = CGRectMake(10, SCREEN_HEIGHT - 50.0f , (SCREEN_WIDTH - 40) / 2, 40.0f);
+
+    UIButton* okBtn = [self bottomBtnWithTitle:@"确认"];
+    okBtn.frame = CGRectMake(cancelBtn.right + 20, cancelBtn.top , cancelBtn.width, cancelBtn.height);
+    okBtn.tag = 40001;
+
     [self.view addSubview:navView];
     [self.view addSubview:pickerView];
     [self.view addSubview:okBtn];
@@ -60,23 +62,23 @@
         make.height.mas_equalTo(64.f);
     }];
     
-    [okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.right.equalTo(self.view).with.offset(15.f);
-        make.bottom.equalTo(self.view).with.offset(-15.f);
-        make.left.equalTo(cancelBtn.mas_left).with.offset(-30.f);
-        make.width.equalTo(cancelBtn);
-        make.height.equalTo(@40.f);
-    }];
-    
-    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.top.equalTo(okBtn);
-        make.right.equalTo(okBtn.mas_right).with.offset(30.f);
-        make.bottom.equalTo(okBtn);
-        make.left.equalTo(self.view).with.offset(-15.f);
-        make.width.equalTo(okBtn);
-    }];
+//    [okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.right.equalTo(self.view).with.offset(15.f);
+//        make.bottom.equalTo(self.view).with.offset(-15.f);
+//        make.left.equalTo(cancelBtn.mas_left).with.offset(-30.f);
+//        make.width.equalTo(cancelBtn);
+//        make.height.equalTo(@40.f);
+//    }];
+//
+//    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.top.equalTo(okBtn);
+//        make.right.equalTo(okBtn.mas_right).with.offset(30.f);
+//        make.bottom.equalTo(okBtn);
+//        make.left.equalTo(self.view).with.offset(-15.f);
+//        make.width.equalTo(okBtn);
+//    }];
     
     [pickerView mas_makeConstraints:^(MASConstraintMaker *make) {
        

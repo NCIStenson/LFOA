@@ -1,1 +1,0 @@
-# GTExtensionSDK-iOS-CocoaPods
