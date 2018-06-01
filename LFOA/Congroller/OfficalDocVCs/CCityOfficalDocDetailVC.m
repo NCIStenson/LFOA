@@ -112,11 +112,19 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     self.tableView.estimatedRowHeight = 100;
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(kShowUploadSuccess) name:kUPLOADIMAGE_SUCCESS object:nil];
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     [self hiddenKeyboard];
+}
+
+-(void)kShowUploadSuccess
+{
+    [SVProgressHUD showInfoWithStatus:@"上传成功"];
+    [SVProgressHUD dismissWithDelay:1.5];
 }
 
 -(void)dealloc {
@@ -1218,10 +1226,13 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 
 #pragma mark - CCityOfficalDetailDocListViewDelegate
 
--(void)goUploadFileVC:(NSDictionary *)dic
+-(void)goUploadFileVC:(CCityOfficalDetailFileListModel *)model
 {
-    CCityUploadFileVC * uploadFileVC = [[CCityUploadFileVC alloc]init];
     
+    NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:_docId];
+    [dic setObject:model.dirName forKey:@"materialFolder"];
+    CCityUploadFileVC * uploadFileVC = [[CCityUploadFileVC alloc]init];
+    uploadFileVC.resultDic = dic;
     [self.navigationController pushViewController:uploadFileVC animated:YES];
 }
 @end

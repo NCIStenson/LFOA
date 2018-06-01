@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "CCityOfficalDetailFileListModel.h"
+
 @class CCityOfficalDetailDocListView;
 
 @protocol CCityOfficalDetailDocListViewDelegate <NSObject>
 
--(void)goUploadFileVC:(NSDictionary *)dic;
+-(void)goUploadFileVC:(CCityOfficalDetailFileListModel *)model;
 
 @end
 

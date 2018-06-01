@@ -6,7 +6,7 @@
 //  Copyright © 2018年  abcxdx@sina.com. All rights reserved.
 //
 
-#define kMAXNUMPHOTO 50
+#define kMAXNUMPHOTO 9
 
 #import "CCityUploadFileVC.h"
 #import <ZLPhotoActionSheet.h>
@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     self.title = @"上传文件";
     [self.navigationController.navigationBar.layer addSublayer:[self lineLayer]];
-
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.imagesArr = [NSMutableArray array];
     self.lastSelectAssets = [NSMutableArray array];
@@ -51,7 +51,7 @@
     UIButton * uploadBtn = [self getBottomBtnWithTitle:@"开始上传" sel:@selector(uploadBtnClick)];
     [self.view addSubview:uploadBtn];
     uploadBtn.frame = CGRectMake(20, SCREEN_HEIGHT - NAV_HEIGHT - 50, SCREEN_WIDTH - 40, 40);
-
+    
 }
 
 - (UICollectionView*)collectionView {
@@ -90,7 +90,53 @@
 
 -(void)uploadBtnClick
 {
+    AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
+    NSMutableDictionary * parameters;
+    parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"token":[CCitySingleton sharedInstance].token,
+                                                                 @"type":@"材料清单",
+                                                                 @"flowId":[_resultDic objectForKey:@"fkFlow"],
+                                                                 @"workId":[_resultDic objectForKey:@"workId"],
+                                                                 @"materialFolder":[_resultDic objectForKey:@"materialFolder"]}];
     
+    
+    //    NSMutableArray * myFileArr = [NSMutableArray array];
+    //    for (int i = 0 ; i < self.imagesArr.count; i ++) {
+    //        UIImage *image = self.imagesArr[i];
+    //        NSData *imageData = UIImageJPEGRepresentation([CCUtil fixOrientation:image],0.1);
+    //        [myFileArr addObject:imageData];
+    //    }
+    
+    //    [parameters setObject:myFileArr forKey:@"myFile"];
+    
+    [SVProgressHUD showWithStatus:@"正在上传"];
+    
+    
+    [manager                        POST:@"service/file/Upload.ashx"
+                              parameters:parameters
+               constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+                       for (int i = 0 ; i < self.imagesArr.count; i ++) {
+                           UIImage *image = self.imagesArr[i];
+                           NSData *imageData = UIImagePNGRepresentation([CCUtil fixOrientation:image]);
+
+                           [formData appendPartWithFileData:imageData name:@"myFile" fileName:[NSString stringWithFormat:@"%@%d.png",[CCUtil getNowTimeTimestamp3],i] mimeType:@"image/png"];
+                       }
+                   
+               }
+                                progress:nil
+                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                     [SVProgressHUD dismiss];
+                                     if([responseObject isKindOfClass:[NSDictionary class]] && [[responseObject objectForKey:@"status"] isEqualToString:@"failed"]){
+                                         [CCityAlterManager showSimpleTripsWithVC:self Str:@"数据错误" detail:nil];
+                                     }else{
+                                         [[NSNotificationCenter defaultCenter]postNotificationName:kUPLOADIMAGE_SUCCESS object:nil];
+                                         [self.navigationController popViewControllerAnimated:YES];
+                                     }
+                                 }
+                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [SVProgressHUD dismiss];
+                                     [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
+                                     NSLog(@"%@",error);
+                                 }];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -185,7 +231,7 @@
         [strongSelf.imagesArr addObjectsFromArray:images];
         strongSelf.lastSelectAssets = assets.mutableCopy;
         [collectionView reloadData];
-
+        
     }];
     
     return actionSheet;
@@ -210,13 +256,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
+

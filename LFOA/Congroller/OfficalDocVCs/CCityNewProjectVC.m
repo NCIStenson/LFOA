@@ -195,8 +195,6 @@ static NSString* ccityOfficalDeitalPersonListCellReuseId = @"ccityOfficalDeitalP
         
         [manager POST:@"service/business/NewWork.ashx" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
-            NSLog(@" ====  %@",responseObject);
-
             if([responseObject isKindOfClass:[NSDictionary class]] && [[responseObject objectForKey:@"status"] isEqualToString:@"failed"]){
                 [CCityAlterManager showSimpleTripsWithVC:self Str:@"数据错误" detail:nil];
             }else{
@@ -209,7 +207,6 @@ static NSString* ccityOfficalDeitalPersonListCellReuseId = @"ccityOfficalDeitalP
 
                 CCityOfficalDocDetailVC* docDetailVC = [[CCityOfficalDocDetailVC alloc]initWithItmes:@[@"表单信息", @"材料清单"] Id:ids contentModel:CCityOfficalDocBackLogMode];
                 docDetailVC.isNewProject = YES;
-                docDetailVC.resultDic = responseObject;
                 [self.navigationController pushViewController:docDetailVC animated:YES];
             }
             

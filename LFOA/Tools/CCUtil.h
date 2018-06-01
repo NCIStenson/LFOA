@@ -90,4 +90,10 @@
 
 #pragma mark - 正则表达式判断链接位置
 + (NSRange)getRangeOfURL:(NSString *)string;
+
+// 图片压缩
++(UIImage *)fixOrientation:(UIImage *)aImage;
+
+// 获取当前时间戳
++(NSString *)getNowTimeTimestamp3;
 @end

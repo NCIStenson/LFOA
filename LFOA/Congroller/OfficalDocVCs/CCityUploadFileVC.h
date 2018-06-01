@@ -10,4 +10,6 @@
 
 @interface CCityUploadFileVC : CCityBaseViewController
 
+@property (nonatomic,strong)NSDictionary*              resultDic; // 新建流程时传入数据
+
 @end

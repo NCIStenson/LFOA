@@ -24,6 +24,11 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
     UITableView*        _tableView;
     NSMutableArray*     _dataArr;
     NSMutableArray*     _localDataArr;
+    
+    NSMutableArray * _sectionTitleArr;
+    
+    NSString *  _url;
+    NSDictionary *  _ids;
 }
 
 - (instancetype)initWithUrl:(NSString*)url andIds:(NSDictionary*)ids
@@ -31,13 +36,30 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
     self = [super init];
     
     if (self) {
+        _url = url;
+        _ids = ids;
         
+        _sectionTitleArr = [NSMutableArray array];
         [self layoutMySubViews];
         
         [self configDataWithUrl:url andIds:ids];
         
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(reloadViewData) name:kUPLOADIMAGE_SUCCESS object:nil];
+        
     }
     return self;
+}
+
+-(void)reloadViewData{    
+    _dataArr = [NSMutableArray array];
+    _localDataArr = [NSMutableArray array];
+    _sectionTitleArr =  [NSMutableArray array];
+    [self configDataWithUrl:_url andIds:_ids];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kUPLOADIMAGE_SUCCESS object:nil];
 }
 
 -(void)configDataWithUrl:(NSString*)url andIds:(NSDictionary*)ids{
@@ -72,6 +94,7 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
             [_localDataArr addObject:emptyModel];
         }
         
+        _sectionTitleArr = [NSMutableArray array];
         [_tableView reloadData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -81,6 +104,39 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
         NSLog(@"%@",error);
     }];
 }
+
+-(void)deleteFileWithID:(NSString *)filename{
+    
+    [SVProgressHUD show];
+    
+    AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
+    
+    NSDictionary* parameters = @{@"type":@"材料清单",
+                                 @"workId":_ids[@"workId"],
+                                 @"token":[CCitySingleton sharedInstance].token,
+                                 @"filename":filename
+                                 };
+    
+    [manager POST:@"service/file/Delete.ashx" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [SVProgressHUD dismiss];
+        if([responseObject isKindOfClass:[NSDictionary class]] && [[responseObject objectForKey:@"status"] isEqualToString:@"failed"]){
+            [SVProgressHUD showInfoWithStatus:@"删除失败，数据错误"];
+            [SVProgressHUD dismissWithDelay:1.5];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"删除成功"];
+            [SVProgressHUD dismissWithDelay:1.5];
+            [_tableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+        
+        NSLog(@"%@",error);
+    }];
+}
+
 
 - (void)layoutMySubViews {
     
@@ -193,7 +249,8 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
     [sectionHeader addSubview:uploadBtn];
     [sectionHeader addSubview:sectionHeader.imageView];
     [sectionHeader addSubview:sectionTitleLabel];
-    
+    [_sectionTitleArr addObject:sectionTitleLabel];
+
     [sectionHeader.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.equalTo(sectionHeader).with.offset(10.f);
@@ -236,6 +293,33 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
     cell.model = model.filesArr[indexPath.row];
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CCityOfficalDetailFileListModel* model = _dataArr[indexPath.section];
+    NSDictionary* fileModel = model.filesArr[indexPath.row];
+
+    NSMutableArray * arr = [NSMutableArray arrayWithArray:model.filesArr];
+    [arr removeObjectAtIndex:indexPath.row];
+    model.filesArr = arr;
+    NSLog(@" ====  %@",model.dirName);
+    [_localDataArr replaceObjectAtIndex:indexPath.section withObject:model];
+    [_dataArr replaceObjectAtIndex:indexPath.section withObject:model];
+    
+    // 从列表中删除
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self deleteFileWithID:fileModel[@"filename"]];
 }
 
 #pragma mark- --- UITableViewDelegate
@@ -294,74 +378,13 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
 
 -(void)chooseImageToUpload:(UIButton *)btn
 {
+    CCityOfficalDetailFileListModel* model = _dataArr[btn.tag - 1000];
+
     if ([self.delegate respondsToSelector:@selector(goUploadFileVC:)]) {
-        [self.delegate goUploadFileVC:nil];
+        [self.delegate goUploadFileVC:model];
     }
-    
-//    [self showImagePickController:NO];
 }
 
-//-(void)showImagePickController:(BOOL)isTaking;
-//{
-//    [[self getPas] showPhotoLibrary];
-//}
-//- (ZLPhotoActionSheet *)getPas
-//{
-//    ZLPhotoActionSheet *actionSheet = [[ZLPhotoActionSheet alloc] init];
-//    //设置照片最大预览数
-//    actionSheet.maxPreviewCount = 3;
-//    //设置照片最大选择数
-//    actionSheet.maxSelectCount = 3;
-//    //设置允许选择的视频最大时长
-//    actionSheet.allowSelectVideo = NO;
-//    //设置照片cell弧度
-//    actionSheet.cellCornerRadio = 5;
-//    //单选模式是否显示选择按钮
-//    actionSheet.showSelectBtn = NO;
-//    //是否在选择图片后直接进入编辑界面
-//    actionSheet.editAfterSelectThumbnailImage = NO;
-//    //设置编辑比例
-//    //是否在已选择照片上显示遮罩层
-//    actionSheet.showSelectedMask = NO;
-//#pragma required
-//    //如果调用的方法没有传sender，则该属性必须提前赋值
-//    actionSheet.sender = self;
-//    actionSheet.arrSelectedAssets = self.lastSelectAssets;
-//    
-//    zl_weakify(self);
-//    [actionSheet setSelectImageBlock:^(NSArray<UIImage *> * _Nonnull images, NSArray<PHAsset *> * _Nonnull assets, BOOL isOriginal) {
-//        zl_strongify(weakSelf);
-//        
-////        strongSelf.imagesArr = [NSMutableArray array];
-////        [strongSelf.imagesArr addObjectsFromArray:images];
-////        strongSelf.lastSelectAssets = assets.mutableCopy;
-//    }];
-//    
-//    return actionSheet;
-//}
-//
-//#pragma mark - UIImagePickerControllerDelegate
-//
-//-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
-//{
-//    UIImage * chooseImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-////    [_answerQuesView reloadChoosedImageView:chooseImage];
-////    [self.imagesArr addObject:chooseImage];
-////    [self dismissViewControllerAnimated:YES completion:nil];
-//}
-//
-//
-//-(void)goBackViewWithImages:(NSArray *)imageArr
-//{
-//    self.imagesArr = [NSMutableArray arrayWithArray:imageArr];
-//}
-//
-//-(void)deleteSelectedImageWIthIndex:(NSInteger)index
-//{
-//    [self.imagesArr removeObjectAtIndex:index];
-//
-//    [self.lastSelectAssets removeObjectAtIndex:index];
-//}
 
 
 
