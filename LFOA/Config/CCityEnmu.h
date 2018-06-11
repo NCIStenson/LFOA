@@ -13,7 +13,6 @@
 #define CCITY_SYSTEM_VERSION [[UIDevice currentDevice].systemVersion floatValue]
 
 typedef NS_ENUM(NSUInteger, CCityOfficalDetailSectionStyle) {
-    
     CCityOfficalDetailNormalStyle,
     CCityOfficalDetailContentSwitchStyle,      // 选择
     CCityOfficalDetailDateStyle,               // 日期
@@ -24,6 +23,23 @@ typedef NS_ENUM(NSUInteger, CCityOfficalDetailSectionStyle) {
     CCityOfficalDetailDataExcleStyle,         // 数据网格
     CCityOfficalDetailHuiQianStyle,           // 会签
 };
+
+typedef NS_ENUM(NSUInteger, CCityNewNotiMeetingStyle) {
+    CCityNewNotiMeetingStyleInput,      // 普通输入
+    CCityNewNotiMeetingStyleDate,       // 日期
+    CCityNewNotiMeetingStyleAlert,      // 下拉框
+    CCityNewNotiMeetingStyleNextPage,   // 进入下级页面
+    CCityNewNotiMeetingStyleTextView,   // 内容输入框
+    CCityNewNotiMeetingStyleUpload,     // 上传附件
+    CCityNewNotiMeetingStyleOther,      // 会议选择是否紧急 是否发送短信
+};
+
+//  是会议类型 或者 发布科室
+typedef NS_ENUM(NSUInteger, CCityDropdownBox) {
+    CCityDropdownBoxMeeting, //  局内会议 临时会议 外出会议
+    CCityDropdownBoxDepartment, // 发布科室 子类
+};
+
 
 typedef NS_ENUM(NSUInteger, CCityOfficalDocContentMode) {
     

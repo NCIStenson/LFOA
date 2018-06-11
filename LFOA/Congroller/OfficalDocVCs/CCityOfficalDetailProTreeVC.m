@@ -126,6 +126,11 @@ static NSString* ccityOfficalDetailProTreeCellReuseId = @"CCityOfficalDetailProT
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSMutableArray* dataArr = localArr[indexPath.row];
+    if (indexPath.row >= dataArr.count) {
+        return;
+    }
+    
     CCityOfficalProTreeModel* model = localArr[indexPath.row];
     
     if (!model.children.count) {   return; }

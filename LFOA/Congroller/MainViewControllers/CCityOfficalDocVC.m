@@ -84,9 +84,12 @@ static NSString* officalBackLogCellReuseId = @"officalBackLogCellReuseId";
     
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
 
-    
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(saveDetailInfoSuccess) name:kNOTI_SAVEINFO_SUCCESS object:nil];
     if (self.tableView) {   self.tableView = nil;   }
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_SAVEINFO_SUCCESS object:nil];
 }
 
 -(UIButton *)rightBarBtn:(NSString *)str{
@@ -460,6 +463,15 @@ static NSString* officalBackLogCellReuseId = @"officalBackLogCellReuseId";
 
 #pragma mark- --- netWork
 
+-(void)saveDetailInfoSuccess
+{
+    if (self.mainStyle == CCityOfficalMainDocStyle) {
+        [self configDataWithURL:BACKLOG_URL];
+    } else {
+        [self configDataWithURL:SP_BACKLOG_URL];
+    }
+}
+
 - (void)configDataWithURL:(NSString*)url {
     
     [SVProgressHUD show];
@@ -586,6 +598,9 @@ static NSString* officalBackLogCellReuseId = @"officalBackLogCellReuseId";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSMutableArray* dataArr = _subDataDic[@(contentMode)];
+    if (indexPath.row >= dataArr.count) {
+        return;
+    }
     
     if (!dataArr.count) {  return; }
     

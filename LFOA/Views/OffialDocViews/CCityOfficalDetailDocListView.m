@@ -325,7 +325,9 @@ static NSString* officalDetailDocListCellReuseId = @"officalDetailDocListCellReu
 #pragma mark- --- UITableViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (indexPath.section >= _localDataArr.count) {
+        return;
+    }
     CCityOfficalDetailFileListModel* model = _localDataArr[indexPath.section];
     NSDictionary* fileModel = model.filesArr[indexPath.row];
     [self requestUrlPathWithModel:fileModel];

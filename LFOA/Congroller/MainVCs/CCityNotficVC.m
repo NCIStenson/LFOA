@@ -11,7 +11,7 @@
 #import "CCityNotficCell.h"
 #import "CCityNavBar.h"
 #import "CCErrorNoManager.h"
-
+#import "CCityNewNoticeVC.h"
 #define CCITY_PAGE_SIZE 20
 
 @interface CCityNotficVC ()
@@ -30,6 +30,10 @@ static NSString* cellReuseId = @"cellReuseId";
     [super viewDidLoad];
     
     self.title = @"通知通告";
+    
+    UIBarButtonItem* rightBarButtonItem ;
+    rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发公告" style:UIBarButtonItemStylePlain target:self action:@selector(goNewNotice)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
     _pageIndex = 1;
     
@@ -221,4 +225,11 @@ static NSString* cellReuseId = @"cellReuseId";
     }
 }
 
+
+-(void)goNewNotice
+{
+    CCityNewNoticeVC * newNoticeVC = [[CCityNewNoticeVC alloc]init];
+    
+    [self.navigationController pushViewController:newNoticeVC animated:YES];
+}
 @end

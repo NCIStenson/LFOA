@@ -17,6 +17,21 @@
 
 @end
 
+@interface CCityNewNotficDepartmentModel : CCityBaseModel
+
+@property(nonatomic, strong)NSString* ID;
+@property(nonatomic, strong)NSString* ORGANIZATIONNAME;
+
+@end
+
+@interface CCityNewNotficModel : CCityBaseModel
+
+@property(nonatomic, strong)NSString* annexitemId;
+@property(nonatomic, strong)NSArray* departments;
+@property(nonatomic, strong)NSArray* organizationTree;
+
+@end
+
 @interface CCityNotficModel : CCityBaseModel<NSMutableCopying>
 
 @property(nonatomic, assign)BOOL      isHaveFile;
@@ -32,3 +47,6 @@
 @property(nonatomic, strong)NSArray* files;
 
 @end
+
+
+

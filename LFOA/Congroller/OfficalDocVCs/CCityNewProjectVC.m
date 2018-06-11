@@ -206,6 +206,7 @@ static NSString* ccityOfficalDeitalPersonListCellReuseId = @"ccityOfficalDeitalP
                                       };
 
                 CCityOfficalDocDetailVC* docDetailVC = [[CCityOfficalDocDetailVC alloc]initWithItmes:@[@"表单信息", @"材料清单"] Id:ids contentModel:CCityOfficalDocBackLogMode];
+                docDetailVC.resultDic = responseObject;
                 docDetailVC.isNewProject = YES;
                 [self.navigationController pushViewController:docDetailVC animated:YES];
             }
@@ -381,6 +382,7 @@ static NSString* ccityOfficalDeitalPersonListCellReuseId = @"ccityOfficalDeitalP
 #pragma mark- --- UITableViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     [tableView reloadData];
     
     CCityOfficalNewProjectModel* model = _dataArr[indexPath.section];

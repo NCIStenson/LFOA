@@ -16,6 +16,8 @@
 
 #define kUPLOADIMAGE_SUCCESS @"UPLOADIMAGE_SUCCESS"
 
+#define kNOTI_SAVEINFO_SUCCESS @"NOTI_SAVEINFO_SUCCESS" // 第一次页面数据保存成功 需要刷新页面
+
 #import <Masonry.h>
 #import <SVProgressHUD.h>
 

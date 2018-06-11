@@ -841,6 +841,9 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
             [self updataHuiQianUIWithState:isHuiQianAdd];
         }
         [CCityAlterManager showSimpleTripsWithVC:self Str:tripStr detail:nil];
+        if (_isNewProject) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_SAVEINFO_SUCCESS object:nil];
+        }
     });
 
 }

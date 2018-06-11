@@ -53,7 +53,7 @@ static NSString* cellReuseId = @"cellReuseId";
 
 -(UIBarButtonItem*)rightBarBtnItem {
     
-    UIBarButtonItem* rightBarBtnItem = [[UIBarButtonItem alloc]initWithTitle:@"全部已读"
+    UIBarButtonItem* rightBarBtnItem = [[UIBarButtonItem alloc]initWithTitle:@"全部阅读"
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(allReadBtnClick)];

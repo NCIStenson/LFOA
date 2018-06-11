@@ -28,6 +28,50 @@
 
 @end
 
+@implementation CCityNewNotficDepartmentModel
+
+-(instancetype)initWithDic:(NSDictionary *)dic {
+    
+    self = [super initWithDic:dic];
+    
+    if (self) {
+        _ID = dic[@"ID"];
+        _ORGANIZATIONNAME = dic[@"ORGANIZATIONNAME"];
+    }
+    
+    return self;
+}
+
+@end
+@implementation CCityNewNotficModel
+
+-(instancetype)initWithDic:(NSDictionary *)dic {
+    
+    self = [super initWithDic:dic];
+    
+    if (self) {
+        
+        _annexitemId = dic[@"annexitemId"];
+        _departments  = dic[@"departments"];
+        NSArray* files = dic[@"departments"];
+        if (files.count) {
+            NSMutableArray* filesMuArr = [NSMutableArray arrayWithCapacity:files.count];
+            for (int i = 0; i < files.count; i++) {
+                CCityNewNotficDepartmentModel* fileModel = [[CCityNewNotficDepartmentModel alloc]initWithDic:files[i]];
+                [filesMuArr addObject:fileModel];
+            }
+            _departments = [filesMuArr mutableCopy];
+        }
+
+        _organizationTree = dic[@"organizationTree"];
+
+    }
+    
+    return self;
+}
+
+@end
+
 @implementation CCityNotficModel
 
 -(instancetype)initWithDic:(NSDictionary *)dic {

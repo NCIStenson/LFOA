@@ -133,8 +133,7 @@
     
     NSArray* viewsArr;
     
-//    if (_style == CCityOfficalMainSPStyle && _contentMode == 0) {
-    
+    if (_contentMode == 0) {
         CCityOfficalDocNavMenuBtn* goBackBtn = [CCityOfficalDocNavMenuBtn buttonWithType:UIButtonTypeCustom];
         goBackBtn.tag = 1504;
         [goBackBtn setTitle:@" 回退" forState:UIControlStateNormal];
@@ -143,11 +142,11 @@
         [menuView addSubview:goBackBtn];
         
         viewsArr = @[goBackBtn, docListBtn, docTreeBtn, docLogBtn];
-//    } else {
-//
-//        viewsArr = @[docListBtn, docTreeBtn, docLogBtn];
-//    }
-    
+    } else {
+
+        viewsArr = @[docListBtn, docTreeBtn, docLogBtn];
+    }
+
     [viewsArr mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
     
     [viewsArr mas_makeConstraints:^(MASConstraintMaker *make) {

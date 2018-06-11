@@ -47,12 +47,12 @@
     
     CCityNavBar* navBar = [self navBar];
     
-    UIButton* okBtn =  [self bottomBtnWithTitle:@"确定"];
-    [okBtn addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
+    UIButton* okBtn =  [self bottomBtnWithTitle:@"取消"];
+    [okBtn addTarget:self action:@selector(dismissAction) forControlEvents:UIControlEventTouchUpInside];
   
-    UIButton* cancelBtn =  [self bottomBtnWithTitle:@"取消"];
-    [cancelBtn addTarget:self action:@selector(dismissAction) forControlEvents:UIControlEventTouchUpInside];
-  
+    UIButton* cancelBtn =  [self bottomBtnWithTitle:@"确定"];
+    [cancelBtn addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:_datePicker];
     [self.view addSubview:okBtn];
     [self.view addSubview:cancelBtn];

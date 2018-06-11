@@ -94,19 +94,14 @@
     NSMutableDictionary * parameters;
     parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"token":[CCitySingleton sharedInstance].token,
                                                                  @"type":@"材料清单",
-                                                                 @"flowId":[_resultDic objectForKey:@"fkFlow"],
                                                                  @"workId":[_resultDic objectForKey:@"workId"],
                                                                  @"materialFolder":[_resultDic objectForKey:@"materialFolder"]}];
     
-    
-    //    NSMutableArray * myFileArr = [NSMutableArray array];
-    //    for (int i = 0 ; i < self.imagesArr.count; i ++) {
-    //        UIImage *image = self.imagesArr[i];
-    //        NSData *imageData = UIImageJPEGRepresentation([CCUtil fixOrientation:image],0.1);
-    //        [myFileArr addObject:imageData];
-    //    }
-    
-    //    [parameters setObject:myFileArr forKey:@"myFile"];
+    if ([CCUtil isNotNull:[_resultDic objectForKey:@"fkFlow"]]) {
+        [parameters setObject:[_resultDic objectForKey:@"fkFlow"] forKey:@"flowId"];
+    }else if ([CCUtil isNotNull:[_resultDic objectForKey:@"fk_flow"]]){
+        [parameters setObject:[_resultDic objectForKey:@"fk_flow"] forKey:@"flowId"];
+    }
     
     [SVProgressHUD showWithStatus:@"正在上传"];
     
