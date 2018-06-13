@@ -92,7 +92,6 @@ static NSString* cellReuseId = @"cellReuseId";
         NSMutableArray* resultsArr = [NSMutableArray arrayWithCapacity:resutls.count];
         
         for (int i = 0; i < resutls.count; i++) {
-            
             CCityMainMeetingListModel* model = [[CCityMainMeetingListModel alloc]initWithDic:resutls[i]];
             [resultsArr addObject:model];
         }
@@ -226,7 +225,6 @@ static NSString* cellReuseId = @"cellReuseId";
     if (!model.isRead) {
         [self readMesssageWithId:model.annexitemId];
         model.isRead = YES;
-//        [self.datasMuArr replaceObjectAtIndex:indexPath.row withObject:model];
         [tableView reloadRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 
@@ -238,9 +236,9 @@ static NSString* cellReuseId = @"cellReuseId";
 -(void)goNewMeeting
 {
     CCityNewMeetingVC * newMeetingVC = [[CCityNewMeetingVC alloc]init];
-//    newMeetingVC.successPublishNoti() = ^{
-//        [self configData];
-//    };
+    newMeetingVC.successPublishMeeting = ^{
+        [self configData];
+    };
     [self.navigationController pushViewController:newMeetingVC animated:YES];
 }
 

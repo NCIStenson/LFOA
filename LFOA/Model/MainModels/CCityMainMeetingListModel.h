@@ -72,7 +72,7 @@
 
 @interface CCityNewMeetingModel : CCityBaseModel
 
-@property(nonatomic, strong)NSString* annexitemId;
+@property(nonatomic, strong)NSString* fileNo;
 @property(nonatomic, strong)NSArray* departments;
 @property(nonatomic, strong)NSArray* meetingTypes;
 @property(nonatomic, strong)NSArray* organizationTree;

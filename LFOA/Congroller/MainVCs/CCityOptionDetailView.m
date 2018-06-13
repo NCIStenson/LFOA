@@ -8,6 +8,7 @@
 
 #import "CCityOptionDetailView.h"
 #import "CCityNotficModel.h"
+#import "CCityMainMeetingListModel.h"
 @interface CCityOptionDetailView()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * _dataArr;
@@ -56,6 +57,9 @@
     if (_boxStyle == CCityDropdownBoxDepartment) {
         CCityNewNotficDepartmentModel * model = _dataArr[indexPath.row];
         cell.textLabel.text = model.ORGANIZATIONNAME;
+    }else if (_boxStyle == CCityDropdownBoxMeeting){
+        CCityNewMeetingTypeModel * model = _dataArr[indexPath.row];
+        cell.textLabel.text = model.HYNAME;
     }
     return cell;
 }
@@ -65,6 +69,9 @@
     NSObject * obj = nil;
     if (_boxStyle == CCityDropdownBoxDepartment) {
         CCityNewNotficDepartmentModel * model = _dataArr[indexPath.row];
+        obj = model;
+    }else if (_boxStyle == CCityDropdownBoxMeeting){
+        CCityNewMeetingTypeModel * model = _dataArr[indexPath.row];
         obj = model;
     }
 

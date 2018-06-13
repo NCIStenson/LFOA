@@ -12,6 +12,6 @@ typedef void(^successPublishMeetingBlock)(void);
 
 @interface CCityNewMeetingVC : CCityBaseTableViewVC
 
-@property (nonatomic,copy) successPublishMeetingBlock successPublishNoti;
+@property (nonatomic,copy) successPublishMeetingBlock successPublishMeeting;
 
 @end

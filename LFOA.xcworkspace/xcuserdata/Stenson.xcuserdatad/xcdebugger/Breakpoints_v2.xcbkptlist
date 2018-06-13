@@ -137,30 +137,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LFOA/Congroller/MainVCs/CCityNewNoticeVC.m"
-            timestampString = "550565883.707877"
+            filePath = "LFOA/Congroller/MainVCs/CCityNewMeetingVC.m"
+            timestampString = "550595600.819955"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "-uploadFile"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "-uploadData:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LFOA/Congroller/MainVCs/CCityNewNoticeVC.m"
-            timestampString = "550565883.707986"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "-uploadData"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[CCityNewMeetingVC uploadData:]_block_invoke"
+                  moduleName = "LFOA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Stenson/Desktop/%E9%87%91%E5%8D%8E%E4%BA%8B%E4%B8%9A/LFOA/LFOA/Congroller/MainVCs/CCityNewMeetingVC.m"
+                  timestampString = "550595601.342391"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "177">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[CCityNewMeetingVC uploadData:]_block_invoke_2"
+                  moduleName = "LFOA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Stenson/Desktop/%E9%87%91%E5%8D%8E%E4%BA%8B%E4%B8%9A/LFOA/LFOA/Congroller/MainVCs/CCityNewMeetingVC.m"
+                  timestampString = "550595601.3458509"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

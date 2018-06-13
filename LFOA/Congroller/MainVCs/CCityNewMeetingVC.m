@@ -11,28 +11,35 @@
 #define kDateBtnTag 1000
 #define kAlertBoxBtnTag 1001
 
-#define kNotiTitle @"通知标题"
-#define kNotiEndDate @"有效期限"
-
-#define kNotiPublishSection @"发布科室"
-#define kNotiReceiver @"接收人员"
-#define kNotiContent @"公告内容"
+#define kMeetingType @"会议类型"
+#define kMeetingNum @"会议编号"
+#define kMeetingTitle @"会议名称"
+#define kMeetingPerson @"参会人"
+#define kMeetingTime @"会议时间"
+#define kMeetingRoom @"会议室"
+#define kMeetingDepartment @"组织部门"
+#define kMeetingZZDW @"组织单位"
+#define kMeetingRecorder @"记录人"
+#define kMeetingCJYR @"传纪要人"
+#define kMeetingKQR @"考勤人"
+#define kMeetingZCR @"主持人"
+#define kMeetingContent @"会议内容"
 
 #define kNewNotiFontSize 14
 
 #import "CCityNewMeetingVC.h"
-#import "CCityNewNotiCell.h"
+#import "CCityNewMeetingCell.h"
 #import "CCityDatePickerVC.h"
 #import "CCityOptionDetailView.h"
 #import <ZLPhotoActionSheet.h>
 #import "CCityMultilevelPersonVC.h"
 
-@interface CCityNewMeetingVC ()<CCityNewNotiCellDelegate,CCityOptionDetailViewDelegate>
+@interface CCityNewMeetingVC ()<CCityNewMeetingCellDelegate,CCityOptionDetailViewDelegate>
 {
     NSMutableDictionary * _uploadParameters;
     CCityOptionDetailView * _optionDetailView;
     
-    CCityNewNotficModel * _newNotimodel;
+    CCityNewMeetingModel * _newMettingModel;
 }
 
 @property (nonatomic,strong) NSMutableArray * imagesArr;
@@ -50,6 +57,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     
     self.title = @"发布会议";
     _uploadParameters = [NSMutableDictionary dictionary];
+    [self setUploadParametersData];
 
     [self configData];
     [self initView];
@@ -68,9 +76,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
             }];
             return;
         }
-        NSLog(@" responseObject ====  %@",responseObject);
-        
-        _newNotimodel = [[CCityNewNotficModel alloc]initWithDic:responseObject];
+        _newMettingModel = [[CCityNewMeetingModel alloc]initWithDic:responseObject];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
@@ -81,44 +87,72 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 -(void)writeOpinioAction
 {
     if ([self judgeUploadData]) {
-        dispatch_queue_t dispatchQueue = dispatch_queue_create("notiQueue", DISPATCH_QUEUE_CONCURRENT);
-        dispatch_group_t dispatchGroup = dispatch_group_create();
-        dispatch_group_async(dispatchGroup, dispatchQueue, ^(){
-            [self uploadData];
-        });
-        dispatch_group_async(dispatchGroup, dispatchQueue, ^(){
-            [self uploadFile];
+        dispatch_group_t group =dispatch_group_create();
+        dispatch_queue_t globalQueue=dispatch_get_global_queue(0, 0);
+        
+        dispatch_group_enter(group);
+        
+        //模拟多线程耗时操作
+        dispatch_group_async(group, globalQueue, ^{
+            [self uploadData:group];
         });
         
-        dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), ^(){
-            NSLog(@"end");
-            self.successPublishNoti();
+        dispatch_group_enter(group);
+        //模拟多线程耗时操作
+        dispatch_group_async(group, globalQueue, ^{
+            [self uploadFile:group];
+        });
+        
+        dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //回调或者说是通知主线程刷新，
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+            self.successPublishMeeting();
         });
     }
 }
 
+-(void)setUploadParametersData
+{
+    [_uploadParameters setObject:@"" forKey:@"hymc"];
+    [_uploadParameters setObject:@"" forKey:@"hynum"];
+    [_uploadParameters setObject:@"" forKey:@"hysj"];
+    [_uploadParameters setObject:@"" forKey:@"zcr"];
+    [_uploadParameters setObject:@"" forKey:@"hys"];
+    [_uploadParameters setObject:@"" forKey:@"hylx"];
+    [_uploadParameters setObject:@"" forKey:@"hyry"];
+    [_uploadParameters setObject:@"" forKey:@"zzbm"];
+    [_uploadParameters setObject:@"" forKey:@"zzdw"];
+    [_uploadParameters setObject:@"" forKey:@"cjyr"];
+    [_uploadParameters setObject:@"" forKey:@"jlr"];
+    [_uploadParameters setObject:@"" forKey:@"kqr"];
+    [_uploadParameters setObject:@"" forKey:@"hynr"];
+}
+
+
 -(BOOL)judgeUploadData
 {
-    NSString * orgId = [_uploadParameters objectForKey:@"orgId"];
-    NSString * noticeName = [_uploadParameters objectForKey:@"noticeName"];
-    NSString * endDate = [_uploadParameters objectForKey:@"endDate"];
-    NSString * noticeContent = [_uploadParameters objectForKey:@"noticeContent"];
-    NSString * jsry = [_uploadParameters objectForKey:@"jsry"];
-    
-    if (noticeName.length == 0) {
-        [self showStatusViewWithStr:@"请先填好通知名称"];
+    NSString * hylx = [_uploadParameters objectForKey:@"hylx"];
+    NSString * hymc = [_uploadParameters objectForKey:@"hymc"];
+    NSString * hyry = [_uploadParameters objectForKey:@"hyry"];
+    NSString * hysj = [_uploadParameters objectForKey:@"hysj"];
+    NSString * zzbm = [_uploadParameters objectForKey:@"zzbm"];
+
+    if (hylx.length == 0) {
+        [self showStatusViewWithStr:@"请选择会议类型"];
         return NO;
-    }else if (endDate.length == 0){
-        [self showStatusViewWithStr:@"请选择结束时间"];
+    }else if (hymc.length == 0){
+        [self showStatusViewWithStr:@"请填好会议名称"];
         return NO;
-    }else if (orgId.length == 0){
-        [self showStatusViewWithStr:@"请选择发布科室"];
+    }else if (hyry.length == 0){
+        [self showStatusViewWithStr:@"请选择参会人"];
         return NO;
-    }else if (noticeContent.length == 0){
-        [self showStatusViewWithStr:@"请先填好通知内容"];
+    }else if (hysj.length == 0){
+        [self showStatusViewWithStr:@"请选择会议时间"];
         return NO;
-    }else if (jsry.length == 0){
-        [self showStatusViewWithStr:@"请选择通知接收人"];
+    }else if (zzbm.length == 0){
+        [self showStatusViewWithStr:@"请先选择组织部门"];
         return NO;
     }
     return YES;
@@ -130,36 +164,35 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     [SVProgressHUD dismissWithDelay:1.5];
 }
 
--(void)uploadData
+-(void)uploadData:(dispatch_group_t)group
 {
     AFHTTPSessionManager* manger = [CCityJSONNetWorkManager sessionManager];
     [_uploadParameters setObject:[CCitySingleton sharedInstance].token forKey:@"token"];
-    [_uploadParameters setObject:_newNotimodel.annexitemId forKey:@"annexitemId"];
-    [manger POST:@"service/notice/PublishNotice.ashx" parameters:_uploadParameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [_uploadParameters setObject:_newMettingModel.fileNo forKey:@"itemid"];
+    [manger POST:@"service/meeting/RegisterMeeting.ashx" parameters:_uploadParameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        dispatch_group_leave(group);
         CCErrorNoManager* errorNOManager = [CCErrorNoManager new];
         if(![errorNOManager requestSuccess:responseObject]) {
             [errorNOManager getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:^{
                 [self configData];
             }];
             return;
-        }else{
-            [self.navigationController popViewControllerAnimated:YES];
         }
-        NSLog(@" responseObject ====  %@",responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_group_leave(group);
         [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
         NSLog(@"%@",error.description);
     }];
 }
 
--(void)uploadFile
+-(void)uploadFile:(dispatch_group_t)group
 {
     AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
     NSMutableDictionary * parameters;
     parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"token":[CCitySingleton sharedInstance].token,
-                                                                 @"type":@"通知公告",
-                                                                 @"fileNo":_newNotimodel.annexitemId}];
+                                                                 @"type":@"会议纪要",
+                                                                 @"fileNo":_newMettingModel.fileNo}];
     [SVProgressHUD showWithStatus:@"正在上传"];
     
     [manager                        POST:@"service/file/Upload.ashx"
@@ -178,14 +211,12 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
                                      [SVProgressHUD dismiss];
                                      if([responseObject isKindOfClass:[NSDictionary class]] && [[responseObject objectForKey:@"status"] isEqualToString:@"failed"]){
                                          [CCityAlterManager showSimpleTripsWithVC:self Str:@"数据错误" detail:nil];
-                                     }else{
-                                         
-                                         //                                         [[NSNotificationCenter defaultCenter]postNotificationName:kUPLOADIMAGE_SUCCESS object:nil];
-                                         //                                         [self.navigationController popViewControllerAnimated:YES];
                                      }
+                                     dispatch_group_leave(group);
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                      [SVProgressHUD dismiss];
+                                     dispatch_group_leave(group);
                                      [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
                                      NSLog(@"%@",error);
                                  }];
@@ -214,7 +245,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     }];
     
     
-    [self.tableView registerClass:[CCityNewNotiCell class] forCellReuseIdentifier:CCITYNEWCELLID];
+    [self.tableView registerClass:[CCityNewMeetingCell class] forCellReuseIdentifier:CCITYNEWCELLID];
     //[self.tableView registerClass:[CCityOfficalDocDetailCell class] forCellReuseIdentifier:ccityOfficlaMuLineReuseId];
     self.tableView.estimatedRowHeight = 100;
     self.tableView.estimatedSectionHeaderHeight = 0;
@@ -272,16 +303,16 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 5){
+    if (indexPath.row == 12){
         return 110.0f;
-    }else if (indexPath.row == 6){
+    }else if (indexPath.row == 13){
         
         if ((self.imagesArr.count + 1 ) % 4 == 0) {
             return 20 + ((SCREEN_WIDTH - 50) / 4 + 10) * ((self.imagesArr.count + 1) / 4 );
         }
         return 20 + ((SCREEN_WIDTH - 50) / 4 + 10) * ((self.imagesArr.count + 1) / 4 + 1);
     }else if (indexPath.row == 3){
-        NSString * str = [_uploadParameters objectForKey:@"jsry"];
+        NSString * str = [_uploadParameters objectForKey:@"hyry"];
         if( str.length > 0 )  {
             float btnHeight = [CCUtil heightForString:str font:[UIFont systemFontOfSize:kNewNotiFontSize] andWidth:SCREEN_WIDTH - 44];
             if (btnHeight > 34) {
@@ -296,7 +327,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CCityNewNotiCell *cell = [tableView dequeueReusableCellWithIdentifier:CCITYNEWCELLID forIndexPath:indexPath];
+    CCityNewMeetingCell *cell = [tableView dequeueReusableCellWithIdentifier:CCITYNEWCELLID forIndexPath:indexPath];
     cell.delegate = self;
     cell.indexPath = indexPath;
     
@@ -308,78 +339,167 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
         case 0:
         {
             cell.newStyle = CCityNewNotiMeetingStyleAlert;
+            [cell.commonBtn setTitle:kMeetingType forState:UIControlStateNormal];
+            NSString * str = [_uploadParameters objectForKey:@"hylx"];
+            if (str.length > 0) {
+                [cell.commonBtn setTitle:str forState:UIControlStateNormal];
+                [cell.commonBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            }
         }
             break;
         case 1:
         {
-            cell.newStyle = CCityNewNotiMeetingStyleDate;
-            NSString * str = [_uploadParameters objectForKey:@"endDate"];
-            UIButton * btn = [cell.contentView viewWithTag:kDateBtnTag];
+            cell.newStyle = CCityNewNotiMeetingStyleAlert;
+            [cell.commonBtn setTitle:kMeetingNum forState:UIControlStateNormal];
+            cell.commonBtn.enabled = NO;
+            NSString * str = [_uploadParameters objectForKey:@"hynum"];
             if (str.length > 0) {
-                [btn setTitle:str forState:UIControlStateNormal];
-                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [cell.commonBtn setTitle:str forState:UIControlStateNormal];
+                [cell.commonBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             }
         }
             break;
             
         case 2:{
-            cell.newStyle = CCityNewNotiMeetingStyleAlert;
-            NSString * str = [_uploadParameters objectForKey:@"orgName"];
-            UIButton * btn = [cell.contentView viewWithTag:kAlertBoxBtnTag];
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            NSString * str = [_uploadParameters objectForKey:@"hymc"];
             if (str.length > 0) {
-                [btn setTitle:str forState:UIControlStateNormal];
-                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                cell.notiTitleTextView.text = str;
+            }else{
+                cell.notiTitleTextView.placeholder = kMeetingTitle;
             }
-            
         }
             break;
             
         case 3:{
             cell.newStyle = CCityNewNotiMeetingStyleNextPage;
-            
-            NSString * str = [_uploadParameters objectForKey:@"jsry"];
-            UILabel * lab = [cell.contentView viewWithTag:kAlertBoxBtnTag];
-            float btnHeight = [CCUtil heightForString:str font:lab.font andWidth:SCREEN_WIDTH - 44];
+
+            NSString * str = [_uploadParameters objectForKey:@"hyry"];
+            float btnHeight = [CCUtil heightForString:str font:cell.commonLab.font andWidth:SCREEN_WIDTH - 44];
             if (str.length > 0) {
                 if (btnHeight > 34) {
-                    lab.height = btnHeight;
+                    cell.commonLab.height = btnHeight;
                 }
-                lab.text = str;
-                lab.textColor = [UIColor blackColor];
+                cell.commonLab.text = str;
+                cell.commonLab.textColor = [UIColor blackColor];
             }else{
-                lab.text = @"接收人员";
-                lab.textColor = CCITY_GRAY_TEXTCOLOR;
+                cell.commonLab.text = kMeetingPerson;
+                cell.commonLab.textColor = CCITY_GRAY_TEXTCOLOR;
             }
+
         }
             break;
             
         case 4:{
-            cell.newStyle = CCityNewNotiMeetingStyleOther;
-            BOOL isEmergency = [[_uploadParameters objectForKey:@"isEmergency"] boolValue];
-            BOOL isSendSms = [[_uploadParameters objectForKey:@"isSendSms"] boolValue];
-            
-            cell.isHeightLevel = isEmergency;
-            cell.isSendMessage = isSendSms;
+            cell.newStyle = CCityNewNotiMeetingStyleDate;
+            [cell.commonBtn setTitle:kMeetingTime forState:UIControlStateNormal];
+            NSString * str = [_uploadParameters objectForKey:@"hysj"];
+            if (str.length > 0) {
+                [cell.commonBtn setTitle:str forState:UIControlStateNormal];
+                [cell.commonBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            }
         }
             break;
             
         case 5:{
-            cell.newStyle = CCityNewNotiMeetingStyleTextView;
-            NSString * str = [_uploadParameters objectForKey:@"noticeContent"];
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            cell.notiTitleTextView.placeholder = kMeetingRoom;
+            NSString * str = [_uploadParameters objectForKey:@"hys"];
             if (str.length > 0) {
-                cell.notiContentTextView.text = str;
+                cell.notiTitleTextView.text = str;
             }else{
-                cell.notiTitleTextView.placeholder = kNotiContent;
+                cell.notiTitleTextView.placeholder = kMeetingRoom;
             }
         }
             break;
             
         case 6:{
+            cell.newStyle = CCityNewNotiMeetingStyleAlert;
+            [cell.commonBtn setTitle:kMeetingDepartment forState:UIControlStateNormal];
+            NSString * str = [_uploadParameters objectForKey:@"zzbm"];
+            if (str.length > 0) {
+                [cell.commonBtn setTitle:str forState:UIControlStateNormal];
+                [cell.commonBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            }
+        }
+            break;
+
+        case 7:{
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            cell.notiTitleTextView.placeholder = kMeetingZZDW;
+            NSString * str = [_uploadParameters objectForKey:@"zzdw"];
+            if (str.length > 0) {
+                cell.notiTitleTextView.text = str;
+            }else{
+                cell.notiTitleTextView.placeholder = kMeetingZZDW;
+            }
+        }
+            break;
+
+        case 8:{
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            cell.notiTitleTextView.placeholder = kMeetingRecorder;
+            NSString * str = [_uploadParameters objectForKey:@"jlr"];
+            if (str.length > 0) {
+                cell.notiTitleTextView.text = str;
+            }else{
+                cell.notiTitleTextView.placeholder = kMeetingRecorder;
+            }
+        }
+            break;
+
+        case 9:{
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            cell.notiTitleTextView.placeholder = kMeetingCJYR;
+            NSString * str = [_uploadParameters objectForKey:@"cjyr"];
+            if (str.length > 0) {
+                cell.notiTitleTextView.text = str;
+            }else{
+                cell.notiTitleTextView.placeholder = kMeetingCJYR;
+            }
+        }
+            break;
+
+        case 10:{
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            cell.notiTitleTextView.placeholder = kMeetingKQR;
+            NSString * str = [_uploadParameters objectForKey:@"kqr"];
+            if (str.length > 0) {
+                cell.notiTitleTextView.text = str;
+            }else{
+                cell.notiTitleTextView.placeholder = kMeetingKQR;
+            }
+        }
+            break;
+
+        case 11:{
+            cell.newStyle = CCityNewNotiMeetingStyleInput;
+            cell.notiTitleTextView.placeholder = kMeetingZCR;
+            NSString * str = [_uploadParameters objectForKey:@"zcr"];
+            if (str.length > 0) {
+                cell.notiTitleTextView.text = str;
+            }else{
+                cell.notiTitleTextView.placeholder = kMeetingZCR;
+            }
+        }
+            break;
+
+        case 12:{
+            cell.newStyle = CCityNewNotiMeetingStyleTextView;
+            cell.notiContentTextView.placeholder = kMeetingContent;
+            NSString * str = [_uploadParameters objectForKey:@"hynr"];
+            if (str.length > 0) {
+                cell.notiContentTextView.text = str;
+            }else{
+                cell.notiContentTextView.placeholder = kMeetingContent;
+            }
+        }
+            break;
+        case 13:{
             cell.newStyle = CCityNewNotiMeetingStyleUpload;
             cell.choosedFileArr = self.imagesArr;
         }
             break;
-            
         default:
             break;
     }
@@ -407,14 +527,10 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     if (_optionDetailView) {
         [self removeBoxOptionView];
     }
-    CCityDatePickerVC* dataPicker = [[CCityDatePickerVC alloc]initWithDate:nil withIsShowTime:CCityOfficalDetailDateStyle];
-    
+    CCityDatePickerVC* dataPicker = [[CCityDatePickerVC alloc]initWithDate:nil withIsShowTime:CCityOfficalDetailDateTimeStyle];
     dataPicker.slelectAction = ^(NSString *date) {
         
-        NSArray * arr = [date componentsSeparatedByString:@" "];
-        if (arr.count > 0) {
-            [_uploadParameters setObject:arr[0] forKey:@"endDate"];
-        }
+        [_uploadParameters setObject:date forKey:@"hysj"];
         [self.tableView reloadData];
     };
     
@@ -429,12 +545,29 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     if (!_optionDetailView) {
         float viewHeight;
         float marginTop = tmp.origin.y + tmp.size.height;
-        if (_newNotimodel.departments.count * 44 > SCREEN_HEIGHT - NAV_HEIGHT - marginTop) {
+        if (_newMettingModel.departments.count * 44 > SCREEN_HEIGHT - NAV_HEIGHT - marginTop) {
             viewHeight = SCREEN_HEIGHT - NAV_HEIGHT - marginTop;
         }else{
-            viewHeight = _newNotimodel.departments.count * 44;
+            viewHeight = _newMettingModel.departments.count * 44;
         }
-        _optionDetailView = [[CCityOptionDetailView alloc]initWithData:_newNotimodel.departments withType:CCityDropdownBoxDepartment withFrame:CGRectMake(0, marginTop, SCREEN_WIDTH, viewHeight)];
+        
+        if (indexpath.row == 0) {
+            float marginTop = tmp.origin.y + tmp.size.height;
+            if (_newMettingModel.meetingTypes.count * 44 > SCREEN_HEIGHT - NAV_HEIGHT - marginTop) {
+                viewHeight = SCREEN_HEIGHT - NAV_HEIGHT - marginTop;
+            }else{
+                viewHeight = _newMettingModel.meetingTypes.count * 44;
+            }
+            _optionDetailView = [[CCityOptionDetailView alloc]initWithData:_newMettingModel.meetingTypes withType:CCityDropdownBoxMeeting withFrame:CGRectMake(0, marginTop, SCREEN_WIDTH, viewHeight)];
+        }else{
+            float marginTop = tmp.origin.y + tmp.size.height;
+            if (_newMettingModel.departments.count * 44 > SCREEN_HEIGHT - NAV_HEIGHT - marginTop) {
+                viewHeight = SCREEN_HEIGHT - NAV_HEIGHT - marginTop;
+            }else{
+                viewHeight = _newMettingModel.departments.count * 44;
+            }
+            _optionDetailView = [[CCityOptionDetailView alloc]initWithData:_newMettingModel.departments withType:CCityDropdownBoxDepartment withFrame:CGRectMake(0, marginTop, SCREEN_WIDTH, viewHeight)];
+        }
         _optionDetailView.delegate = self;
         _optionDetailView.backgroundColor = MAIN_ARM_COLOR;
         [self.view addSubview:_optionDetailView];
@@ -449,53 +582,68 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     _optionDetailView = nil;
 }
 
--(void)textViewWillEditingWithCell:(CCityNewNotiCell *)cell
+-(void)textViewWillEditingWithCell:(CCityNewMeetingCell *)cell
 {
     if (_optionDetailView) {
         [self removeBoxOptionView];
     }
 }
 
--(void)textViewTextDidChange:(CCityNewNotiCell *)cell
+-(void)textViewTextDidChange:(CCityNewMeetingCell *)cell
 {
     
 }
 
--(void)isHeightLever:(BOOL)isHeightLever withIndexpath:(NSIndexPath *)indexpath
-{
-    [self.view endEditing:YES];
-    if (isHeightLever) {
-        [_uploadParameters setObject:@"true" forKey:@"isEmergency"];
-    }else{
-        [_uploadParameters setObject:@"false" forKey:@"isEmergency"];
-    }
-}
-
--(void)isSendMessage:(BOOL)isSend withIndexpath:(NSIndexPath *)indexpath
-{
-    [self.view endEditing:YES];
-    
-    if (isSend) {
-        [_uploadParameters setObject:@"true" forKey:@"isSendSms"];
-    }else{
-        [_uploadParameters setObject:@"false" forKey:@"isSendSms"];
-    }
-}
-
--(void)textViewDidEndEditingWithCell:(CCityNewNotiCell *)cell
+-(void)textViewDidEndEditingWithCell:(CCityNewMeetingCell *)cell
 {
     NSIndexPath * indexpath = [self.tableView indexPathForCell:cell];
-    if (indexpath.row == 0) {
+    if (indexpath.row == 2) {
         if (cell.notiTitleTextView.text.length > 0) {
-            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"noticeName"];
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"hymc"];
         }else{
-            [_uploadParameters setObject:@"" forKey:@"noticeName"];
+            [_uploadParameters setObject:@"" forKey:@"hymc"];
         }
     }else  if (indexpath.row == 5) {
-        if (cell.notiContentTextView.text.length > 0) {
-            [_uploadParameters setObject:cell.notiContentTextView.text forKey:@"noticeContent"];
+        if (cell.notiTitleTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"hys"];
         }else{
-            [_uploadParameters setObject:@"" forKey:@"noticeContent"];
+            [_uploadParameters setObject:@"" forKey:@"hys"];
+        }
+    }else  if (indexpath.row == 7) {
+        if (cell.notiTitleTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"zzdw"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"zzdw"];
+        }
+    }else  if (indexpath.row == 8) {
+        if (cell.notiTitleTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"jlr"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"jlr"];
+        }
+    }else  if (indexpath.row == 9) {
+        if (cell.notiTitleTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"cjyr"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"cjyr"];
+        }
+    }else  if (indexpath.row == 10) {
+        if (cell.notiTitleTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"kqr"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"kqr"];
+        }
+    }else  if (indexpath.row == 11) {
+        if (cell.notiTitleTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiTitleTextView.text forKey:@"zcr"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"zcr"];
+        }
+    }else  if (indexpath.row == 12) {
+        if (cell.notiContentTextView.text.length > 0) {
+            [_uploadParameters setObject:cell.notiContentTextView.text forKey:@"hynr"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"hynr"];
         }
     }
 }
@@ -516,12 +664,12 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 -(void)goReceiverView
 {
     CCityMultilevelPersonVC * personVC=  [[CCityMultilevelPersonVC alloc]init];
-    personVC.dataArr = [NSMutableArray arrayWithArray:_newNotimodel.organizationTree];
+    personVC.dataArr = [NSMutableArray arrayWithArray:_newMettingModel.organizationTree];
     personVC.strBlock = ^(NSString *str) {
         if (str.length > 0) {
-            [_uploadParameters setObject:str forKey:@"jsry"];
+            [_uploadParameters setObject:str forKey:@"hyry"];
         }else{
-            [_uploadParameters setObject:@"" forKey:@"jsry"];
+            [_uploadParameters setObject:@"" forKey:@"hyry"];
         }
         [self.tableView reloadData];
     };
@@ -532,11 +680,23 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 
 -(void)didSelectOption:(NSObject *)obj
 {
-    CCityNewNotficDepartmentModel * model = (CCityNewNotficDepartmentModel *) obj;
-    [_uploadParameters setObject:model.ID forKey:@"orgId"];
-    [_uploadParameters setObject:model.ORGANIZATIONNAME forKey:@"orgName"];
-    [self.tableView reloadData];
-    
+    if([obj isKindOfClass:[CCityNewMeetingDepartmentModel class]]){
+        CCityNewMeetingDepartmentModel * model = (CCityNewMeetingDepartmentModel *) obj;
+        [_uploadParameters setObject:model.ID forKey:@"orgId"];
+        [_uploadParameters setObject:model.ORGANIZATIONNAME forKey:@"zzbm"];
+        [self.tableView reloadData];
+    }else if([obj isKindOfClass:[CCityNewMeetingTypeModel class]]){
+        CCityNewMeetingTypeModel * model = (CCityNewMeetingTypeModel *) obj;
+        [_uploadParameters setObject:model.HYNAME forKey:@"hylx"];
+        if ([model.HYNAME isEqualToString:@"局内会议"]) {
+            [_uploadParameters setObject:[NSString stringWithFormat:@"jnhy%@",[CCUtil getCurrentDate:@"yyyyMMdd"]] forKey:@"hynum"];
+        }else if ([model.HYNAME isEqualToString:@"临时会议"]){
+            [_uploadParameters setObject:[NSString stringWithFormat:@"lshy%@",[CCUtil getCurrentDate:@"yyyyMMdd"]] forKey:@"hynum"];
+        }else if ([model.HYNAME isEqualToString:@"外出会议"]){
+            [_uploadParameters setObject:[NSString stringWithFormat:@"wchy%@",[CCUtil getCurrentDate:@"yyyyMMdd"]] forKey:@"hynum"];
+        }
+        [self.tableView reloadData];
+    }
     [self removeBoxOptionView];
 }
 
@@ -599,7 +759,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     [self.imagesArr removeObjectAtIndex:index];
     [self.lastSelectAssets removeObjectAtIndex:index];
     
-    [self.tableView reloadRow:6 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadRow:13 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 

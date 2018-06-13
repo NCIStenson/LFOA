@@ -218,7 +218,7 @@
     
     if (self) {
         
-        _annexitemId = dic[@"annexitemId"];
+        _fileNo = dic[@"fileNo"];
         _departments  = dic[@"departments"];
         
         NSArray * meetingTypeArr = dic[@"meetingTypes"][@"rows"];
@@ -245,7 +245,7 @@
         if (organizationTreeArr.count) {
             NSMutableArray* filesMuArr = [NSMutableArray arrayWithCapacity:organizationTreeArr.count];
             for (int i = 0; i < organizationTreeArr.count; i++) {
-                CCityNewMeetingDepartmentModel* fileModel = [[CCityNewMeetingDepartmentModel alloc]initWithDic:organizationTreeArr[i]];
+                CCityNewMeetingPersonModel* fileModel = [[CCityNewMeetingPersonModel alloc]initWithDic:organizationTreeArr[i]];
                 [filesMuArr addObject:fileModel];
             }
             _organizationTree = [filesMuArr mutableCopy];

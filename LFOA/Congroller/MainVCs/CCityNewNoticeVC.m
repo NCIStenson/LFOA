@@ -83,17 +83,27 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 -(void)writeOpinioAction
 {
     if ([self judgeUploadData]) {
-        dispatch_queue_t dispatchQueue = dispatch_queue_create("notiQueue", DISPATCH_QUEUE_CONCURRENT);
-        dispatch_group_t dispatchGroup = dispatch_group_create();
-        dispatch_group_async(dispatchGroup, dispatchQueue, ^(){
-            [self uploadData];
-        });
-        dispatch_group_async(dispatchGroup, dispatchQueue, ^(){
-            [self uploadFile];
+        dispatch_group_t group =dispatch_group_create();
+        dispatch_queue_t globalQueue=dispatch_get_global_queue(0, 0);
+        
+        dispatch_group_enter(group);
+        
+        //模拟多线程耗时操作
+        dispatch_group_async(group, globalQueue, ^{
+            [self uploadData:group];
         });
         
-        dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), ^(){
-            NSLog(@"end");
+        dispatch_group_enter(group);
+        //模拟多线程耗时操作
+        dispatch_group_async(group, globalQueue, ^{
+            [self uploadFile:group];
+        });
+        
+        dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //回调或者说是通知主线程刷新，
+                [self.navigationController popViewControllerAnimated:YES];
+            });
             self.successPublishNoti();
         });
     }
@@ -132,30 +142,30 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     [SVProgressHUD dismissWithDelay:1.5];
 }
 
--(void)uploadData
+-(void)uploadData:(dispatch_group_t)group
 {
     AFHTTPSessionManager* manger = [CCityJSONNetWorkManager sessionManager];
     [_uploadParameters setObject:[CCitySingleton sharedInstance].token forKey:@"token"];
     [_uploadParameters setObject:_newNotimodel.annexitemId forKey:@"annexitemId"];
     [manger POST:@"service/notice/PublishNotice.ashx" parameters:_uploadParameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        dispatch_group_leave(group);
         CCErrorNoManager* errorNOManager = [CCErrorNoManager new];
         if(![errorNOManager requestSuccess:responseObject]) {
             [errorNOManager getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:^{
                 [self configData];
             }];
             return;
-        }else{
-            [self.navigationController popViewControllerAnimated:YES];
         }
-        NSLog(@" responseObject ====  %@",responseObject);
+        NSLog(@" 上传传统数据成功 ====  %@",responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_group_leave(group);
         [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
         NSLog(@"%@",error.description);
     }];
 }
 
--(void)uploadFile
+-(void)uploadFile:(dispatch_group_t)group
 {
     AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
     NSMutableDictionary * parameters;
@@ -180,14 +190,13 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
                                      [SVProgressHUD dismiss];
                                      if([responseObject isKindOfClass:[NSDictionary class]] && [[responseObject objectForKey:@"status"] isEqualToString:@"failed"]){
                                          [CCityAlterManager showSimpleTripsWithVC:self Str:@"数据错误" detail:nil];
-                                     }else{
-                                         
-//                                         [[NSNotificationCenter defaultCenter]postNotificationName:kUPLOADIMAGE_SUCCESS object:nil];
-//                                         [self.navigationController popViewControllerAnimated:YES];
                                      }
+                                     NSLog(@" 上传图片成功 ====  %@",responseObject);
+                                     dispatch_group_leave(group);
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                      [SVProgressHUD dismiss];
+                                     dispatch_group_leave(group);
                                      [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
                                      NSLog(@"%@",error);
                                  }];
@@ -217,7 +226,6 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     
 
     [self.tableView registerClass:[CCityNewNotiCell class] forCellReuseIdentifier:CCITYNEWCELLID];
-//[self.tableView registerClass:[CCityOfficalDocDetailCell class] forCellReuseIdentifier:ccityOfficlaMuLineReuseId];
     self.tableView.estimatedRowHeight = 100;
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
