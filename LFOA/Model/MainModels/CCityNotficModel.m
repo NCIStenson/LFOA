@@ -43,6 +43,116 @@
 }
 
 @end
+
+@implementation CCityNewNotficPersonModel
+
+-(instancetype)initWithDic:(NSDictionary *)dic {
+    
+    self = [super initWithDic:dic];
+    
+    if (self) {
+        
+        _iconCls = dic[@"iconCls"];
+        _personId  = dic[@"id"];
+        _rowid  = dic[@"rowid"];
+        _type  = dic[@"type"];
+        _text  = dic[@"text"];
+        _pinyin = [self chineseTranslateEnglish:_text];
+        _firstLetter = [self getLetter:_text];
+
+        _isOpen = NO;
+        _isSelected = NO;
+        
+        _orgModelArr = [NSMutableArray array];
+        _personModelArr = [NSMutableArray array];
+        
+        _personalModelFirstLetterArr = [NSMutableArray array];
+        _personalModelFormatArr = [NSMutableArray array];
+        
+        NSArray * _children = dic[@"children"];
+        
+        if ([_type integerValue] == 1) {
+            for (int i = 0 ; i < _children.count; i ++) {
+                CCityNewNotficPersonModel * orgModel = [[CCityNewNotficPersonModel alloc]initWithDic:_children[i]];
+                [_orgModelArr addObject:orgModel];
+
+                NSArray * personArr = _children[i][@"children"];
+                
+                NSMutableArray * firstLetterArr = [NSMutableArray array];
+                NSMutableDictionary * formatDataDic = [NSMutableDictionary dictionary];
+                NSMutableArray * personModelArr = [NSMutableArray arrayWithCapacity:personArr.count];
+                
+                for (int k = 0 ; k < personArr.count; k++) {
+                    CCityNewNotficPersonModel * personalModel = [[CCityNewNotficPersonModel alloc]initWithDic:personArr[k]];
+                    [personModelArr addObject:personalModel];
+                }
+                
+                NSSortDescriptor * sdFirstName = [NSSortDescriptor sortDescriptorWithKey:@"pinyin" ascending:YES];
+                NSArray * sortedArray = [personModelArr sortedArrayUsingDescriptors:@[sdFirstName]];
+
+                NSMutableArray * cacheArr = [NSMutableArray array];
+                for (int i = 0; i <sortedArray.count; i ++) {
+                    CCityNewNotficPersonModel * personalModel = sortedArray[i];
+                    if (i == 0) {
+                        [firstLetterArr addObject:personalModel.firstLetter];
+                        [cacheArr addObject:personalModel];
+                        if(i == sortedArray.count - 1){
+                            [formatDataDic setObject:cacheArr forKey:firstLetterArr.lastObject];
+                        }
+                    }else if (i == sortedArray.count - 1){
+                        if ([firstLetterArr.lastObject isEqualToString:personalModel.firstLetter]) {
+                            [cacheArr addObject:personalModel];
+                            [formatDataDic setObject:cacheArr forKey:firstLetterArr.lastObject];
+                        }else{
+                            [formatDataDic setObject:cacheArr forKey:firstLetterArr.lastObject];
+                            cacheArr = [NSMutableArray array];
+                            [cacheArr addObject:personalModel];
+                            [firstLetterArr addObject:personalModel.firstLetter];
+                            [formatDataDic setObject:cacheArr forKey:firstLetterArr.lastObject];
+                        }
+                    }else{
+                        if ([firstLetterArr.lastObject isEqualToString:personalModel.firstLetter]) {
+                            [cacheArr addObject:personalModel];
+                        }else{
+                            [formatDataDic setObject:cacheArr forKey:firstLetterArr.lastObject];
+                            cacheArr = [NSMutableArray array];
+                            [cacheArr addObject:personalModel];
+                            [firstLetterArr addObject:personalModel.firstLetter];
+                        }
+                    }
+                }
+                
+                [_personModelArr addObject:sortedArray];
+                [_personalModelFirstLetterArr addObject:firstLetterArr];
+                [_personalModelFormatArr addObject:formatDataDic];
+            }
+        }
+    }
+        return self;
+}
+
+-(NSString *)getLetter:(NSString *) strInput{
+    if ([strInput length]) {
+        NSMutableString *ms = [[NSMutableString alloc] initWithString:strInput];
+        CFStringTransform((__bridge CFMutableStringRef)ms, 0, kCFStringTransformMandarinLatin, NO);
+        CFStringTransform((__bridge CFMutableStringRef)ms, 0, kCFStringTransformStripDiacritics, NO);
+        ms = [ms substringToIndex:1];
+        return [ms uppercaseString];
+    }
+    return nil;
+}
+-(NSString *)chineseTranslateEnglish:(NSString *)str
+{
+    NSMutableString *mutableString = [NSMutableString stringWithString:str];
+    CFStringTransform((CFMutableStringRef)mutableString, NULL, kCFStringTransformToLatin, false);
+    CFStringTransform((CFMutableStringRef)mutableString, NULL, kCFStringTransformStripDiacritics, false);
+    mutableString =(NSMutableString *)[mutableString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    return mutableString;
+}
+
+@end
+
 @implementation CCityNewNotficModel
 
 -(instancetype)initWithDic:(NSDictionary *)dic {
@@ -62,9 +172,16 @@
             }
             _departments = [filesMuArr mutableCopy];
         }
-
-        _organizationTree = dic[@"organizationTree"];
-
+        
+        NSArray* organizationTreeArr = dic[@"organizationTree"];
+        if (organizationTreeArr.count) {
+            NSMutableArray* filesMuArr = [NSMutableArray arrayWithCapacity:organizationTreeArr.count];
+            for (int i = 0; i < organizationTreeArr.count; i++) {
+                CCityNewNotficPersonModel* fileModel = [[CCityNewNotficPersonModel alloc]initWithDic:organizationTreeArr[i]];
+                [filesMuArr addObject:fileModel];
+            }
+            _organizationTree = [filesMuArr mutableCopy];
+        }
     }
     
     return self;

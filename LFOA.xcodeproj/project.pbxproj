@@ -17,6 +17,7 @@
 		9864EB8920CE36E4006C281C /* MyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9864EB8720CE36E3006C281C /* MyView.m */; };
 		98C36CB220B9220000542761 /* CCityNewProjectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C36CB120B9220000542761 /* CCityNewProjectVC.m */; };
 		98DF95CD20CE68E300E4BE15 /* CCityOptionDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DF95CC20CE68E300E4BE15 /* CCityOptionDetailView.m */; };
+		98DF95D020CEAAF400E4BE15 /* CCityMultilevelPersonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DF95CF20CEAAF400E4BE15 /* CCityMultilevelPersonVC.m */; };
 		98EC019F20A56EF100AFE0C0 /* CCUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EC019E20A56EF100AFE0C0 /* CCUtil.m */; };
 		98EC01A320AAB54200AFE0C0 /* NSDictionary+CCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EC01A220AAB54200AFE0C0 /* NSDictionary+CCLog.m */; };
 		F1072A2F1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = F1072A2E1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m */; };
@@ -181,6 +182,8 @@
 		98C36CB120B9220000542761 /* CCityNewProjectVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityNewProjectVC.m; sourceTree = "<group>"; };
 		98DF95CB20CE68E300E4BE15 /* CCityOptionDetailView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityOptionDetailView.h; sourceTree = "<group>"; };
 		98DF95CC20CE68E300E4BE15 /* CCityOptionDetailView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityOptionDetailView.m; sourceTree = "<group>"; };
+		98DF95CE20CEAAF400E4BE15 /* CCityMultilevelPersonVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityMultilevelPersonVC.h; sourceTree = "<group>"; };
+		98DF95CF20CEAAF400E4BE15 /* CCityMultilevelPersonVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityMultilevelPersonVC.m; sourceTree = "<group>"; };
 		98EC019D20A56EF000AFE0C0 /* CCUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUtil.h; sourceTree = "<group>"; };
 		98EC019E20A56EF100AFE0C0 /* CCUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCUtil.m; sourceTree = "<group>"; };
 		98EC01A020A9787200AFE0C0 /* CCMarcoConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarcoConstant.h; sourceTree = "<group>"; };
@@ -620,6 +623,8 @@
 				98DF95CC20CE68E300E4BE15 /* CCityOptionDetailView.m */,
 				9864EB8420CE0F1C006C281C /* CCityNewNotiCell.h */,
 				9864EB8520CE0F1C006C281C /* CCityNewNotiCell.m */,
+				98DF95CE20CEAAF400E4BE15 /* CCityMultilevelPersonVC.h */,
+				98DF95CF20CEAAF400E4BE15 /* CCityMultilevelPersonVC.m */,
 				F18B48771F69354900B709CB /* CCityBaseMainVCs.h */,
 				F18B48781F69354900B709CB /* CCityBaseMainVCs.m */,
 				F1433BDD1F70F96D00099324 /* CCityMainMessageVC.h */,
@@ -1278,6 +1283,7 @@
 				F1E0C84E1F73CD35001AFB0B /* CCityMainMeetingCell.m in Sources */,
 				F1B4F1931F2B80A100AB8823 /* CCityFileManager.m in Sources */,
 				F1EC76201F317B7300495B9A /* CCityNewsHeaderScrollView.m in Sources */,
+				98DF95D020CEAAF400E4BE15 /* CCityMultilevelPersonVC.m in Sources */,
 				9817409C20AF123A00714328 /* UIImage+ZEImage.m in Sources */,
 				F11595C81F2CA76600519E21 /* CCityLogInTF.m in Sources */,
 				F1EC76231F319CA900495B9A /* CCityNewsHeaderLabel.m in Sources */,

@@ -23,6 +23,7 @@
 #import "CCityDatePickerVC.h"
 #import "CCityOptionDetailView.h"
 #import <ZLPhotoActionSheet.h>
+#import "CCityMultilevelPersonVC.h"
 
 @interface CCityNewNoticeVC ()<CCityNewNotiCellDelegate,CCityOptionDetailViewDelegate>
 {
@@ -56,7 +57,6 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     AFHTTPSessionManager* manger = [CCityJSONNetWorkManager sessionManager];
     NSDictionary * dic = @{@"token":[CCitySingleton sharedInstance].token};
     [manger GET:@"service/notice/PrePublishNotice.ashx" parameters:dic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         CCErrorNoManager* errorNOManager = [CCErrorNoManager new];
         if(![errorNOManager requestSuccess:responseObject]) {
             
@@ -65,7 +65,8 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
             }];
             return;
         }
-        
+        NSLog(@" responseObject ====  %@",responseObject);
+
         _newNotimodel = [[CCityNewNotficModel alloc]initWithDic:responseObject];
 //        NSArray* results = responseObject[@"results"];
         
@@ -373,6 +374,13 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 -(void)showChooseFileVC
 {
     [self showImagePickController:NO];
+}
+
+-(void)goReceiverView
+{
+    CCityMultilevelPersonVC * personVC=  [[CCityMultilevelPersonVC alloc]init];
+    personVC.dataArr = [NSMutableArray arrayWithArray:_newNotimodel.organizationTree];
+    [self.navigationController pushViewController:personVC animated:YES];
 }
 
 #pragma mark - _optionDetailViewDelegate

@@ -36,24 +36,6 @@
     return self;
 }
 
--(void)layoutSubviews {
-    [super layoutSubviews];
-    
-}
-
--(UILabel*)numberLabel {
-    
-    UILabel* label = [UILabel new];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
-    label.font = [UIFont systemFontOfSize:12.f];
-    label.frame = CGRectMake(0, 0, 20, 20);
-    label.layer.cornerRadius = 10.f;
-    label.clipsToBounds = YES;
-    label.backgroundColor = CCITY_MAIN_COLOR;
-    return label;
-}
-
 #pragma mark- ---  setter
 
 -(void)setNewStyle:(CCityNewNotiMeetingStyle)newStyle
@@ -141,7 +123,7 @@
     UIButton* bottomBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [bottomBtn setTitle:@"接收人员" forState:UIControlStateNormal];
     [bottomBtn setTitleColor:CCITY_GRAY_TEXTCOLOR forState:UIControlStateNormal];
-    [bottomBtn addTarget:self action:@selector(showDataAlertView) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBtn addTarget:self action:@selector(goReceiverView) forControlEvents:UIControlEventTouchUpInside];
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:kNewNotiFontSize];
     [self.contentView addSubview:bottomBtn];
     bottomBtn.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 34);
@@ -363,6 +345,13 @@
 {
     if ([self.delegate respondsToSelector:@selector(showDepartmentOption:withButton:)]) {
         [self.delegate showDepartmentOption:_indexPath withButton:btn];
+    }
+}
+
+-(void)goReceiverView
+{
+    if ([self.delegate respondsToSelector:@selector(goReceiverView)]) {
+        [self.delegate goReceiverView];
     }
 }
 

@@ -27,6 +27,11 @@
 - (void)isSendMessage:(BOOL)isSend withIndexpath:(NSIndexPath *)indexpath;
 - (void)isHeightLever:(BOOL)isHeightLever withIndexpath:(NSIndexPath *)indexpath;
 
+/**
+ 接收人员界面
+ */
+- (void)goReceiverView;
+
 - (void)showChooseFileVC;
 
 - (void)didDeleteBtnWithIndex:(NSInteger)index;
