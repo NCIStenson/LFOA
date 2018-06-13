@@ -120,19 +120,20 @@
 
 -(void)initReceiverView
 {
-    UIButton* bottomBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [bottomBtn setTitle:@"接收人员" forState:UIControlStateNormal];
-    [bottomBtn setTitleColor:CCITY_GRAY_TEXTCOLOR forState:UIControlStateNormal];
-    [bottomBtn addTarget:self action:@selector(goReceiverView) forControlEvents:UIControlEventTouchUpInside];
-    bottomBtn.titleLabel.font = [UIFont systemFontOfSize:kNewNotiFontSize];
-    [self.contentView addSubview:bottomBtn];
-    bottomBtn.frame = CGRectMake(10, 5, SCREEN_WIDTH - 20, 34);
-    bottomBtn.contentHorizontalAlignment =UIControlContentHorizontalAlignmentLeft;
-    
+    UILabel * lab  = [UILabel new];
+    lab.numberOfLines = 0;
+    lab.text = @"接收人员";
+    lab.textColor = CCITY_GRAY_TEXTCOLOR;
+    lab.frame = CGRectMake(10, 5, SCREEN_WIDTH - 44, 34);
+    lab.tag = kAlertBoxBtnTag;
+    lab.font = [UIFont systemFontOfSize:kNewNotiFontSize];
+    [self.contentView addSubview:lab];
+
     UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_officalDetail_add_24x24"]];
     [self.contentView addSubview:imageView];
     imageView.frame = CGRectMake(SCREEN_WIDTH - 34, 10, 24, 24);
     imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.centerY = self.bounds.size.height / 2;
 }
 
 -(void)initIsHeightView

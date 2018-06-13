@@ -8,6 +8,10 @@
 
 #import "CCityBaseTableViewVC.h"
 
+typedef void(^successPublishNotiBlock)(void);
+
 @interface CCityNewNoticeVC : CCityBaseTableViewVC
+
+@property (nonatomic,copy) successPublishNotiBlock successPublishNoti;
 
 @end

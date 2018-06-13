@@ -37,10 +37,13 @@
 - (void)didDeleteBtnWithIndex:(NSInteger)index;
 
 @end
-@interface CCityNewNotiCell : UITableViewCell
+@interface CCityNewNotiCell : UITableViewCell<UITextViewDelegate>
 
 @property(nonatomic, strong)MyView *                    notiTitleTextView;
 @property(nonatomic, strong)MyView *                    notiContentTextView;
+
+@property(nonatomic, assign)CCityNewTypeStyle currentNewType;
+
 @property(nonatomic, assign)CCityNewNotiMeetingStyle    newStyle;
 @property(nonatomic, strong)NSIndexPath *               indexPath;
 

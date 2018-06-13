@@ -6,8 +6,12 @@
 //  Copyright © 2018年  abcxdx@sina.com. All rights reserved.
 //
 
-#import "CCityBaseViewController.h"
+#import "CCityBaseTableViewVC.h"
 
-@interface CCityNewMeetingVC : CCityBaseViewController
+typedef void(^successPublishMeetingBlock)(void);
+
+@interface CCityNewMeetingVC : CCityBaseTableViewVC
+
+@property (nonatomic,copy) successPublishMeetingBlock successPublishNoti;
 
 @end

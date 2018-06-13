@@ -15,6 +15,9 @@
 @interface CCityMultilevelPersonVC ()<UITableViewDelegate,UITableViewDataSource,BEMCheckBoxDelegate>
 {
     UITableView * _contentTableView;
+    
+    NSMutableArray * _selectPersonalModelArr;
+    NSString * _selectPersonalStr;
 }
 @end
 
@@ -24,6 +27,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"发送给";
+    _selectPersonalStr = @"";
+    _selectPersonalModelArr = [NSMutableArray array];
     [self initView];
 }
 
@@ -187,10 +192,13 @@
     return view;
 }
 
--(UIView *)getPersonalTitleViewWithModel:(CCityNewNotficPersonModel *)model
+-(UIView *)getPersonalTitleViewWithModel:(CCityNewNotficPersonModel *)model withTag:(NSInteger)index
 {
-    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0,kcontentCellHeight, SCREEN_WIDTH, kcontentCellHeight)];
-    view.backgroundColor = MAIN_LINE_COLOR;
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0,0, SCREEN_WIDTH, kcontentCellHeight);
+    button.backgroundColor = MAIN_LINE_COLOR;
+    [button addTarget:self action:@selector(personalModelClick:) forControlEvents:UIControlEventTouchUpInside];
+    button.tag = index;
     
     BEMCheckBox* checkBox = [[BEMCheckBox alloc]init];
     checkBox.boxType = BEMBoxTypeSquare;
@@ -198,18 +206,21 @@
     checkBox.onCheckColor = CCITY_MAIN_COLOR;
     checkBox.userInteractionEnabled = NO;
     checkBox.on = model.isSelected;
+    checkBox.tag = 99999;
     
     UIImageView * personImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_offical_sendDoc_addPerson_50x50_"]];
+    personImageView.userInteractionEnabled = NO;
     
     UIButton * personLabel =  [UIButton buttonWithType:UIButtonTypeCustom];
     [personLabel setTitle:model.text forState:UIControlStateNormal];
     personLabel.titleLabel.font = [UIFont systemFontOfSize:CCITY_MAIN_FONT_SIZE];
     [personLabel setTitleColor:CCITY_MAIN_FONT_COLOR forState:UIControlStateNormal];
-    [personLabel addTarget:self action:@selector(personalModelClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:checkBox];
-    [view addSubview:personImageView];
-    [view addSubview:personLabel];
     personLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    personLabel.userInteractionEnabled = NO;
+
+    [button addSubview:checkBox];
+    [button addSubview:personImageView];
+    [button addSubview:personLabel];
     
     checkBox.top = 12.f;
     checkBox.left = 70.0f;
@@ -223,7 +234,7 @@
     personLabel.left = personImageView.right + 5.0f;
     personLabel.size = CGSizeMake(SCREEN_WIDTH - personImageView.left , 24);
     
-    return view;
+    return button;
 }
 
 
@@ -266,7 +277,7 @@
             
             for (int j = 0; j < valuesArr.count  ; j ++) {
                 CCityNewNotficPersonModel * personModel = valuesArr[j];
-                UIView * view = [self getPersonalTitleViewWithModel:personModel];
+                UIView * view = [self getPersonalTitleViewWithModel:personModel withTag:i * 1000 + j];
                 view.top = marginTop ;
                 [cell.contentView addSubview:view];
                 marginTop += kcontentCellHeight;
@@ -335,21 +346,37 @@
 #pragma mark - 人员
 -(void)personalModelClick:(UIButton *)btn
 {
+    UIView * view = btn.superview.superview;
+    NSIndexPath * indexPath = [_contentTableView indexPathForCell:(UITableViewCell *)view];
+    
+    CCityNewNotficPersonModel * headerModel =  _dataArr[indexPath.section];
+    
+    NSInteger letterIndex = btn.tag / 1000;
+    NSInteger personalModeIndex = btn.tag % 1000;
+
+    NSArray * letterArr = headerModel.personalModelFirstLetterArr[indexPath.row];
+    NSDictionary * dic =  headerModel.personalModelFormatArr[indexPath.row];
+
+    NSString * keyValue = letterArr[letterIndex];
+    NSMutableArray * arr = dic[keyValue];
+
+    CCityNewNotficPersonModel * personalModel = arr[personalModeIndex];
+    personalModel.isSelected = !personalModel.isSelected;
+    
+    BEMCheckBox * checkBox = [btn viewWithTag:99999];
+    checkBox.on = personalModel.isSelected;
 
 }
 
-
-
-
 -(void)didTapCheckBox:(BEMCheckBox *)checkBox
 {
-    NSLog(@" -- -- - - -- %d",checkBox.tag);
     UIView * view = checkBox.superview.superview.superview;
     if ([view isKindOfClass:[UITableViewCell class]]) {
         NSIndexPath * indexPath = [_contentTableView indexPathForCell:(UITableViewCell *)view];
         CCityNewNotficPersonModel * headerModel =  _dataArr[indexPath.section];
         CCityNewNotficPersonModel * orgmodel = headerModel.orgModelArr[indexPath.row];
-        orgmodel.isOpen = !orgmodel.isOpen;
+//         控制全选时 是否全部展开数据列表
+//        orgmodel.isOpen = !orgmodel.isOpen;
         orgmodel.isSelected = !orgmodel.isSelected;
 
         NSArray * letterArr = headerModel.personalModelFirstLetterArr[indexPath.row];
@@ -364,18 +391,19 @@
             }
         }
         [_contentTableView reloadRow:indexPath.row inSection:indexPath.section withRowAnimation:UITableViewRowAnimationAutomatic];
-        
         NSLog(@"点击了科室");
     }else{
         NSInteger index = checkBox.tag - 100;
         
         CCityNewNotficPersonModel * headerModel =  _dataArr[index];
-        headerModel.isOpen = !headerModel.isOpen;
+//         控制全选时 是否全部展开数据列表
+//        headerModel.isOpen = !headerModel.isOpen;
         headerModel.isSelected = !headerModel.isSelected;
         
         for (int i = 0; i < headerModel.orgModelArr.count; i ++) {
             CCityNewNotficPersonModel * orgmodel = headerModel.orgModelArr[i];
-            orgmodel.isOpen = headerModel.isOpen;
+//         控制全选时 是否全部展开数据列表
+//            orgmodel.isOpen = headerModel.isOpen;
             orgmodel.isSelected = headerModel.isSelected;
             
             NSArray * letterArr = headerModel.personalModelFirstLetterArr[i];
@@ -389,13 +417,48 @@
                     personalModel.isSelected = orgmodel.isSelected;
                 }
             }
-
         }
 
         [_contentTableView reloadSection:index withRowAnimation:UITableViewRowAnimationAutomatic ];
         NSLog(@"点击了全部部门人");
     }
     
+}
+
+
+-(void)writeOpinioAction
+{
+    _selectPersonalModelArr = [NSMutableArray array];
+    _selectPersonalStr = @"";
+    for (int i = 0; i < _dataArr.count; i ++) {
+        CCityNewNotficPersonModel * model = _dataArr[i];
+        
+        for (int j = 0; j < model.orgModelArr.count; j ++) {
+            
+            NSArray * letterArr = model.personalModelFirstLetterArr[j];
+            NSDictionary * dic =  model.personalModelFormatArr[j];
+            
+            for (int k = 0; k < letterArr.count ; k ++) {
+                NSString * keyValue = letterArr[k];
+                NSMutableArray * arr = dic[keyValue];
+                for ( int j = 0; j < arr.count; j ++) {
+                    CCityNewNotficPersonModel * personalModel = arr[j];
+                    if (personalModel.isSelected) {
+                        if (_selectPersonalStr.length > 0) {
+                           _selectPersonalStr = [NSString stringWithFormat:@"%@,%@",_selectPersonalStr,personalModel.text];;
+                        }else{
+                            _selectPersonalStr = personalModel.text;
+                        }
+                        [_selectPersonalModelArr addObject:personalModel.text];
+                    }
+                }
+            }
+        }
+    }
+    
+//    self.arrBlock(_selectPersonalModelArr);
+    self.strBlock(_selectPersonalStr);
+    [self.navigationController popViewControllerAnimated:YES];    
 }
 
 

@@ -18,6 +18,8 @@
 #define kNotiReceiver @"接收人员"
 #define kNotiContent @"公告内容"
 
+#define kNewNotiFontSize 14
+
 #import "CCityNewNoticeVC.h"
 #import "CCityNewNotiCell.h"
 #import "CCityDatePickerVC.h"
@@ -46,8 +48,11 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"新建通告";
+    self.title = @"发布通告";
     _uploadParameters = [NSMutableDictionary dictionary];
+    [_uploadParameters setObject:@"false" forKey:@"isEmergency"];
+    [_uploadParameters setObject:@"false" forKey:@"isSendSms"];
+
     [self configData];
     [self initView];
 }
@@ -68,12 +73,125 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
         NSLog(@" responseObject ====  %@",responseObject);
 
         _newNotimodel = [[CCityNewNotficModel alloc]initWithDic:responseObject];
-//        NSArray* results = responseObject[@"results"];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
         NSLog(@"%@",error.description);
     }];
+}
+
+-(void)writeOpinioAction
+{
+    if ([self judgeUploadData]) {
+        dispatch_queue_t dispatchQueue = dispatch_queue_create("notiQueue", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_group_t dispatchGroup = dispatch_group_create();
+        dispatch_group_async(dispatchGroup, dispatchQueue, ^(){
+            [self uploadData];
+        });
+        dispatch_group_async(dispatchGroup, dispatchQueue, ^(){
+            [self uploadFile];
+        });
+        
+        dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), ^(){
+            NSLog(@"end");
+            self.successPublishNoti();
+        });
+    }
+}
+
+-(BOOL)judgeUploadData
+{
+    NSString * orgId = [_uploadParameters objectForKey:@"orgId"];
+    NSString * noticeName = [_uploadParameters objectForKey:@"noticeName"];
+    NSString * endDate = [_uploadParameters objectForKey:@"endDate"];
+    NSString * noticeContent = [_uploadParameters objectForKey:@"noticeContent"];
+    NSString * jsry = [_uploadParameters objectForKey:@"jsry"];
+
+    if (noticeName.length == 0) {
+        [self showStatusViewWithStr:@"请先填好通知名称"];
+        return NO;
+    }else if (endDate.length == 0){
+        [self showStatusViewWithStr:@"请选择结束时间"];
+        return NO;
+    }else if (orgId.length == 0){
+        [self showStatusViewWithStr:@"请选择发布科室"];
+        return NO;
+    }else if (noticeContent.length == 0){
+        [self showStatusViewWithStr:@"请先填好通知内容"];
+        return NO;
+    }else if (jsry.length == 0){
+        [self showStatusViewWithStr:@"请选择通知接收人"];
+        return NO;
+    }
+    return YES;
+}
+
+-(void)showStatusViewWithStr:(NSString *)str
+{
+    [SVProgressHUD showWithStatus:str];
+    [SVProgressHUD dismissWithDelay:1.5];
+}
+
+-(void)uploadData
+{
+    AFHTTPSessionManager* manger = [CCityJSONNetWorkManager sessionManager];
+    [_uploadParameters setObject:[CCitySingleton sharedInstance].token forKey:@"token"];
+    [_uploadParameters setObject:_newNotimodel.annexitemId forKey:@"annexitemId"];
+    [manger POST:@"service/notice/PublishNotice.ashx" parameters:_uploadParameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        CCErrorNoManager* errorNOManager = [CCErrorNoManager new];
+        if(![errorNOManager requestSuccess:responseObject]) {
+            [errorNOManager getErrorNum:responseObject WithVC:self WithAction:nil loginSuccess:^{
+                [self configData];
+            }];
+            return;
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        NSLog(@" responseObject ====  %@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
+        NSLog(@"%@",error.description);
+    }];
+}
+
+-(void)uploadFile
+{
+    AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
+    NSMutableDictionary * parameters;
+    parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"token":[CCitySingleton sharedInstance].token,
+                                                                 @"type":@"通知公告",
+                                                                 @"fileNo":_newNotimodel.annexitemId}];
+    [SVProgressHUD showWithStatus:@"正在上传"];
+    
+    [manager                        POST:@"service/file/Upload.ashx"
+                              parameters:parameters
+               constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+                   for (int i = 0 ; i < self.imagesArr.count; i ++) {
+                       UIImage *image = self.imagesArr[i];
+                       NSData *imageData = UIImagePNGRepresentation([CCUtil fixOrientation:image]);
+                       
+                       [formData appendPartWithFileData:imageData name:@"myFile" fileName:[NSString stringWithFormat:@"%@%d.png",[CCUtil getNowTimeTimestamp3],i] mimeType:@"image/png"];
+                   }
+                   
+               }
+                                progress:nil
+                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                     [SVProgressHUD dismiss];
+                                     if([responseObject isKindOfClass:[NSDictionary class]] && [[responseObject objectForKey:@"status"] isEqualToString:@"failed"]){
+                                         [CCityAlterManager showSimpleTripsWithVC:self Str:@"数据错误" detail:nil];
+                                     }else{
+                                         
+//                                         [[NSNotificationCenter defaultCenter]postNotificationName:kUPLOADIMAGE_SUCCESS object:nil];
+//                                         [self.navigationController popViewControllerAnimated:YES];
+                                     }
+                                 }
+                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [SVProgressHUD dismiss];
+                                     [CCityAlterManager showSimpleTripsWithVC:self Str:error.localizedDescription detail:nil];
+                                     NSLog(@"%@",error);
+                                 }];
+
 }
 
 -(void)initView{
@@ -110,7 +228,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     UIView* footerView = [UIView new];
     footerView.backgroundColor = [UIColor whiteColor];
     
-    UIButton* writeOpinioBtn =  [self getBottomBtnWithTitle:@"提交" sel:@selector(writeOpinioAction)];
+    UIButton* writeOpinioBtn =  [self getBottomBtnWithTitle:@"发布公告" sel:@selector(writeOpinioAction)];
     
     [footerView addSubview:writeOpinioBtn];
     
@@ -166,14 +284,21 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
             return 20 + ((SCREEN_WIDTH - 50) / 4 + 10) * ((self.imagesArr.count + 1) / 4 );
         }
         return 20 + ((SCREEN_WIDTH - 50) / 4 + 10) * ((self.imagesArr.count + 1) / 4 + 1);
+    }else if (indexPath.row == 3){
+        NSString * str = [_uploadParameters objectForKey:@"jsry"];
+        if( str.length > 0 )  {
+            float btnHeight = [CCUtil heightForString:str font:[UIFont systemFontOfSize:kNewNotiFontSize] andWidth:SCREEN_WIDTH - 44];
+            if (btnHeight > 34) {
+                return btnHeight + 10;
+            }
+        }
+        return 44.0f;
     }
     
     return 44.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    CCityNewNotiMeetingCell* model = self.dataArr[indexPath.section];
     
     CCityNewNotiCell *cell = [tableView dequeueReusableCellWithIdentifier:CCITYNEWCELLID forIndexPath:indexPath];
     cell.delegate = self;
@@ -219,8 +344,23 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
         }
             break;
 
-        case 3:
+        case 3:{
             cell.newStyle = CCityNewNotiMeetingStyleNextPage;
+            
+            NSString * str = [_uploadParameters objectForKey:@"jsry"];
+            UILabel * lab = [cell.contentView viewWithTag:kAlertBoxBtnTag];
+            float btnHeight = [CCUtil heightForString:str font:lab.font andWidth:SCREEN_WIDTH - 44];
+            if (str.length > 0) {
+                if (btnHeight > 34) {
+                    lab.height = btnHeight;
+                }
+                lab.text = str;
+                lab.textColor = [UIColor blackColor];
+            }else{
+                lab.text = @"接收人员";
+                lab.textColor = CCITY_GRAY_TEXTCOLOR;
+            }
+        }
             break;
 
         case 4:{
@@ -258,6 +398,13 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 }
 
 #pragma mark- --- UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row == 3){
+        [self goReceiverView];
+    }
+}
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -380,6 +527,14 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 {
     CCityMultilevelPersonVC * personVC=  [[CCityMultilevelPersonVC alloc]init];
     personVC.dataArr = [NSMutableArray arrayWithArray:_newNotimodel.organizationTree];
+    personVC.strBlock = ^(NSString *str) {
+        if (str.length > 0) {
+            [_uploadParameters setObject:str forKey:@"jsry"];
+        }else{
+            [_uploadParameters setObject:@"" forKey:@"jsry"];
+        }
+        [self.tableView reloadData];
+    };
     [self.navigationController pushViewController:personVC animated:YES];
 }
 

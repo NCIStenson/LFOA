@@ -8,8 +8,14 @@
 
 #import "CCityBaseViewController.h"
 
+typedef void(^successBlock)(NSArray * arr);
+typedef void(^successBlockStr)(NSString * str);
+
 @interface CCityMultilevelPersonVC : CCityBaseViewController
 
 @property (nonatomic,strong) NSMutableArray * dataArr;
+
+@property (nonatomic,copy) successBlock arrBlock ;
+@property (nonatomic,copy) successBlockStr strBlock ;
 
 @end

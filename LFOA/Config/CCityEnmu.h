@@ -24,6 +24,11 @@ typedef NS_ENUM(NSUInteger, CCityOfficalDetailSectionStyle) {
     CCityOfficalDetailHuiQianStyle,           // 会签
 };
 
+typedef NS_ENUM(NSUInteger, CCityNewTypeStyle) {
+    CCityNewTypeNoti,   // 新建通知
+    CCityNewTypeMeeting,    // 新建会议
+};
+
 typedef NS_ENUM(NSUInteger, CCityNewNotiMeetingStyle) {
     CCityNewNotiMeetingStyleInput,      // 普通输入
     CCityNewNotiMeetingStyleDate,       // 日期

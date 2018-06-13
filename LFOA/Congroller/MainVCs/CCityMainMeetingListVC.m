@@ -11,7 +11,7 @@
 #import "CCityMainMeetingListVC.h"
 #import "CCityMainMeetingCell.h"
 #import "CCityMeetingDeitalVC.h"
-
+#import "CCityNewMeetingVC.h"
 @interface CCityMainMeetingListVC ()
 
 @end
@@ -29,7 +29,10 @@ static NSString* cellReuseId = @"cellReuseId";
     [super viewDidLoad];
    
     self.title = @"会议列表";
-    
+    UIBarButtonItem* rightBarButtonItem ;
+    rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"登记会议" style:UIBarButtonItemStylePlain target:self action:@selector(goNewMeeting)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+
     _parameters = [@{@"pageSize":@20} mutableCopy];
     
     self.datasMuArr = [NSMutableArray array];
@@ -230,6 +233,15 @@ static NSString* cellReuseId = @"cellReuseId";
     CCityMeetingDeitalVC* detailVC = [[CCityMeetingDeitalVC alloc]initWithModel:self.datasMuArr[indexPath.row]];
     
     [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+-(void)goNewMeeting
+{
+    CCityNewMeetingVC * newMeetingVC = [[CCityNewMeetingVC alloc]init];
+//    newMeetingVC.successPublishNoti() = ^{
+//        [self configData];
+//    };
+    [self.navigationController pushViewController:newMeetingVC animated:YES];
 }
 
 @end
