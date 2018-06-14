@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Stefano Acerbetti. All rights reserved.
 //
 
+//   带placeholder的textView
+
 #import <UIKit/UIKit.h>
 //! Project version number for SZTextView.
 FOUNDATION_EXPORT double SZTextViewVersionNumber;

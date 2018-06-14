@@ -6,6 +6,8 @@
 //  Copyright © 2018年  abcxdx@sina.com. All rights reserved.
 //
 
+//   新建会议cell
+
 #import <UIKit/UIKit.h>
 
 #import "CCityMainMeetingListModel.h"

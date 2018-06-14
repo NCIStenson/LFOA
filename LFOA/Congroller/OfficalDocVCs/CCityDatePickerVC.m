@@ -135,6 +135,9 @@
 - (void) okAction {
     
     NSString *str = [self dateToString:_datePicker.date withDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    if (_dateFormatStr.length > 0) {
+        str = [self dateToString:_datePicker.date withDateFormat:_dateFormatStr];
+    }
 
     if (self.slelectAction) {
         self.slelectAction(str);

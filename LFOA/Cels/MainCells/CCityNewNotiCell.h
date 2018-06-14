@@ -6,6 +6,9 @@
 //  Copyright © 2018年  abcxdx@sina.com. All rights reserved.
 //
 
+
+//   新建通告cell
+
 #import <UIKit/UIKit.h>
 #import "CCityNotficModel.h"
 #import "MyView.h"

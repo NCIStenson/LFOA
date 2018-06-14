@@ -191,7 +191,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
     AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
     NSMutableDictionary * parameters;
     parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"token":[CCitySingleton sharedInstance].token,
-                                                                 @"type":@"会议纪要",
+                                                                 @"type":@"会议管理",
                                                                  @"fileNo":_newMettingModel.fileNo}];
     [SVProgressHUD showWithStatus:@"正在上传"];
     
@@ -416,7 +416,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
         case 6:{
             cell.newStyle = CCityNewNotiMeetingStyleAlert;
             [cell.commonBtn setTitle:kMeetingDepartment forState:UIControlStateNormal];
-            NSString * str = [_uploadParameters objectForKey:@"zzbm"];
+            NSString * str = [_uploadParameters objectForKey:@"zzbmName"];
             if (str.length > 0) {
                 [cell.commonBtn setTitle:str forState:UIControlStateNormal];
                 [cell.commonBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -528,8 +528,8 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
         [self removeBoxOptionView];
     }
     CCityDatePickerVC* dataPicker = [[CCityDatePickerVC alloc]initWithDate:nil withIsShowTime:CCityOfficalDetailDateTimeStyle];
+    dataPicker.dateFormatStr = @"yyyy/MM/dd HH:mm";
     dataPicker.slelectAction = ^(NSString *date) {
-        
         [_uploadParameters setObject:date forKey:@"hysj"];
         [self.tableView reloadData];
     };
@@ -682,8 +682,8 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 {
     if([obj isKindOfClass:[CCityNewMeetingDepartmentModel class]]){
         CCityNewMeetingDepartmentModel * model = (CCityNewMeetingDepartmentModel *) obj;
-        [_uploadParameters setObject:model.ID forKey:@"orgId"];
-        [_uploadParameters setObject:model.ORGANIZATIONNAME forKey:@"zzbm"];
+        [_uploadParameters setObject:model.ID forKey:@"zzbm"];
+        [_uploadParameters setObject:model.ORGANIZATIONNAME forKey:@"zzbmName"];
         [self.tableView reloadData];
     }else if([obj isKindOfClass:[CCityNewMeetingTypeModel class]]){
         CCityNewMeetingTypeModel * model = (CCityNewMeetingTypeModel *) obj;

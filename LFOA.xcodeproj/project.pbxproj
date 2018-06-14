@@ -622,10 +622,6 @@
 				F13F07841F68CE42001C5F21 /* CCityNoficDetailVC.m */,
 				9864EB7B20CE04E4006C281C /* CCityNewNoticeVC.h */,
 				9864EB7C20CE04E4006C281C /* CCityNewNoticeVC.m */,
-				98DF95CB20CE68E300E4BE15 /* CCityOptionDetailView.h */,
-				98DF95CC20CE68E300E4BE15 /* CCityOptionDetailView.m */,
-				9864EB8420CE0F1C006C281C /* CCityNewNotiCell.h */,
-				9864EB8520CE0F1C006C281C /* CCityNewNotiCell.m */,
 				98DF95CE20CEAAF400E4BE15 /* CCityMultilevelPersonVC.h */,
 				98DF95CF20CEAAF400E4BE15 /* CCityMultilevelPersonVC.m */,
 				F18B48771F69354900B709CB /* CCityBaseMainVCs.h */,
@@ -638,8 +634,6 @@
 				F1E0C8531F74A689001AFB0B /* CCityMeetingDeitalVC.m */,
 				9864EB7E20CE04FD006C281C /* CCityNewMeetingVC.h */,
 				9864EB7F20CE04FD006C281C /* CCityNewMeetingVC.m */,
-				9844889420D0F82A0091E210 /* CCityNewMeetingCell.h */,
-				9844889520D0F82A0091E210 /* CCityNewMeetingCell.m */,
 				F1ABD8D01F74E66800A008B2 /* CCityNewsListVC.h */,
 				F1ABD8D11F74E66800A008B2 /* CCityNewsListVC.m */,
 				F1ABD8D91F74FD2400A008B2 /* CCityNewsDetailVC.h */,
@@ -920,6 +914,10 @@
 			children = (
 				F1072A421F347878005E4CB0 /* OffialDocViews */,
 				F1F31C1F1F306C9200234FA8 /* Element */,
+				98DF95CB20CE68E300E4BE15 /* CCityOptionDetailView.h */,
+				98DF95CC20CE68E300E4BE15 /* CCityOptionDetailView.m */,
+				9864EB8820CE36E4006C281C /* MyView.h */,
+				9864EB8720CE36E3006C281C /* MyView.m */,
 				F12A639A1F62383300DA7188 /* CCityTriangleTF.h */,
 				F12A639B1F62383300DA7188 /* CCityTriangleTF.m */,
 				F1401E121F6F71C500D16776 /* CCityBackToLeftView.h */,
@@ -943,6 +941,10 @@
 		F1D58DE91F63D44000754954 /* MainCells */ = {
 			isa = PBXGroup;
 			children = (
+				9864EB8420CE0F1C006C281C /* CCityNewNotiCell.h */,
+				9864EB8520CE0F1C006C281C /* CCityNewNotiCell.m */,
+				9844889420D0F82A0091E210 /* CCityNewMeetingCell.h */,
+				9844889520D0F82A0091E210 /* CCityNewMeetingCell.m */,
 				F12A63911F61442900DA7188 /* CCityMainDetailTaskSearchCell.h */,
 				F12A63921F61442900DA7188 /* CCityMainDetailTaskSearchCell.m */,
 				F1D79D3C1F5E8FE4008D6C3F /* CCityHomeCell.h */,
@@ -961,8 +963,6 @@
 				F1ABD8D41F74E80200A008B2 /* CCityNewsListCell.m */,
 				F13275441FDB7D5400BF5018 /* CCityMainMessageCell.h */,
 				F13275431FDB7D5300BF5018 /* CCityMainMessageCell.m */,
-				9864EB8820CE36E4006C281C /* MyView.h */,
-				9864EB8720CE36E3006C281C /* MyView.m */,
 			);
 			path = MainCells;
 			sourceTree = "<group>";

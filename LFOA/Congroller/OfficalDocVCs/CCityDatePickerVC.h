@@ -14,6 +14,7 @@
 @property(nonatomic, copy)void(^slelectAction)(NSString* date);
 
 @property(nonatomic, assign) CCityOfficalDetailSectionStyle style;
+@property(nonatomic, copy) NSString * dateFormatStr;
 
 - (instancetype)initWithDate:(NSDate*)date withIsShowTime:(CCityOfficalDetailSectionStyle)style;
 @end

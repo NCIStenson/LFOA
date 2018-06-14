@@ -6,6 +6,9 @@
 //  Copyright © 2018年  abcxdx@sina.com. All rights reserved.
 //
 
+
+//  新建会议 新建通告 下拉选择框
+
 #import <UIKit/UIKit.h>
 
 @class CCityOptionDetailView;
