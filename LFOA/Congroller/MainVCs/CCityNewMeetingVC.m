@@ -86,6 +86,7 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
 
 -(void)writeOpinioAction
 {
+    [self.view endEditing:YES];
     if ([self judgeUploadData]) {
         dispatch_group_t group =dispatch_group_create();
         dispatch_queue_t globalQueue=dispatch_get_global_queue(0, 0);

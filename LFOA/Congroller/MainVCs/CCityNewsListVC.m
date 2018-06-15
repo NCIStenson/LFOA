@@ -9,7 +9,8 @@
 #import "CCityNewsListVC.h"
 #import "CCityNewsListCell.h"
 #import "CCityNewsDetailVC.h"
-
+#import "CCityNewNewsVC.h"
+#import "ZSSRichTextEditor.h"
 @interface CCityNewsListVC ()
 
 @end
@@ -26,6 +27,9 @@ static NSString* cellReuseId = @"cellReuseId";
     [super viewDidLoad];
     
     self.title = @"新闻列表";
+    UIBarButtonItem* rightBarButtonItem ;
+    rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发新闻" style:UIBarButtonItemStylePlain target:self action:@selector(goNewNewsVC)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     _pageIndex = 1;
     self.tableView.rowHeight = 70.f;
     
@@ -162,6 +166,16 @@ static NSString* cellReuseId = @"cellReuseId";
     }
     CCityNewsDetailVC* detialVC = [[CCityNewsDetailVC alloc]initWithModel:self.datasMuArr[indexPath.row]];
     [self.navigationController pushViewController:detialVC animated:YES];
+}
+
+-(void)goNewNewsVC{
+//    ZSSRichTextEditor * newnewsVC = [[ZSSRichTextEditor alloc]init];
+    
+    CCityNewNewsVC * newnewsVC = [[CCityNewNewsVC alloc]init];
+    newnewsVC.successBlock = ^{
+        [self configData];
+    };
+    [self.navigationController pushViewController:newnewsVC animated:YES];
 }
 
 @end
