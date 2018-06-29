@@ -230,7 +230,8 @@ static NSString* cellReuseId = @"cellReuseId";
 {
     CCityNewNoticeVC * newNoticeVC = [[CCityNewNoticeVC alloc]init];
     newNoticeVC.successPublishNoti = ^{
-        [self configData];
+        self.datasMuArr = [NSMutableArray array];
+        [self headerRefresh];
     };
     [self.navigationController pushViewController:newNoticeVC animated:YES];
 }

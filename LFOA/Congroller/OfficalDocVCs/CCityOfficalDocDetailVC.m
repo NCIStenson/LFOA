@@ -23,6 +23,7 @@
 #import "CCErrorNoManager.h"
 
 #import "CCityUploadFileVC.h"
+#import "CCityOfficalDocVC.h"
 
 @interface CCityOfficalDocDetailVC ()<CCityOfficalDocDetailDelegate,CCityOfficalDetailDocListViewDelegate,CCityOffialPersonListDelegate,CustomIOSAlertViewDelegate>
 
@@ -840,10 +841,16 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
             tripStr = @"保存成功";
             [self updataHuiQianUIWithState:isHuiQianAdd];
         }
-        [CCityAlterManager showSimpleTripsWithVC:self Str:tripStr detail:nil];
         if (_isNewProject) {
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[CCityOfficalDocVC class]]) {
+                    CCityOfficalDocVC *revise =(CCityOfficalDocVC *)controller;
+                    [self.navigationController popToViewController:revise animated:YES];
+                }
+            }
             [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_SAVEINFO_SUCCESS object:nil];
         }
+        [CCityAlterManager showSimpleTripsWithVC:self Str:tripStr detail:nil];
     });
 
 }

@@ -465,9 +465,12 @@ static NSString* officalBackLogCellReuseId = @"officalBackLogCellReuseId";
 
 -(void)saveDetailInfoSuccess
 {
+    self.segCon.selectedIndex = 0;
     if (self.mainStyle == CCityOfficalMainDocStyle) {
+        [self segmentedConValueChanged:self.segCon];
         [self configDataWithURL:BACKLOG_URL];
     } else {
+        [self segmentedConValueChanged:self.segCon];
         [self configDataWithURL:SP_BACKLOG_URL];
     }
 }

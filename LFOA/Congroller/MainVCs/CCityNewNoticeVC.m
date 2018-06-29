@@ -93,18 +93,21 @@ static NSString * CCITYNEWCELLID = @"CCITYNEWCELLID";
             [self uploadData:group];
         });
         
-        dispatch_group_enter(group);
-        //模拟多线程耗时操作
-        dispatch_group_async(group, globalQueue, ^{
-            [self uploadFile:group];
-        });
+        if(self.imagesArr.count > 0){
+            dispatch_group_enter(group);
+            //模拟多线程耗时操作
+            dispatch_group_async(group, globalQueue, ^{
+                [self uploadFile:group];
+                
+            });
+        }
         
         dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 //回调或者说是通知主线程刷新，
+                self.successPublishNoti();
                 [self.navigationController popViewControllerAnimated:YES];
             });
-            self.successPublishNoti();
         });
     }
 }
