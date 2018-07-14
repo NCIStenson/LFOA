@@ -631,24 +631,14 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 - (void)chooseCommonWords:(UIButton*)btn {
     
     NSInteger section = btn.tag - 10000;
-    CCityOfficalDocDetailModel* model = self.dataArr[section];
     
     CCityCommonWordsVC * wordsVC = [[CCityCommonWordsVC alloc]init];
     wordsVC.enterType = ENTER_COMMONWORDS_TYPE_DOC;
     wordsVC.successSelectBlock = ^(NSString *str) {
-        NSLog(@" =========   %@",str);
+        [self saveMethodWithIndex:section andText:str];
+        [self.tableView reloadSection:section withRowAnimation:UITableViewRowAnimationAutomatic];
     };
     [self.navigationController pushViewController:wordsVC animated:YES];
-    
-//    CCHuiqianDetailVC* huiqianDetailVC = [[CCHuiqianDetailVC alloc]initWithModel:model title:model.title style:CCHuiQianEditAddStyle];
-//    huiqianDetailVC.docId       = _docId;
-//    huiqianDetailVC.outerRowNum = section;
-//
-//    huiqianDetailVC.addSuccess = ^() {
-//
-//        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:model.huiQianMuArr.count - 1 inSection:section]] withRowAnimation:UITableViewRowAnimationNone];
-//    };
-//    [self pushTo:huiqianDetailVC];
 }
 
 - (void)updataHuiQianUIWithState:(BOOL)isAdd {
@@ -1262,7 +1252,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     } else {
         //    得到编辑的 cell
         NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-
         [self saveMethodWithIndex:indexPath.section andText:cell.textView.text];
     }
 }
