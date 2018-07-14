@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/OfficalDocVCs/CCityOfficalDocDetailVC.m"
-            timestampString = "551930003.391461"
+            timestampString = "553243108.265649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "668"
-            endingLineNumber = "668"
+            startingLineNumber = "693"
+            endingLineNumber = "693"
             landmarkName = "-updataHuiQianUIWithState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,60 +186,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LFOA/Congroller/MainVCs/CCityNotficVC.m"
-            timestampString = "551930003.392179"
+            timestampString = "553165975.702536"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "234"
             endingLineNumber = "234"
             landmarkName = "-goNewNotice"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__28-[CCityNotficVC goNewNotice]_block_invoke"
-                  moduleName = "LFOA"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Stenson/Desktop/%E9%87%91%E5%8D%8E%E4%BA%8B%E4%B8%9A/LFOA/LFOA/Congroller/MainVCs/CCityNotficVC.m"
-                  timestampString = "551930004.473493"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "38">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.184"
-                  moduleName = "LFOA"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Stenson/Desktop/%E9%87%91%E5%8D%8E%E4%BA%8B%E4%B8%9A/LFOA/LFOA/Congroller/MainVCs/CCityNotficVC.m"
-                  timestampString = "551930004.4764349"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "51">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.185"
-                  moduleName = "LFOA"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Stenson/Desktop/%E9%87%91%E5%8D%8E%E4%BA%8B%E4%B8%9A/LFOA/LFOA/Congroller/MainVCs/CCityNotficVC.m"
-                  timestampString = "551930004.479418"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "29">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -76,6 +76,15 @@
     if (_contentStyle == CCityOfficalDetailOpinionStyle) {
         
          _imageView = [[UIImageView alloc]init];
+        
+        _commonWordsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _commonWordsBtn.layer.cornerRadius = 5;
+        _commonWordsBtn.layer.borderWidth = 0.5;
+        _commonWordsBtn.layer.borderColor = [MAIN_BLUE_COLOR CGColor];
+        [_commonWordsBtn setTitle:@"常用语" forState:UIControlStateNormal];
+        _commonWordsBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_commonWordsBtn setTitleColor:MAIN_BLUE_COLOR forState:UIControlStateNormal];
+        
     } else if (_contentStyle == CCityOfficalDetailMutableLineTextStyle) {
         self.userInteractionEnabled = NO;
 //        _imageView = [[UIImageView alloc]init];
@@ -86,7 +95,7 @@
         [_addBtn setImage:[UIImage imageNamed:@"cc_single_add_24x24"] forState:UIControlStateNormal];
         [_addBtn setImage:[UIImage imageNamed:@"cc_gray_single_add_24x24"] forState:UIControlStateHighlighted];
         _addBtn.imageView.contentMode = UIViewContentModeRight;
-
+        
     } else {
         
         _valueLabel = [UILabel new];
@@ -99,13 +108,14 @@
     if (_imageView) {
         
         [self addSubview:_imageView];
+        [self addSubview:_commonWordsBtn];
         
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.top.equalTo(self);
             make.left.equalTo(self).offset(10.f);
             make.bottom.equalTo(self);
-            make.right.equalTo(_imageView.mas_left).with.offset(-10.f);
+            make.right.equalTo(_commonWordsBtn.mas_left).with.offset(-10.f);
         }];
         
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -114,6 +124,13 @@
             make.right.equalTo(self).with.offset(-10.f);
             make.bottom.equalTo(self).with.offset(-10.f);
             make.width.equalTo(_imageView.mas_height);
+        }];
+        
+        [_commonWordsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_imageView);
+            make.right.equalTo(_imageView.mas_left).with.offset(-10.f);
+            make.bottom.equalTo(_imageView);
+            make.width.equalTo(@50.0f);
         }];
     } else if (_addBtn) {
         

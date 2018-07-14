@@ -27,6 +27,9 @@
 @property(nonatomic, strong)NSString* passOpinio;
 @property(nonatomic, strong)UITextView* inputTV;
 
+@property(nonatomic,assign)BOOL onlyShowTextView;
+@property(nonatomic,copy)NSString * onlyShowTextViewTitle;
+
 @property (copy) void (^onButtonTouchUpInside)(CustomIOSAlertView *alertView, int buttonIndex) ;
 
 - (id)init;

@@ -12,8 +12,8 @@
 //http://192.168.0.21/lfyd/
 //http://122.226.81.198:8082/lfyd/
 
-//#define CCITY_BASE_URL @"http://122.226.81.198:8082/lfyd/"
-#define CCITY_BASE_URL @"http://192.168.0.21/lfyd/"
+#define CCITY_BASE_URL @"http://122.226.81.198:8082/lfyd/"
+//#define CCITY_BASE_URL @"http://192.168.0.21/lfyd/"
 
 #endif /* CCityUrls_h */
 

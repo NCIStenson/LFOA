@@ -25,6 +25,8 @@
 #import "CCityUploadFileVC.h"
 #import "CCityOfficalDocVC.h"
 
+#import "CCityCommonWordsVC.h"
+
 @interface CCityOfficalDocDetailVC ()<CCityOfficalDocDetailDelegate,CCityOfficalDetailDocListViewDelegate,CCityOffialPersonListDelegate,CustomIOSAlertViewDelegate>
 
 @end
@@ -626,6 +628,29 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     [self pushTo:huiqianDetailVC];
 }
 
+- (void)chooseCommonWords:(UIButton*)btn {
+    
+    NSInteger section = btn.tag - 10000;
+    CCityOfficalDocDetailModel* model = self.dataArr[section];
+    
+    CCityCommonWordsVC * wordsVC = [[CCityCommonWordsVC alloc]init];
+    wordsVC.enterType = ENTER_COMMONWORDS_TYPE_DOC;
+    wordsVC.successSelectBlock = ^(NSString *str) {
+        NSLog(@" =========   %@",str);
+    };
+    [self.navigationController pushViewController:wordsVC animated:YES];
+    
+//    CCHuiqianDetailVC* huiqianDetailVC = [[CCHuiqianDetailVC alloc]initWithModel:model title:model.title style:CCHuiQianEditAddStyle];
+//    huiqianDetailVC.docId       = _docId;
+//    huiqianDetailVC.outerRowNum = section;
+//
+//    huiqianDetailVC.addSuccess = ^() {
+//
+//        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:model.huiQianMuArr.count - 1 inSection:section]] withRowAnimation:UITableViewRowAnimationNone];
+//    };
+//    [self pushTo:huiqianDetailVC];
+}
+
 - (void)updataHuiQianUIWithState:(BOOL)isAdd {
     
     CCityOfficalDocDetailModel* model = self.dataArr[_huiQianIndexPath.section];
@@ -1039,6 +1064,14 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     sectionView.addBtn.tag = 5000+section;
     [sectionView.addBtn addTarget:self action:@selector(addHuiQianOpinioAction:) forControlEvents:UIControlEventTouchUpInside];
     [sectionView addTarget:self action:@selector(sectionViewClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (model.canEdit) {
+        sectionView.commonWordsBtn.tag = 10000+section;
+        [sectionView.commonWordsBtn addTarget:self action:@selector(chooseCommonWords:) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        [sectionView.commonWordsBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        sectionView.commonWordsBtn.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    }
     
     return sectionView;
 }

@@ -20,6 +20,7 @@
 @property(nonatomic, assign)BOOL hasBottomLine;
 
 @property(nonatomic, strong) UIImageView* imageView;
+@property(nonatomic, strong) UIButton* commonWordsBtn;
 @property(nonatomic, strong) UILabel*     titleLabel;
 @property(nonatomic, strong) UILabel*     valueLabel;
 @property(nonatomic, strong) UIButton*    addBtn;

@@ -65,6 +65,17 @@ typedef NS_ENUM(NSUInteger, CCHuiQianEditStyle) {
     CCHuiQianEditCheckStyle,
 };
 
+
+/**
+ 进入常用语页面的方式
+
+ - ENTER_COMMONWORDS_TYPE_DOC: 从公文列表进入
+ - ENTER_COMMONWORDS_TYPE_USERCENTER: 从用户中心进入
+ */
+typedef NS_ENUM(NSUInteger, ENTER_COMMONWORDS_TYPE) {
+    ENTER_COMMONWORDS_TYPE_DOC,
+    ENTER_COMMONWORDS_TYPE_USERCENTER,
+};
 /*
  * 服务器返回代码
  */
@@ -77,5 +88,7 @@ typedef NS_ENUM(NSUInteger, CCNetWorkStateErrorCode) {
     CCNetWorkStateInvalidParameter   = 500,   // 参数无效
     CCNetWorkStateServerExecuteError = 501,   // 执行错误
 };
+
+
 
 #endif /* CCityEnmu_h */

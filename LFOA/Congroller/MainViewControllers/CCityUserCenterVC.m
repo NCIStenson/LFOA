@@ -18,6 +18,7 @@
 #import "CCitySecurity.h"
 #import "CCitySingleton.h"
 #import "CCityChangePassWorldVC.h"
+#import "CCityCommonWordsVC.h"
 #import "CCityUserReportVC.h"
 #import <GTSDK/GeTuiSdk.h>
 
@@ -232,6 +233,14 @@
     [self.navigationController pushViewController:changePassWorldVC animated:YES];
 }
 
+-(void)commonWord {
+    
+    CCityCommonWordsVC* commonWordsVC = [[CCityCommonWordsVC alloc]init];
+    commonWordsVC.enterType = ENTER_COMMONWORDS_TYPE_USERCENTER;
+    commonWordsVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:commonWordsVC animated:YES];
+}
+
 -(void)userReport {
     
     CCityUserReportVC* userReportVC = [CCityUserReportVC new];
@@ -272,7 +281,7 @@
 #pragma mark- --- UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-  return 5;
+  return 6;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -281,7 +290,7 @@
         case 0:
             return 5.f;
             break;
-        case 3:
+        case 4:
             return 40.f;
             break;
         default:
@@ -299,7 +308,7 @@
         switch (indexPath.row) {
                 
             case 0:
-            case 3:
+            case 4:
                 [self getPlaceHolderCell:cell];
                 break;
                 
@@ -309,9 +318,13 @@
                 break;
             case 2:
                 
+                [self setCellWithTitle: @"常用语" imageName:@"icon_user_commonText" cell:cell isLast:NO];
+                break;
+            case 3:
+                
                 [self setCellWithTitle:@"用户反馈" imageName:@"ccity_userCenter_setting_50x50_" cell:cell isLast:YES];
                 break;
-            case 4:
+            case 5:
                 
                 [self setCellWithTitle:@"关于" imageName:@"ccity_user_icon_25x25" cell:cell isLast:YES];
                 break;
@@ -332,12 +345,18 @@
             
             [self changePassWord];
             break;
-        case 2:         // 用户反馈
+        case 2:         // 常用语
+            
+            [self commonWord];
+            break;
+            
+        case 3:         // 用户反馈
             
             [self userReport];
             break;
+
        
-        case 4:
+        case 5:
             
             [self aboutApp];
             break;
