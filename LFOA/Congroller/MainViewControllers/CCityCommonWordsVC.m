@@ -109,21 +109,15 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     CCityCommonWordsModel * model = _dataArr[indexPath.row];
-    NSString * str = model.context;
-    NSMutableAttributedString *text = [NSMutableAttributedString new];
-    UIFont *font = [UIFont systemFontOfSize:16];
-    [text appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:nil]];
-    text.font = font ;
-
-    YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:CGSizeMake(SCREEN_WIDTH - 40, CGFLOAT_MAX) text:text];
-    float textHeight = layout.textBoundingSize.height;
-    
-    if (textHeight + 10 > 44.0f && model.isShowFullText) {
-        return textHeight + 10;
+    float labWidth = SCREEN_WIDTH - 55;
+    if (tableView.isEditing) {
+        labWidth = SCREEN_WIDTH - 80;
     }
-    
+    float height = [CCUtil heightForString:model.context font:[UIFont systemFontOfSize:16] andWidth:labWidth];
+    if (height > 44.0f && model.isShowFullText) {
+        return height + 10;
+    }
     return 44.0f;
 }
 
@@ -141,25 +135,30 @@
     }
     
     CCityCommonWordsModel * model = _dataArr[indexPath.row];
-    NSString * str = model.context;
-
-    NSMutableAttributedString *text = [NSMutableAttributedString new];
-    UIFont *font = [UIFont systemFontOfSize:16];
-    //添加文本
-    [text appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:nil]];
-//    text.
-    text.font = font ;
     
-     YYLabel * _label = [YYLabel new];
+    UILabel * _label = [UILabel new];
     _label.userInteractionEnabled =YES;
-    _label.numberOfLines =0;
-    _label.textVerticalAlignment =YYTextVerticalAlignmentCenter;
-    _label.frame = CGRectMake(20,0, SCREEN_WIDTH - 40,44.0f);
-    _label.attributedText = text;
+    _label.numberOfLines = 2;
+    _label.font = [UIFont systemFontOfSize:16];
+    _label.frame = CGRectMake(20,0, SCREEN_WIDTH - 55,44.0f);
+    _label.text = model.context;
+    _label.tag = 100;
     [cell.contentView addSubview:_label];
-    
     if (tableView.isEditing) {
-        _label.width = SCREEN_WIDTH - 60;
+        _label.width = SCREEN_WIDTH - 90;
+    }
+
+    UIButton * button;
+    float height = [CCUtil heightForString:_label.text font:_label.font andWidth:_label.width];
+    if (height > _label.height) {
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.tag = 10000 + indexPath.row;
+        button.frame = CGRectMake(_label.right, 0, 30, _label.height);
+        [cell.contentView addSubview:button];
+        button.imageEdgeInsets = UIEdgeInsetsMake( (_label.height - 15) / 2, 7.5, (_label.height - 15) / 2, 7.5);
+        button.contentMode = UIViewContentModeScaleAspectFit;
+        [button addTarget:self action:@selector(showAllWords:) forControlEvents:UIControlEventTouchUpInside];
+        [button setImage:[UIImage imageNamed:@"ccity_arrow_toBottom_30x30_"] forState:UIControlStateNormal];
     }
     
     UIView * lineView = [UIView new];
@@ -168,52 +167,36 @@
     [cell.contentView addSubview:lineView];
     
     if (model.isShowFullText) {
+        _label.numberOfLines = 0;
         _label.top = 5;
         [_label sizeToFit];
-        
         lineView.top =  _label.bottom + 5;
+        button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
     }else{
-        [self addSeeMoreButton:_label];
         lineView.top =  43.5;
     }
+    
 
     return cell;
 }
 
-- (void)addSeeMoreButton:(YYLabel *)label {
+-(void)showAllWords:(UIButton *)btn{
+    NSInteger index = btn.tag - 10000;
     
-    NSString * placeHolderStr = @"...展开";
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:placeHolderStr];
-    
-    YYTextHighlight *hi = [YYTextHighlight new];
-    [hi setColor:[UIColor colorWithRed:0.578 green:0.790 blue:1.000 alpha:1.000]];
-    hi.tapAction = ^(UIView *containerView,NSAttributedString *text,NSRange range, CGRect rect) {
-        [label sizeToFit];
-        UITableViewCell * cell = (UITableViewCell *)label.superview.superview;
-        NSIndexPath * indexpath = [_contentTableView indexPathForCell:cell];
-        CCityCommonWordsModel * model = _dataArr[indexpath.row];
-        model.isShowFullText = YES;
-        [_contentTableView reloadRowAtIndexPath:indexpath withRowAnimation:UITableViewRowAnimationAutomatic];
-    };
-    
-    [text setColor:[UIColor colorWithRed:0.000 green:0.449 blue:1.000 alpha:1.000] range:[text.string rangeOfString:placeHolderStr]];
-    [text setTextHighlight:hi range:[text.string rangeOfString:placeHolderStr]];
-    
-    
-    YYLabel *seeMore = [YYLabel new];
-    seeMore.attributedText = text;
-    [seeMore setTextColor:MAIN_BLUE_COLOR];
-    [seeMore sizeToFit];
-    
-    NSAttributedString *truncationToken = [NSAttributedString attachmentStringWithContent:seeMore contentMode:UIViewContentModeCenter attachmentSize:seeMore.frame.size alignToFont:[UIFont systemFontOfSize:16] alignment:YYTextVerticalAlignmentCenter];
-    
-    label.truncationToken = truncationToken;
+    UITableViewCell * cell = (UITableViewCell *)btn.superview.superview;
+    NSIndexPath * indexpath = [_contentTableView indexPathForCell:cell];
+    CCityCommonWordsModel * model = _dataArr[index];
+    model.isShowFullText = !model.isShowFullText;
+    [_contentTableView reloadRowAtIndexPath:indexpath withRowAnimation:UITableViewRowAnimationAutomatic];
     
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if(_enterType == ENTER_COMMONWORDS_TYPE_USERCENTER){
+        return 0.0f;
+    }
     return 44.0f;
 }
 
@@ -253,15 +236,16 @@
         addCommonTextView.top = 0;
     }
     
-    UIButton * _addBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton * _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _addBtn.frame = CGRectMake(20, 0, SCREEN_WIDTH - 40.0f, addCommonTextView.height);
+    [_addBtn setTitleColor:MAIN_BLUE_COLOR forState:UIControlStateNormal];
     [_addBtn setTitle:@" 添加常用语" forState:UIControlStateNormal];
-    [_addBtn setImage:[UIImage imageNamed:@"cc_single_add_24x24"] forState:UIControlStateNormal];
-    [_addBtn setImage:[UIImage imageNamed:@"cc_gray_single_add_24x24"] forState:UIControlStateHighlighted];
+    [_addBtn setImage:[UIImage imageNamed:@"cc_single_add_24x24" color:MAIN_BLUE_COLOR] forState:UIControlStateNormal];
     _addBtn.imageView.contentMode = UIViewContentModeLeft;
     _addBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentLeft;
     [addCommonTextView addSubview:_addBtn];
     [_addBtn addTarget:self action:@selector(insertWordsBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    _addBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     
     UILabel * textLab  =[UILabel new];
     textLab.frame = CGRectMake(20, addCommonTextView.bottom, SCREEN_WIDTH - 40, 30.0f);

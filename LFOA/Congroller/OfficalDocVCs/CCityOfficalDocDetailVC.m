@@ -747,6 +747,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         return;
     }
     
+    
     if (btn) {  [SVProgressHUD show];   }
     
     AFHTTPSessionManager* manager = [CCityJSONNetWorkManager sessionManager];
@@ -759,15 +760,13 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     [parameters addEntriesFromDictionary:_docId];
     [parameters setObject:valuesStr forKey:@"formSaveStr"];
     [parameters setObject:[CCitySingleton sharedInstance].token forKey:@"token"];
-    
     [manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    
     dispatch_group_t groupQueue = dispatch_group_create();
     
     __block BOOL isFileListSaveSuccess = NO;
     __block BOOL isHuiQianSaveSuccess = NO;
     __block BOOL isHuiQianAdd = NO;  // 会签 插入/更新
-    
+
     // 表单保存
     if (_valuesDic.count) {
         dispatch_group_enter(groupQueue);
@@ -787,11 +786,12 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
                 if (btn) {
                     isFileListSaveSuccess = YES;
                     dispatch_group_leave(groupQueue);
-                    NSLog(@"=======================================");
                 }
             }
             
-            if (CCITY_DEBUG) { NSLog(@"fileList:%@",responseObject); }
+            if (CCITY_DEBUG) {
+//                NSLog(@"fileList:%@",responseObject);
+            }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             dispatch_group_leave(groupQueue);
             
@@ -1085,7 +1085,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CCityOfficalDocDetailModel* model = self.dataArr[indexPath.section];
-    
     CCityOfficalDocDetailCell*  cell = nil;
     
     if (model.style == CCityOfficalDetailDataExcleStyle) {
@@ -1108,11 +1107,12 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         }
        
         if (indexPath.row == model.huiQianMuArr.count) {
-            
             model.canEdit = YES;
             cell = [tableView dequeueReusableCellWithIdentifier:ccityOfficlaMuLineReuseId];
             cell.delegate = self;
-            cell.tag = 100100;
+            if(model.style == CCityOfficalDetailHuiQianStyle){
+                cell.tag = 100100;
+            }
         } else {
             
             cell = [tableView dequeueReusableCellWithIdentifier:ccityOfficlaDataExcleReuseId];
@@ -1245,13 +1245,13 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 
 // 文本编辑结束时 调用
 -(void)textViewDidEndEditingWithCell:(CCityOfficalDocDetailCell*)cell {
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    CCityOfficalDocDetailModel* model = self.dataArr[indexPath.section];
 
-    if (cell.tag == 100100 ) {
-        
+    if (model.style == CCityOfficalDetailHuiQianStyle ) {
         _huiQianStr = [cell.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     } else {
         //    得到编辑的 cell
-        NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
         [self saveMethodWithIndex:indexPath.section andText:cell.textView.text];
     }
 }
