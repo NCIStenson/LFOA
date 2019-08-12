@@ -72,7 +72,7 @@
        
         make.centerX.equalTo(contetnView);
         make.top.equalTo(contetnView).with.offset(50.f);
-        make.size.mas_equalTo(CGSizeMake(150, 150));
+        make.size.mas_equalTo(CGSizeMake(140, 140));
     }];
     
     [logInBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -173,9 +173,8 @@
     UIView* logo = [UIView new];
     
     UIImageView* logImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ccity_login_logo_347x347"]];
-    
+    logImage.contentMode = UIViewContentModeScaleAspectFit;
     [logo addSubview:logImage];
-    
     [logImage mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.top.equalTo(logo);

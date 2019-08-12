@@ -60,8 +60,8 @@
 
 -(void)layoutSubView {
     
-    UIImageView* logoImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo.png"]];
-    
+    UIImageView* logoImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo.jpg"]];
+    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     UILabel* appVersionLabel = [UILabel new];
     appVersionLabel.text = [NSString stringWithFormat:@"版本号：%@", [[CCityAppInfo alloc]init].appVersion];
     appVersionLabel.textAlignment = NSTextAlignmentCenter;

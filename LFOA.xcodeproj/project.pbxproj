@@ -111,6 +111,7 @@
 		98799EEA20D29A0D00A79C7C /* HRColorCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 98799E8420D29A0D00A79C7C /* HRColorCursor.m */; };
 		98799EEB20D29A0D00A79C7C /* ZSSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98799E8D20D29A0D00A79C7C /* ZSSTextView.m */; };
 		98799EEC20D29A0D00A79C7C /* jQuery.js in Resources */ = {isa = PBXBuildFile; fileRef = 98799E8E20D29A0D00A79C7C /* jQuery.js */; };
+		98966A05230159730007BA96 /* LaunchImage.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98966A04230159720007BA96 /* LaunchImage.jpeg */; };
 		9898BCDE20F8A10D00E21CF6 /* CCityCommonWordsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9898BCDD20F8A10D00E21CF6 /* CCityCommonWordsVC.m */; };
 		9898BCE820F8F59400E21CF6 /* CCityCommonWordsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9898BCE720F8F59400E21CF6 /* CCityCommonWordsModel.m */; };
 		98C36CB220B9220000542761 /* CCityNewProjectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C36CB120B9220000542761 /* CCityNewProjectVC.m */; };
@@ -188,7 +189,7 @@
 		F1433BDC1F70B3FE00099324 /* CCityAccessoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F1433BDB1F70B3FE00099324 /* CCityAccessoryManager.m */; };
 		F1433BDF1F70F96D00099324 /* CCityMainMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F1433BDE1F70F96D00099324 /* CCityMainMessageVC.m */; };
 		F1433BE51F710CA300099324 /* CCityMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F1433BE41F710CA300099324 /* CCityMessageModel.m */; };
-		F14B19D21FB0400900443B8D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F14B19D11FB0400800443B8D /* logo.png */; };
+		F14B19D21FB0400900443B8D /* logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F14B19D11FB0400800443B8D /* logo.jpg */; };
 		F14F7B2B1F3ED1D6000C736A /* CCityOfficalDetailPsrsonListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F14F7B2A1F3ED1D6000C736A /* CCityOfficalDetailPsrsonListVC.m */; };
 		F14F7B2E1F3ED9AE000C736A /* CCityOfficalDetailPersonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F14F7B2D1F3ED9AE000C736A /* CCityOfficalDetailPersonListCell.m */; };
 		F14F7B401F3F1A14000C736A /* CCityOffialSendPersonListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F14F7B3F1F3F1A14000C736A /* CCityOffialSendPersonListModel.m */; };
@@ -254,7 +255,6 @@
 		F1F670FE1FD5368E009B723B /* CCityNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F670FD1FD5368D009B723B /* CCityNavBar.m */; };
 		F1FE3D641F42E31900848FDD /* CCityOfficalDetialDocListSection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1FE3D631F42E31900848FDD /* CCityOfficalDetialDocListSection.m */; };
 		F1FE3D8A1F42EF4800848FDD /* ccity_uesrcenter_userHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = F1FE3D891F42EF4800848FDD /* ccity_uesrcenter_userHeader.png */; };
-		F1FE3D8C1F431A3900848FDD /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F1FE3D8B1F431A3900848FDD /* LaunchImage.png */; };
 		F1FE3D961F4325A700848FDD /* bg_login.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F1FE3D951F4325A700848FDD /* bg_login.jpg */; };
 /* End PBXBuildFile section */
 
@@ -389,6 +389,7 @@
 		98799E8C20D29A0D00A79C7C /* CYRTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRTextStorage.h; sourceTree = "<group>"; };
 		98799E8D20D29A0D00A79C7C /* ZSSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSTextView.m; sourceTree = "<group>"; };
 		98799E8E20D29A0D00A79C7C /* jQuery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jQuery.js; sourceTree = "<group>"; };
+		98966A04230159720007BA96 /* LaunchImage.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LaunchImage.jpeg; sourceTree = "<group>"; };
 		9898BCDC20F8A10D00E21CF6 /* CCityCommonWordsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityCommonWordsVC.h; sourceTree = "<group>"; };
 		9898BCDD20F8A10D00E21CF6 /* CCityCommonWordsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityCommonWordsVC.m; sourceTree = "<group>"; };
 		9898BCE620F8F59400E21CF6 /* CCityCommonWordsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityCommonWordsModel.h; sourceTree = "<group>"; };
@@ -536,7 +537,7 @@
 		F1433BDE1F70F96D00099324 /* CCityMainMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCityMainMessageVC.m; sourceTree = "<group>"; };
 		F1433BE31F710CA300099324 /* CCityMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCityMessageModel.h; sourceTree = "<group>"; };
 		F1433BE41F710CA300099324 /* CCityMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCityMessageModel.m; sourceTree = "<group>"; };
-		F14B19D11FB0400800443B8D /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		F14B19D11FB0400800443B8D /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpg; sourceTree = "<group>"; };
 		F14F7B291F3ED1D6000C736A /* CCityOfficalDetailPsrsonListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCityOfficalDetailPsrsonListVC.h; sourceTree = "<group>"; };
 		F14F7B2A1F3ED1D6000C736A /* CCityOfficalDetailPsrsonListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCityOfficalDetailPsrsonListVC.m; sourceTree = "<group>"; };
 		F14F7B2C1F3ED9AE000C736A /* CCityOfficalDetailPersonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCityOfficalDetailPersonListCell.h; sourceTree = "<group>"; };
@@ -669,7 +670,6 @@
 		F1FE3D621F42E31900848FDD /* CCityOfficalDetialDocListSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCityOfficalDetialDocListSection.h; sourceTree = "<group>"; };
 		F1FE3D631F42E31900848FDD /* CCityOfficalDetialDocListSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCityOfficalDetialDocListSection.m; sourceTree = "<group>"; };
 		F1FE3D891F42EF4800848FDD /* ccity_uesrcenter_userHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ccity_uesrcenter_userHeader.png; sourceTree = "<group>"; };
-		F1FE3D8B1F431A3900848FDD /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
 		F1FE3D951F4325A700848FDD /* bg_login.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_login.jpg; sourceTree = "<group>"; };
 		FB4B1775394FEFD165E4231B /* Pods-LFOA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFOA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFOA/Pods-LFOA.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -921,10 +921,10 @@
 		F115958D1F2C7D9A00519E21 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				98966A04230159720007BA96 /* LaunchImage.jpeg */,
 				F1FE3D891F42EF4800848FDD /* ccity_uesrcenter_userHeader.png */,
-				F14B19D11FB0400800443B8D /* logo.png */,
+				F14B19D11FB0400800443B8D /* logo.jpg */,
 				F1C2AF261F46E9D7002246D8 /* 02.jpg */,
-				F1FE3D8B1F431A3900848FDD /* LaunchImage.png */,
 				F1FE3D951F4325A700848FDD /* bg_login.jpg */,
 				F110CE721FBD6D4600F35D07 /* ccity_login_logo_347x347.png */,
 				F11595BC1F2C8A1200519E21 /* ccity_root_more_40x40_@3x.png */,
@@ -1396,7 +1396,6 @@
 				F1B4F15B1F2B29D700AB8823 /* Sources */,
 				F1B4F15C1F2B29D700AB8823 /* Frameworks */,
 				F1B4F15D1F2B29D700AB8823 /* Resources */,
-				511011A97EA279111B184249 /* [CP] Embed Pods Frameworks */,
 				51DF28C44FC976DFB7AE46AC /* [CP] Copy Pods Resources */,
 				F1C1AD501FCE94A300CDC478 /* Run Script */,
 			);
@@ -1452,6 +1451,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				"zh-Hans",
@@ -1490,6 +1490,7 @@
 				98799E9820D29A0D00A79C7C /* ZSSleftjustify@2x.png in Resources */,
 				98799EB120D29A0D00A79C7C /* ZSSstrikethrough@2x.png in Resources */,
 				98799EC120D29A0D00A79C7C /* ZSSindent.png in Resources */,
+				98966A05230159730007BA96 /* LaunchImage.jpeg in Resources */,
 				98799EA320D29A0D00A79C7C /* ZSShorizontalrule.png in Resources */,
 				F1C58C452017187500CE8C24 /* newDetail.css in Resources */,
 				98799ED120D29A0D00A79C7C /* ZSSstrikethrough.png in Resources */,
@@ -1565,7 +1566,7 @@
 				98799ECD20D29A0D00A79C7C /* ZSSh5@2x.png in Resources */,
 				98799E9D20D29A0D00A79C7C /* ZSSpicker.png in Resources */,
 				F11595A41F2C86E000519E21 /* ccity_root_approal_30x30_@3x.png in Resources */,
-				F14B19D21FB0400900443B8D /* logo.png in Resources */,
+				F14B19D21FB0400900443B8D /* logo.jpg in Resources */,
 				F1C2AF2A1F46E9D7002246D8 /* 02.jpg in Resources */,
 				F13558591F3D947400FDE061 /* ccity_offical_doc_backlog_44x44_.png in Resources */,
 				F1FE3D961F4325A700848FDD /* bg_login.jpg in Resources */,
@@ -1574,7 +1575,6 @@
 				F1B4F16D1F2B29D800AB8823 /* Main.storyboard in Resources */,
 				98799EA720D29A0D00A79C7C /* ZSSh6.png in Resources */,
 				98799EAA20D29A0D00A79C7C /* ZSSh4.png in Resources */,
-				F1FE3D8C1F431A3900848FDD /* LaunchImage.png in Resources */,
 				98799E9520D29A0D00A79C7C /* ZSShorizontalrule@2x.png in Resources */,
 				98799E9020D29A0D00A79C7C /* ZSStable@2x.png in Resources */,
 				98799ECB20D29A0D00A79C7C /* ZSSpicker@2x.png in Resources */,
@@ -1589,21 +1589,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		511011A97EA279111B184249 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFOA/Pods-LFOA-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		51DF28C44FC976DFB7AE46AC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1611,7 +1596,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LFOA/Pods-LFOA-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/JSBadgeView/JSBadgeView.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/JSBadgeView/JSBadgeView.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_ROOT}/TSMessages/Pod/Assets/NotificationBackgroundError.png",
@@ -1637,7 +1622,29 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/JSBadgeView.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundError.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundError@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundErrorIcon.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundErrorIcon@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundMessage.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundMessage@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundSuccess.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundSuccess@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundSuccessIcon.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundSuccessIcon@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundWarning.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundWarning@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundWarningIcon.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationBackgroundWarningIcon@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationButtonBackground.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NotificationButtonBackground@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TSMessagesDefaultDesign.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZLPhotoActionSheet.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZLPhotoBrowserCell.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZLPhotoBrowser.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -1260,7 +1260,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
 
 -(void)goUploadFileVC:(CCityOfficalDetailFileListModel *)model
 {
-    
     NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:_docId];
     [dic setObject:model.dirName forKey:@"materialFolder"];
     CCityUploadFileVC * uploadFileVC = [[CCityUploadFileVC alloc]init];

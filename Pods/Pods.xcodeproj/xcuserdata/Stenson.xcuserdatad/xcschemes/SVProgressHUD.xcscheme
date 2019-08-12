@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'DA4B9EF27D29C3BAC1D5DAB7AA77F234'
-               BlueprintName = 'SVProgressHUD'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libSVProgressHUD.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "07BA6630D1AD32F62590FACAC1817FFF"
+               BlueprintName = "SVProgressHUD"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libSVProgressHUD.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

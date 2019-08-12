@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CF6D08901D2FC6319FEF7EDAB1E0ADCF'
-               BlueprintName = 'MarqueeLabel'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libMarqueeLabel.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FD846F7895B63CE052DF1560BC1BA849"
+               BlueprintName = "MarqueeLabel"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libMarqueeLabel.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -346,7 +346,7 @@ static NSString* homeCollectionSectionFooterReuseId = @"homeCollectionSectionFoo
 
 - (void)configData {
     
-    NSArray* titles = @[@"公文办理", @"规划审批", @"消息提示", @"通知通告", @"新闻浏览", @"会议安排", @"综合查询", @"资料查询", @"系统设置"];
+    NSArray* titles = @[@"公文办理", @"业务审批", @"消息提示", @"通知通告", @"新闻浏览", @"会议安排", @"综合查询", @"资料查询", @"系统设置"];
     
     _dataMuArr = [NSMutableArray arrayWithCapacity:titles.count];
     
