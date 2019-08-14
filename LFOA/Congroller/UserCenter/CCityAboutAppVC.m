@@ -6,6 +6,7 @@
 //  Copyright © 2017年  abcxdx@sina.com. All rights reserved.
 //
 
+#define CCITY_PHONE_NUM1 @"0316-2089037"
 #define CCITY_PHONE_NUM @"18932604044"
 
 #import "CCityAboutAppVC.h"
@@ -60,7 +61,7 @@
 
 -(void)layoutSubView {
     
-    UIImageView* logoImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo.jpg"]];
+    UIImageView* logoImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo"]];
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     UILabel* appVersionLabel = [UILabel new];
     appVersionLabel.text = [NSString stringWithFormat:@"版本号：%@", [[CCityAppInfo alloc]init].appVersion];
@@ -73,10 +74,35 @@
     
     TTTAttributedLabel* contentLabel = [[TTTAttributedLabel alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 20.f, MAXFLOAT)];
     contentLabel.numberOfLines = 0.f;
+
     contentLabel.font = [UIFont fontWithName:fontName size:fontSize];
-    contentLabel.text = [NSString stringWithFormat:@"查询更多信息，可以登陆《廊坊市县一体化管理服务平台》，请登陆\n 6.66.46.27/lfcxgh \n廊坊市空间资源数字化信息管理中心提供技术支持 电话：%@",CCITY_PHONE_NUM];
-    NSRange phoneNumRange = [contentLabel.text rangeOfString:CCITY_PHONE_NUM];
-    [contentLabel addLinkToPhoneNumber:CCITY_PHONE_NUM withRange:phoneNumRange];
+    
+    NSString * str =  [NSString stringWithFormat:@"技术支持：廊坊市空间资源数字化信息管理中心\n联系电话：%@，%@",CCITY_PHONE_NUM1,CCITY_PHONE_NUM];
+    
+    NSMutableAttributedString * attrStr = [[NSMutableAttributedString alloc]initWithString:str];
+    [attrStr addAttribute:NSFontAttributeName
+                    value:[UIFont systemFontOfSize:16]
+                    range:NSMakeRange(0, str.length)];
+    [attrStr addAttribute:NSFontAttributeName
+                          value:[UIFont boldSystemFontOfSize:fontSize]
+                          range:NSMakeRange(0, 5)];
+    [attrStr addAttribute:NSFontAttributeName
+                    value:[UIFont boldSystemFontOfSize:fontSize]
+                    range:NSMakeRange(22, 5)];
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    //调整行间距
+    paragraphStyle.maximumLineHeight = 26;
+    paragraphStyle.minimumLineHeight = 26;
+    [attrStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
+
+    contentLabel.attributedText = attrStr;
+    
+//    NSRange phoneNumRange = [contentLabel.text rangeOfString:CCITY_PHONE_NUM];
+//    [contentLabel addLinkToPhoneNumber:CCITY_PHONE_NUM withRange:phoneNumRange];
+//    NSRange phoneNumRange1 = [contentLabel.text rangeOfString:CCITY_PHONE_NUM1];
+//    [contentLabel addLinkToPhoneNumber:CCITY_PHONE_NUM1 withRange:phoneNumRange1];
+
     [contentLabel sizeToFit];
     contentLabel.delegate = self;
 

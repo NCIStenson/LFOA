@@ -119,6 +119,9 @@
 		98DF95D020CEAAF400E4BE15 /* CCityMultilevelPersonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DF95CF20CEAAF400E4BE15 /* CCityMultilevelPersonVC.m */; };
 		98EC019F20A56EF100AFE0C0 /* CCUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EC019E20A56EF100AFE0C0 /* CCUtil.m */; };
 		98EC01A320AAB54200AFE0C0 /* NSDictionary+CCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EC01A220AAB54200AFE0C0 /* NSDictionary+CCLog.m */; };
+		98F70B392303D4FB00F15C8E /* LaunchImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 98F70B382303D4FB00F15C8E /* LaunchImage.jpg */; };
+		98F70B3B2303D5C100F15C8E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F70B3A2303D5C100F15C8E /* logo.png */; };
+		98F70B3E2303DB8C00F15C8E /* CCityLogoLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F70B3D2303DB8C00F15C8E /* CCityLogoLabel.m */; };
 		F1072A2F1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = F1072A2E1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m */; };
 		F1072A521F34A870005E4CB0 /* CCityOfficalDocDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1072A511F34A870005E4CB0 /* CCityOfficalDocDetailCell.m */; };
 		F1082E4C1F32CF3C0008511C /* CCityOfficalDocDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F1082E4B1F32CF3C0008511C /* CCityOfficalDocDetailVC.m */; };
@@ -405,6 +408,10 @@
 		98EC01A020A9787200AFE0C0 /* CCMarcoConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarcoConstant.h; sourceTree = "<group>"; };
 		98EC01A120AAB54200AFE0C0 /* NSDictionary+CCLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CCLog.h"; sourceTree = "<group>"; };
 		98EC01A220AAB54200AFE0C0 /* NSDictionary+CCLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CCLog.m"; sourceTree = "<group>"; };
+		98F70B382303D4FB00F15C8E /* LaunchImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LaunchImage.jpg; sourceTree = "<group>"; };
+		98F70B3A2303D5C100F15C8E /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		98F70B3C2303DB8C00F15C8E /* CCityLogoLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCityLogoLabel.h; sourceTree = "<group>"; };
+		98F70B3D2303DB8C00F15C8E /* CCityLogoLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCityLogoLabel.m; sourceTree = "<group>"; };
 		D3EA8E09DFDEA012EA839BC2 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1072A2D1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCityOfficalDocNavMenuBtn.h; sourceTree = "<group>"; };
 		F1072A2E1F345EF1005E4CB0 /* CCityOfficalDocNavMenuBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCityOfficalDocNavMenuBtn.m; sourceTree = "<group>"; };
@@ -921,6 +928,8 @@
 		F115958D1F2C7D9A00519E21 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				98F70B3A2303D5C100F15C8E /* logo.png */,
+				98F70B382303D4FB00F15C8E /* LaunchImage.jpg */,
 				98966A04230159720007BA96 /* LaunchImage.jpeg */,
 				F1FE3D891F42EF4800848FDD /* ccity_uesrcenter_userHeader.png */,
 				F14B19D11FB0400800443B8D /* logo.jpg */,
@@ -1188,6 +1197,8 @@
 				F11595C71F2CA76600519E21 /* CCityLogInTF.m */,
 				F11595C91F2CAFED00519E21 /* CCityLogInCheckBoxBtn.h */,
 				F11595CA1F2CAFED00519E21 /* CCityLogInCheckBoxBtn.m */,
+				98F70B3C2303DB8C00F15C8E /* CCityLogoLabel.h */,
+				98F70B3D2303DB8C00F15C8E /* CCityLogoLabel.m */,
 			);
 			path = LogIn;
 			sourceTree = "<group>";
@@ -1491,6 +1502,7 @@
 				98799EB120D29A0D00A79C7C /* ZSSstrikethrough@2x.png in Resources */,
 				98799EC120D29A0D00A79C7C /* ZSSindent.png in Resources */,
 				98966A05230159730007BA96 /* LaunchImage.jpeg in Resources */,
+				98F70B3B2303D5C100F15C8E /* logo.png in Resources */,
 				98799EA320D29A0D00A79C7C /* ZSShorizontalrule.png in Resources */,
 				F1C58C452017187500CE8C24 /* newDetail.css in Resources */,
 				98799ED120D29A0D00A79C7C /* ZSSstrikethrough.png in Resources */,
@@ -1564,6 +1576,7 @@
 				F1B4F16F1F2B29D800AB8823 /* Assets.xcassets in Resources */,
 				98799EC520D29A0D00A79C7C /* ZSSitalic@2x.png in Resources */,
 				98799ECD20D29A0D00A79C7C /* ZSSh5@2x.png in Resources */,
+				98F70B392303D4FB00F15C8E /* LaunchImage.jpg in Resources */,
 				98799E9D20D29A0D00A79C7C /* ZSSpicker.png in Resources */,
 				F11595A41F2C86E000519E21 /* ccity_root_approal_30x30_@3x.png in Resources */,
 				F14B19D21FB0400900443B8D /* logo.jpg in Resources */,
@@ -1722,6 +1735,7 @@
 				F17C2D521F45657C0017379F /* CCityOfficalDetailDocListCell.m in Sources */,
 				F1D58DE81F63CD9200754954 /* CCityMainTaskSearchResultVC.m in Sources */,
 				F139DADC1F56A4B700149012 /* CCityProLogDetailModel.m in Sources */,
+				98F70B3E2303DB8C00F15C8E /* CCityLogoLabel.m in Sources */,
 				F13F07821F68C804001C5F21 /* CCityNotficCell.m in Sources */,
 				F1ABD8D51F74E80200A008B2 /* CCityNewsListCell.m in Sources */,
 				F1B4F16A1F2B29D800AB8823 /* ViewController.m in Sources */,

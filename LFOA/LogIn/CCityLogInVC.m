@@ -20,6 +20,7 @@
 #import "CCityJSONNetWorkManager.h"
 #import "CCityAlterManager.h"
 #import "CCityTabBarController.h"
+#import "CCityLogoLabel.h"
 
 #import <TSMessage.h>
 
@@ -41,6 +42,7 @@
     [self addKeyboardNontfication];
     
     UIView*   logo     = [self logo];
+    CCityLogoLabel*   logoLabel    = [self logoLabel];
     UIButton* logInBtn = [self logInBtn];
 
     UIImageView* bgView = [self bgImageView];
@@ -52,6 +54,7 @@
     [self.view addSubview:contetnView];
     
     [contetnView addSubview:logo];
+    [contetnView addSubview:logoLabel];
     [contetnView addSubview:logInBtn];
     [contetnView addSubview:_mainContainView];
     
@@ -71,8 +74,12 @@
     [logo mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.centerX.equalTo(contetnView);
-        make.top.equalTo(contetnView).with.offset(50.f);
-        make.size.mas_equalTo(CGSizeMake(140, 140));
+        make.top.equalTo(contetnView).with.offset(30.f);
+        make.size.mas_equalTo(CGSizeMake(130, 130));
+    }];
+    [logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(contetnView);
+        make.top.equalTo(logo.mas_bottom).with.offset(-5);
     }];
     
     [logInBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -91,7 +98,7 @@
     
     [_mainContainView mas_makeConstraints:^(MASConstraintMaker *make) {
 
-        make.top.equalTo(logo.mas_bottom).with.offset(20.f);
+        make.top.equalTo(logo.mas_bottom).with.offset(50.f);
         make.left.equalTo(contetnView).with.offset(40.f);
         make.right.equalTo(contetnView).with.offset(-40.f);
         make.height.mas_equalTo(150.f);
@@ -184,6 +191,16 @@
     }];
     
     return logo;
+}
+
+- (CCityLogoLabel*)logoLabel {
+    
+    CCityLogoLabel* logoLabel = [CCityLogoLabel new];
+    logoLabel.text = @"掌上办公";
+    logoLabel.textAlignment = NSTextAlignmentCenter;
+    logoLabel.font = [UIFont systemFontOfSize:22];
+    logoLabel.textColor = [UIColor colorWithRed:250/255.0 green:14/255.0 blue:28/255.0 alpha:1];
+    return logoLabel;
 }
 
 // uerName TF
