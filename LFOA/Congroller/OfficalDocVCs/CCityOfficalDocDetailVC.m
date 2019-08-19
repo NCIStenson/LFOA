@@ -40,8 +40,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     UIView*       _footerView;
     UIButton*     _sendBtn;
     
-    NSString*                   _huiQianStr;
-    NSIndexPath*                _huiQianIndexPath;
+    NSMutableDictionary * _huiQianDic;
     
     CCityOfficalDetailDocListView* _fileListView;
     
@@ -54,7 +53,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     self = [super initWithItmes:items];
     
     if (self) {
-        
+        _huiQianDic = [NSMutableDictionary dictionary];
         _conentMode = contentMode;
         _docId      = [docId mutableCopy];
     }
@@ -641,11 +640,14 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     [self.navigationController pushViewController:wordsVC animated:YES];
 }
 
-- (void)updataHuiQianUIWithState:(BOOL)isAdd {
+- (void)updataHuiQianUIWithDic:(NSDictionary *)dic{
     
-    CCityOfficalDocDetailModel* model = self.dataArr[_huiQianIndexPath.section];
+    NSInteger section = [dic[@"section"] integerValue];
+    NSInteger row = [dic[@"row"] integerValue];
+
+    CCityOfficalDocDetailModel* model = self.dataArr[section];
     
-    if (isAdd) {
+    if ([dic[@"isAdd"] boolValue]) {
 
         CCHuiQianModel* huiqianModel = [[CCHuiQianModel alloc]init];
         huiqianModel.contentsMuArr = [NSMutableArray arrayWithCapacity:4];
@@ -657,7 +659,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
             switch (i) {
                 case 0:
                     lastModel.title = @"签字意见: ";
-                    lastModel.content = _huiQianStr;
+                    lastModel.content = dic[@"content"];
                     break;
                 case 1:
                     
@@ -685,19 +687,19 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         }
         [model.huiQianMuArr addObject:huiqianModel];
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(_huiQianIndexPath.row + 1) inSection:_huiQianIndexPath.section]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(row) inSection:section]] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
     } else {
+        NSLog(@" ======  %@",model.huiQianMuArr);
         CCHuiQianModel* huiqianModel = [model.huiQianMuArr lastObject];
         for (int i = 0 ; i < huiqianModel.contentsMuArr.count; i++) {
             CCHuiQianModel* model = huiqianModel.contentsMuArr[i];
             if ([model.title containsString:@"签字意见"]) {
-                model.content = _huiQianStr;
+                model.content = dic[@"content"];
             }
         }
-        if ([CCUtil isNotNull:_huiQianIndexPath]) {
-            [self.tableView reloadRowsAtIndexPaths:@[_huiQianIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }
+        NSIndexPath * indexpath = [NSIndexPath indexPathForRow:row inSection:section];
+        [self.tableView reloadSection:indexpath.section withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -740,7 +742,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         }
     }
     
-    if (!_valuesDic.count && !_huiQianStr) {
+    if (!_valuesDic.count && _huiQianDic.allKeys.count == 0) {
         if (btn) {
             [SVProgressHUD showInfoWithStatus:@"数据未改变，无需保存"];
         }
@@ -765,7 +767,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     
     __block BOOL isFileListSaveSuccess = NO;
     __block BOOL isHuiQianSaveSuccess = NO;
-    __block BOOL isHuiQianAdd = NO;  // 会签 插入/更新
 
     // 表单保存
     if (_valuesDic.count) {
@@ -809,40 +810,44 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
    
     
     // 会签意见
-    if (_huiQianStr) {
-        
-        dispatch_group_enter(groupQueue);
-        NSLog(@"%@",_huiQianStr);
-        NSDictionary* parame = @{
-                                 @"token"   :[CCitySingleton sharedInstance].token,
-                                 @"content" :_huiQianStr,
-                                 @"workId"  :_docId[@"workId"],
-                                 @"fkNode":_docId[@"fkNode"],
-                                 };
-        
-        [manager GET:@"service/form/SignOpinion.ashx" parameters:parame progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSLog(@"%@",task.currentRequest.URL.absoluteString);
-            
-            CCErrorNoManager* errorManager = [CCErrorNoManager new];
-            
-            if([errorManager requestSuccess:responseObject]) {
-                isHuiQianSaveSuccess = YES;
+    if (_huiQianDic.allKeys.count > 0) {
+        NSLog(@" ==== = %@",_huiQianDic.allKeys);
+        for (NSString * keyStr in _huiQianDic.allKeys) {
+            dispatch_group_enter(groupQueue);
+            NSMutableDictionary * dic = _huiQianDic[keyStr];
+            [dic setObject:[NSString stringWithFormat:@"%d",NO] forKey:@"isAdd"];
+            NSLog(@"%@",dic);
+            NSDictionary* parame = @{
+                                     @"token"   :[CCitySingleton sharedInstance].token,
+                                     @"content" :dic[@"content"],
+                                     @"workId"  :_docId[@"workId"],
+                                     @"fkNode":_docId[@"fkNode"],
+                                     @"Label":dic[@"Label"],
+                                     };
+            [manager GET:@"service/form/SignOpinion.ashx" parameters:parame progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
-                // insert/update
-                if ([responseObject[@"operation"] isEqual:@"insert"]) {
-                    isHuiQianAdd = YES;
+                NSLog(@"%@",task.currentRequest.URL.absoluteString);
+                
+                CCErrorNoManager* errorManager = [CCErrorNoManager new];
+                
+                if([errorManager requestSuccess:responseObject]) {
+                    isHuiQianSaveSuccess = YES;
+                    
+                    // insert/update
+                    if ([responseObject[@"operation"] isEqual:@"insert"]) {
+                        [dic setObject:[NSString stringWithFormat:@"%d",YES] forKey:@"isAdd"];
+                    }
                 }
-            }
-            dispatch_group_leave(groupQueue);
-            
-            if (CCITY_DEBUG) { NSLog(@"huiqian:%@",responseObject); }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            dispatch_group_leave(groupQueue);
-            
-            if (CCITY_DEBUG) { NSLog(@"huiqianError:%@",error); }
-        }];
+                dispatch_group_leave(groupQueue);
+                
+                if (CCITY_DEBUG) { NSLog(@"huiqian:%@",responseObject); }
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                
+                dispatch_group_leave(groupQueue);
+                
+                if (CCITY_DEBUG) { NSLog(@"huiqianError:%@",error); }
+            }];
+        }
     } else {
         isHuiQianSaveSuccess = YES;
     }
@@ -854,7 +859,10 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         NSString* tripStr = @"保存失败";
         if (isHuiQianSaveSuccess && isFileListSaveSuccess) {
             tripStr = @"保存成功";
-            [self updataHuiQianUIWithState:isHuiQianAdd];
+            for (NSString * keyStr in _huiQianDic.allKeys) {
+                NSMutableDictionary * dic = _huiQianDic[keyStr];
+                [self updataHuiQianUIWithDic:dic];
+            }
         }
         if (_isNewProject) {
             for (UIViewController *controller in self.navigationController.viewControllers) {
@@ -1096,16 +1104,6 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
         cell.textLabel.attributedText = [self huiqianCellAttributedStr:huiqaianModel];
     } else if (model.style == CCityOfficalDetailHuiQianStyle) {
        
-        if (!_huiQianIndexPath) {
-            NSInteger rowNum = 0;
-            
-            if (model.huiQianMuArr && model.huiQianMuArr.count) {
-                rowNum = model.huiQianMuArr.count -1;
-            }
-            
-             _huiQianIndexPath = [NSIndexPath indexPathForRow:rowNum inSection:indexPath.section];
-        }
-       
         if (indexPath.row == model.huiQianMuArr.count) {
             model.canEdit = YES;
             cell = [tableView dequeueReusableCellWithIdentifier:ccityOfficlaMuLineReuseId];
@@ -1114,7 +1112,7 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
                 cell.tag = 100100;
             }
         } else {
-            
+        
             cell = [tableView dequeueReusableCellWithIdentifier:ccityOfficlaDataExcleReuseId];
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.numLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row+1];
@@ -1249,7 +1247,14 @@ static NSString* ccityOfficlaMuLineReuseId  = @"CCityOfficalDetailMutableLineTex
     CCityOfficalDocDetailModel* model = self.dataArr[indexPath.section];
 
     if (model.style == CCityOfficalDetailHuiQianStyle ) {
-        _huiQianStr = [cell.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString * huiQianStr = [cell.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        NSDictionary * formatDic = @{@"content":huiQianStr,
+                                     @"Label":model.title,
+                                     @"section":[NSString stringWithFormat:@"%ld",(long)indexPath.section],
+                                     @"row":[NSString stringWithFormat:@"%ld",(long)indexPath.row],};
+        NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:formatDic];
+        [_huiQianDic setObject:dic forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
     } else {
         //    得到编辑的 cell
         [self saveMethodWithIndex:indexPath.section andText:cell.textView.text];
